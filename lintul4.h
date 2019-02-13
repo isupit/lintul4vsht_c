@@ -1,7 +1,7 @@
 #include <time.h>
 
-#ifndef WOFOST_H
-#define WOFOST_H
+#ifndef LINTUL4_H
+#define LINTUL4_H
 
 #define NR_VARIABLES_CRP	49
 #define NR_TABLES_CRP   	20
@@ -315,10 +315,6 @@ typedef struct SOIL {
         float DaysSinceLastRain;
         float SoilMaxRootingDepth;
         float WaterStress;
-        
-        /* Tables for Soil */
-        AFGEN *VolumetricSoilMoisture;
-        AFGEN *HydraulicConductivity; /* currently not used */
         
         Constants ct;
         States st;
