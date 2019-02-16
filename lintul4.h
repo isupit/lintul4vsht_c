@@ -177,7 +177,6 @@ typedef struct STATES {
         float Rain;
         float RootZoneMoisture;
         float Runoff;
-        float SurfaceStorage;
         float Transpiration;
         float WaterRootExt;
         float TotalWaterRootZone;
@@ -196,7 +195,6 @@ typedef struct RATES {
         float Percolation;
         float RootZoneMoisture;
         float Runoff;
-        float SurfaceStorage;
         float Transpiration;
         float WaterRootExt;
         float TotalWaterRootZone;
@@ -255,6 +253,7 @@ typedef struct GROWTH_RATES {
         float leaves;
         float LAI;
         float LAIExp;
+        float RootDepth;
         float storage;
         float vernalization;
 } growth_rates;
@@ -265,6 +264,7 @@ typedef struct GROWTH_STATES {
         float leaves;
         float LAI;
         float LAIExp;
+        float RootDepth;
         float storage;
         float vernalization;
         } growth_states;
@@ -290,8 +290,6 @@ typedef struct PLANT {
         int Emergence;
         int GrowthDay;
         float DevelopmentStage;
-        float RootDepth;
-        float RootDepth_prev;
         float NPK_Indx;
         float NutrientStress;
         float DaysOxygenStress;
@@ -327,8 +325,7 @@ typedef struct FIELD {
         /* Water related parameters */
         float FlagGroundWater;
         float InfRainDependent;
-        float FlagDrains;
-        float MaxSurfaceStorage;     
+        float FlagDrains;  
         float InitSoilMoisture;
         float GroundwaterDepth;
         float DD;
@@ -343,9 +340,7 @@ typedef struct FIELD {
         float rt_N_tot;
         float rt_N_mins;
  
-        
-        /** Table for the fraction of precipitation that does not infiltrate **/
-        AFGEN *NotInfTB;
+
         } Field;
 Field *Site; /* Place holder for the current site simulations */
 
@@ -375,7 +370,7 @@ float AngstA;
 float AngstB;
 float Longitude, Latitude, Altitude;
 float Tmin[732], Tmax[732], Radiation[732], Rain[732];
-float Windspeed[732], Vapour[732];
+float Windspeed[732], Vapour[732], Irrigation[732];
 
 /* Time step */
 float Step;
