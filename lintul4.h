@@ -168,9 +168,9 @@ typedef struct PARAMETERS {
 typedef struct STATES {
         float EvapWater;
         float EvapSoil;
+        float RunOff;
         float Infiltration;
         float Irrigation;
-        float Loss;
         float Moisture;
         float MoistureLOW;
         float Percolation;
@@ -181,15 +181,16 @@ typedef struct STATES {
         float WaterRootExt;
         float TotalWaterRootZone;
         float TotalWaterLowerZone;
+        float Drainage;
         } States;
         
 
 typedef struct RATES {
         float EvapWater;
         float EvapSoil;
+        float RunOff;
         float Infiltration;
         float Irrigation;
-        float Loss;
         float Moisture;
         float MoistureLOW;
         float Percolation;
@@ -199,6 +200,7 @@ typedef struct RATES {
         float WaterRootExt;
         float TotalWaterRootZone;
         float TotalWaterLowerZone;
+        float Drainage;
         } Rates;
         
  
@@ -290,10 +292,11 @@ typedef struct PLANT {
         int Emergence;
         int GrowthDay;
         float DevelopmentStage;
-        float NPK_Indx;
+        float N_Indx;
         float NutrientStress;
         float DaysOxygenStress;
         float TSumEmergence;
+        float MaxRootingDepth;
         
         Parameters prm;
         

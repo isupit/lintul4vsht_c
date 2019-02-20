@@ -46,9 +46,6 @@ void GetSoilData(Soil *SOIL, char *soilfile)
     fprintf(stderr, "Something wrong with the Soil tables.\n"); 
     exit(0);
  }
- 
-    SOIL->VolumetricSoilMoisture = Table[0];
-    SOIL->HydraulicConductivity  = Table[1];
   
     /* Set state variables of the water balance are set to zero. */   
     SOIL->st.EvapWater         = 0.;
@@ -62,7 +59,6 @@ void GetSoilData(Soil *SOIL, char *soilfile)
     SOIL->st.Rain              = 0.;
     SOIL->st.RootZoneMoisture  = 0.;
     SOIL->st.Runoff            = 0.;
-    SOIL->st.SurfaceStorage    = 0.;
     SOIL->st.Transpiration     = 0.;
     SOIL->st.WaterRootExt      = 0.;
     
@@ -76,7 +72,6 @@ void GetSoilData(Soil *SOIL, char *soilfile)
     SOIL->rt.Percolation       = 0.;
     SOIL->rt.RootZoneMoisture  = 0.;
     SOIL->rt.Runoff            = 0.;
-    SOIL->rt.SurfaceStorage    = 0.;
     SOIL->rt.WaterRootExt      = 0.;
     SOIL->rt.RootZoneMoisture  = 0.;
   

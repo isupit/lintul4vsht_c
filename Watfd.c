@@ -15,25 +15,23 @@
 /*-----------------------------------------------------------------------------------------------*/
 
 void InitializeWatBal()
-{ 
-    float MaxRootingDepth;
-    
+{    
     WatBal->st.Moisture    = max(Soil.ct.MoistureWP, min(Soil.ct.MoistureInit,Soil.ct.MoistureFC));
     WatBal->st.MoistureLOW = max(Soil.ct.MoistureWP, min(Soil.ct.MoistureInitLow,Soil.ct.MoistureFC));
-    MaxRootingDepth = min(Soil.ct.SoilMaxRootDepth, Crop.prm.MaxRootingDepth);
+    Crop->MaxRootingDepth = min(Soil.ct.SoilMaxRootDepth, Crop.prm.MaxRootingDepth);
     Crop->st.RootDepth = Crop.prm.InitRootingDepth;
     
     /* Total available water in rooted zone */
     WatBal->st.RootZoneMoisture = Crop->st.RootDepth * (WatBal->st.Moisture - Soil.ct.MoistureWP);
     
     /* Total available water in lower zone*/
-    WatBal->st.MoistureLOW = (MaxRootingDepth-Crop->st.RootDepth) * (WatBal->st.MoistureLOW - Soil.ct.MoistureWP);
+    WatBal->st.MoistureLOW = (Crop->MaxRootingDepth - Crop->st.RootDepth) * (WatBal->st.MoistureLOW - Soil.ct.MoistureWP);
     
     /* Total water in rooted zone */
     WatBal->st.TotalWaterRootZone = Crop->st.RootDepth * WatBal->st.Moisture;
     
     /* Total water in lower zone*/
-    WatBal->st.TotalWaterLowerZone = (MaxRootingDepth-Crop->st.RootDepth) * WatBal->st.MoistureLOW; 
+    WatBal->st.TotalWaterLowerZone = (Crop->MaxRootingDepth - Crop->st.RootDepth) * WatBal->st.MoistureLOW; 
  
 }
 
@@ -44,16 +42,24 @@ void InitializeWatBal()
 
 void RateCalulationWatBal() 
 {
-    float Infiltration;
-    float PrelimRunOff;
+    float Infiltration, AdjustedInfiltration;
+    float PrelimRunOff, RunOff;
     float MaxTranspiration;
     float KDiffuse;
     float SoilWatDepletion;
     float CriticalSoilMoisture;
     float MoistureStress;
     float SoilMoistureAeration;
+    float LightInterception;
     float MaxReductionOxygenStress;
     float OxygenStress;
+    float Capacity;
+    float CapacityLow;
+    float Capacity0;
+    float CapacityLow0;
+    float EvapMax, EvapMaxT;
+    float PrelimPercolation;
+    float Percolation, PercFromRoot;
     
     /* Infiltration of precipitation (RAIN) and irrigation (RIRR) (cm) */
     Infiltration = (1.0 - Soil.ct.RunOffFrac ) * Rain[Day] + Irrigation[Day];
@@ -67,16 +73,17 @@ void RateCalulationWatBal()
 
     /* Maximum transpiration rate (cm/d) as function of light interception and */
     /* crop-specific correction factor of potential transpiration              */
+    
+    LightInterception = (1.-exp(-0.75 * KDiffuse * Crop->st.LAI));
     KDiffuse = Afgen(Crop->prm.KDiffuseTb, &(Crop->DevelopmentStage));
     MaxTranspiration = max(0.0001,  
-                             Penman.ET0 * Crop->prm.CorrectionTransp *
-                             (1.-exp(-0.75 * KDiffuse * Crop->st.LAI)));
+                             Penman.ET0 * Crop->prm.CorrectionTransp * LightInterception);
     
     SoilWatDepletion = sweaf();
     CriticalSoilMoisture = (1. - SoilWatDepletion)*
             (WatBal->ct.MoistureFC - WatBal->ct.MoistureWP) + WatBal->ct.MoistureWP;
     
-       /* Transpiration reduction in case of water shortage */
+     /* Transpiration reduction in case of water shortage */
     MoistureStress = limit(0.,1.,(WatBal->st.Moisture - WatBal->ct.MoistureWP)/
             (CriticalSoilMoisture - WatBal->ct.MoistureWP));
     
@@ -111,7 +118,63 @@ void RateCalulationWatBal()
     
     WatBal->WaterStress = MoistureStress * OxygenStress;
     
-    WatBal->rt.Transpiration = max(0.0, min(WatBal->rt.RootZoneMoisture, WatBal->WaterStress * Evtra.MaxTranspiration));
+    /* Actual crop transpiration rate reduced for drought and for oxygen shortage */
+    WatBal->rt.Transpiration = max(0., min(WatBal->rt.RootZoneMoisture, WatBal->WaterStress * Evtra.MaxTranspiration));
+    
+    
+    /* Maximum soil evaporation rate (cm/d) as function of light interception */
+    EvapMax= Evtra.MaxEvapSoil * (1. - LightInterception);
+    
+    /* Actual soil evaporation rate (cm/d) in dependence of days since last rain, last rainfall and topsoil moisture */
+    if (Infiltration >= 0.5)
+    {
+        WatBal->rt.EvapSoil = EvapMax;
+        WatBal->DaysSinceLastRain= 1.;
+    }
+    else
+    {
+           WatBal->DaysSinceLastRain++;
+           EvapMaxT= EvapMax * limit(0.,1.,(sqrt(WatBal->DaysSinceLastRain) - 
+                   sqrt(WatBal->DaysSinceLastRain-1.)) * WatBal->ct.CorrFactor)
+           WatBal->rt.EvapSoil = max(0., min(min(EvapMax, EvapMaxT + Infiltration), 
+                     10. * (WatBal->st.Moisture - WatBal->ct.MoistureAirDry)));
+    }
+    
+    /*  Water holding capacity of rooted and lower zone, at field capacity (cm) */
+    Capacity    = (WatBal->ct.MoistureFC - WatBal->st.Moisture) * Crop->st.RootDepth;
+    CapacityLow = (WatBal->ct.MoistureFC - WatBal->st.MoistureLOW) * (Crop->MaxRootingDepth - Crop->st.RootDepth);
+                 
+    /*  Water holding capacity of rooted and lower zone, at soil saturation (cm) */
+    Capacity0    = (WatBal->ct.MoistureSAT - WatBal->st.Moisture) * Crop->st.RootDepth;
+    CapacityLow0 = (WatBal->ct.MoistureSAT - WatBal->st.MoistureLOW) * (Crop->MaxRootingDepth - Crop->st.RootDepth);
+    
+    /* Effective percolation incl. ET losses, potential and next dependent on soil water holding capacity (cm/d) */
+    AdjustedInfiltration = Infiltration - WatBal->rt.EvapSoil - WatBal->rt.Transpiration;
+    WatBal->rt.Infiltration =  min(WatBal->ct.KSUB + Capacity0, AdjustedInfiltration);
+
+
+    /* Water loss by surface runoff, final */
+    WatBal->rt.RunOff = PrelimRunOff + max(0., PrelimPercolation - WatBal->rt.Infiltration);
+         
+    /* Rooted zone is filled up to field capacity and the excess amount is lost by percolation to lower zone */
+    if (Capacity <= Percolation)
+    {
+        PercFromRoot = min(WatBal->ct.KSUB + CapacityLow0, WatBal->rt.Infiltration - Capacity);
+    }
+    else
+    {
+        PercFromRoot = 0.;
+    }
+    
+    /* Lower zone is filled up to field capacity and the excess amount is lost by drainage to subsoil */
+    if (CapacityLow >=  PercFromRoot)
+    {
+            WatBal->rt.Drainage = min(WatBal->ct.KSUB, PercFromRoot - CapacityLow);
+    }
+    else
+    {
+            WatBal->rt.Drainage = 0.;
+    }
     
 }
 
