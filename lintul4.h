@@ -267,6 +267,7 @@ typedef struct GROWTH_STATES {
         float LAI;
         float LAIExp;
         float RootDepth;
+        float RootDepth_prev;
         float storage;
         float vernalization;
         } growth_states;
@@ -279,14 +280,6 @@ typedef struct DYING_RATES {
         float LAI;
         } dying_rates; 
 
-
-typedef struct GREEN {
-	float weight;
-	float age;
-	float area;
-	struct GREEN *next;
-	} Green;
-        
 
 typedef struct PLANT {
         int Emergence;
@@ -306,8 +299,6 @@ typedef struct PLANT {
         
         nutrient_states N_st;        
         nutrient_rates N_rt;
-	
-        Green *LeaveProperties;
 	} Plant;    
 Plant *Crop; /* Place holder for the current crop simulations */
 

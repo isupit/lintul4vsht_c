@@ -15,18 +15,29 @@ float DailyTotalAssimilation()
     float RCO;
     float RTMP;
     float RTMCO;
+    float PAR;
+    float InterceptedPAR;
+    float KDiffuse;
+    
+    /* Daily photosynthetically active radiation (PAR, MJ/m2) */
+    PAR = Radiation[Day]/1.0E6 * 0.50;
+    
+    KDiffuse = Afgen(Crop->prm.KDiffuseTb,&(Crop->DevelopmentStage));
+    
+    InterceptedPAR = PAR * (1. - exp(-KDiffuse * Crop->st.LAI));
     
     /* Radiation use efficiency as dependent on development stage (g DM MJ-1) */
-    RadiationUseEFF= Afgen(Crop->prm.RUETb, &Crop->DevelopmentStage);
+    RadiationUseEFF= Afgen(Crop->prm.RadiationUseEff, &Crop->DevelopmentStage);
             
     /* Correction of radiation use efficiency for change in atmospheric CO2 concentration (-) */
-    RCO = Afgen(Crop->prm.CO2AMAXTB, &CO2);
+    RCO = Afgen(Crop->prm.CO2CorrectionRUE, &CO2);
         
     /* Reduction of radiation use efficiency for non-optimal day-time temperatures and for low minimum temperature */
-  
-    RTMP= Afgen(Crop->prm.FactorAssimRateTemp, &DayTemp) * Afgen(Crop->prm.FactorGrossAssimTemp, &Tmin[Day]);
+    RTMP= Afgen(Crop->prm.ReductionRueDayTemp, &DayTemp) * Afgen(Crop->prm.ReductionRueLowTemp, &Tmin[Day]);
 
     /* Correction of RUE for both non-optimal temperatures and atmospheric CO2 */
     RTMCO= RTMP * RCO;
+    
+   return 10. * RTMCO * RadiationUseEFF * InterceptedPAR;
 
 }

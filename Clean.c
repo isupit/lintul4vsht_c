@@ -10,7 +10,6 @@
 void Clean(SimUnit *Grid)
 {
     SimUnit *initial, *GridHead;
-    Green *LeaveProperties;
     AFGEN *head;
     
     /* Store pointer of the beginning of the list */
@@ -20,6 +19,24 @@ void Clean(SimUnit *Grid)
     /* the individual nodes will be freed.                                   */
     while (Grid)
     {
+        while(Grid->crp->prm.PhotoDayLength)
+        {
+            head = Grid->crp->prm.PhotoDayLength;
+            Grid->crp->prm.PhotoDayLength = Grid->crp->prm.PhotoDayLength->next;
+            free(head);
+        }
+        free(Grid->crp->prm.PhotoDayLength);
+        Grid->crp->prm.PhotoDayLength = NULL;
+        
+        while(Grid->crp->prm.VernalizationRate)
+        {
+            head = Grid->crp->prm.VernalizationRate;
+            Grid->crp->prm.VernalizationRate = Grid->crp->prm.VernalizationRate->next;
+            free(head);
+        }
+        free(Grid->crp->prm.VernalizationRate);
+        Grid->crp->prm.VernalizationRate = NULL;
+        
         /* Free all the Afgen tables */
         while(Grid->crp->prm.DeltaTempSum)
         {
@@ -60,81 +77,74 @@ void Clean(SimUnit *Grid)
         free(Grid->crp->prm.KDiffuseTb);
         Grid->crp->prm.KDiffuseTb = NULL;
 
-        while(Grid->crp->prm.EFFTb)
+
+
+        while(Grid->crp->prm.RadiationUseEff)
         {
-            head = Grid->crp->prm.EFFTb;
-            Grid->crp->prm.EFFTb = Grid->crp->prm.EFFTb->next;
+            head = Grid->crp->prm.RadiationUseEff;
+            Grid->crp->prm.RadiationUseEff = Grid->crp->prm.RadiationUseEff->next;
             free(head);
         }
-        free(Grid->crp->prm.EFFTb);
-        Grid->crp->prm.EFFTb = NULL;
+        free(Grid->crp->prm.RadiationUseEff);
+        Grid->crp->prm.RadiationUseEff = NULL;
 
-        while(Grid->crp->prm.MaxAssimRate)
+        while(Grid->crp->prm.ReductionRueDayTemp)
         {
-            head = Grid->crp->prm.MaxAssimRate;
-            Grid->crp->prm.MaxAssimRate = Grid->crp->prm.MaxAssimRate->next;
+            head = Grid->crp->prm.ReductionRueDayTemp;
+            Grid->crp->prm.ReductionRueDayTemp = Grid->crp->prm.ReductionRueDayTemp->next;
             free(head);
         }
-        free(Grid->crp->prm.MaxAssimRate);
-        Grid->crp->prm.MaxAssimRate = NULL;
+        free(Grid->crp->prm.ReductionRueDayTemp);
+        Grid->crp->prm.ReductionRueDayTemp = NULL; 
 
-        while(Grid->crp->prm.FactorAssimRateTemp)
+        while(Grid->crp->prm.ReductionRueLowTemp)
         {
-            head = Grid->crp->prm.FactorAssimRateTemp;
-            Grid->crp->prm.FactorAssimRateTemp = Grid->crp->prm.FactorAssimRateTemp->next;
+            head = Grid->crp->prm.ReductionRueLowTemp;
+            Grid->crp->prm.ReductionRueLowTemp = Grid->crp->prm.ReductionRueLowTemp->next;
             free(head);
         }
-        free(Grid->crp->prm.FactorAssimRateTemp);
-        Grid->crp->prm.FactorAssimRateTemp = NULL; 
+        free(Grid->crp->prm.ReductionRueLowTemp);
+        Grid->crp->prm.ReductionRueLowTemp = NULL;
 
-        while(Grid->crp->prm.FactorGrossAssimTemp)
+
+        while(Grid->crp->prm.CO2CorrectionRUE)
         {
-            head = Grid->crp->prm.FactorGrossAssimTemp;
-            Grid->crp->prm.FactorGrossAssimTemp = Grid->crp->prm.FactorGrossAssimTemp->next;
+            head = Grid->crp->prm.CO2CorrectionRUE;
+            Grid->crp->prm.CO2CorrectionRUE = Grid->crp->prm.CO2CorrectionRUE->next;
             free(head);
         }
-        free(Grid->crp->prm.FactorGrossAssimTemp);
-        Grid->crp->prm.FactorGrossAssimTemp = NULL;
+        free(Grid->crp->prm.CO2CorrectionRUE);
+        Grid->crp->prm.CO2CorrectionRUE = NULL;
 
 
-        while(Grid->crp->prm.CO2AMAXTB)
+        while(Grid->crp->prm.DeathRateLeaves)
         {
-            head = Grid->crp->prm.CO2AMAXTB;
-            Grid->crp->prm.CO2AMAXTB = Grid->crp->prm.CO2AMAXTB->next;
+            head = Grid->crp->prm.DeathRateLeaves;
+            Grid->crp->prm.DeathRateLeaves = Grid->crp->prm.DeathRateLeaves->next;
             free(head);
         }
-        free(Grid->crp->prm.CO2AMAXTB);
-        Grid->crp->prm.CO2AMAXTB = NULL;
+        free(Grid->crp->prm.DeathRateLeaves);
+        Grid->crp->prm.DeathRateLeaves = NULL;
 
 
-        while(Grid->crp->prm.CO2EFFTB)
+         while(Grid->crp->prm.DeathRateStems)
         {
-            head = Grid->crp->prm.CO2EFFTB;
-            Grid->crp->prm.CO2EFFTB = Grid->crp->prm.CO2EFFTB->next;
+            head = Grid->crp->prm.DeathRateStems;
+            Grid->crp->prm.DeathRateStems = Grid->crp->prm.DeathRateStems->next;
             free(head);
         }
-        free(Grid->crp->prm.CO2EFFTB);
-        Grid->crp->prm.CO2EFFTB = NULL;
+        free(Grid->crp->prm.DeathRateStems);
+        Grid->crp->prm.DeathRateStems = NULL;
 
 
-         while(Grid->crp->prm.CO2TRATB)
+        while(Grid->crp->prm.DeathRateRoots)
         {
-            head = Grid->crp->prm.CO2TRATB;
-            Grid->crp->prm.CO2TRATB = Grid->crp->prm.CO2TRATB->next;
+            head = Grid->crp->prm.DeathRateRoots;
+            Grid->crp->prm.DeathRateRoots = Grid->crp->prm.DeathRateRoots->next;
             free(head);
         }
-        free(Grid->crp->prm.CO2TRATB);
-        Grid->crp->prm.CO2TRATB = NULL;
-
-
-        while(Grid->crp->prm.FactorSenescence)
-        {
-            head = Grid->crp->prm.FactorSenescence;
-            Grid->crp->prm.FactorSenescence = Grid->crp->prm.FactorSenescence->next;
-            free(head);
-        }
-        free(Grid->crp->prm.FactorSenescence);
-        Grid->crp->prm.FactorSenescence = NULL;
+        free(Grid->crp->prm.DeathRateRoots);
+        Grid->crp->prm.DeathRateRoots = NULL;
 
 
         while(Grid->crp->prm.Roots)
@@ -176,27 +186,7 @@ void Clean(SimUnit *Grid)
         free(Grid->crp->prm.Storage);
         Grid->crp->prm.Storage = NULL;
 
-
-        while(Grid->crp->prm.DeathRateStems)
-        {
-            head = Grid->crp->prm.DeathRateStems;
-            Grid->crp->prm.DeathRateStems = Grid->crp->prm.DeathRateStems->next;
-            free(head);
-        }
-        free(Grid->crp->prm.DeathRateStems);
-        Grid->crp->prm.DeathRateStems = NULL;
-
-
-        while(Grid->crp->prm.DeathRateRoots)
-        {
-            head = Grid->crp->prm.DeathRateRoots;
-            Grid->crp->prm.DeathRateRoots = Grid->crp->prm.DeathRateRoots->next;
-            free(head);
-        }
-        free(Grid->crp->prm.DeathRateRoots);
-        Grid->crp->prm.DeathRateRoots = NULL;
-
-
+        
         while(Grid->crp->prm.N_MaxLeaves)
         {
             head = Grid->crp->prm.N_MaxLeaves;
@@ -206,45 +196,25 @@ void Clean(SimUnit *Grid)
         free(Grid->crp->prm.N_MaxLeaves);
         Grid->crp->prm.N_MaxLeaves = NULL;
 
-
-        while(Grid->crp->prm.P_MaxLeaves)
+        
+        while(Grid->crp->prm.ReductionGrainTemp)
         {
-            head = Grid->crp->prm.P_MaxLeaves;
-            Grid->crp->prm.P_MaxLeaves = Grid->crp->prm.P_MaxLeaves->next;
+            head = Grid->crp->prm.ReductionGrainTemp;
+            Grid->crp->prm.ReductionGrainTemp = Grid->crp->prm.ReductionGrainTemp->next;
             free(head);
         }
-        free(Grid->crp->prm.P_MaxLeaves);
-        Grid->crp->prm.P_MaxLeaves = NULL;
+        free(Grid->crp->prm.ReductionGrainTemp);
+        Grid->crp->prm.ReductionGrainTemp = NULL;        
+        
 
-
-        while(Grid->crp->prm.K_MaxLeaves)
+        while(Grid->crp->prm.ReductionGrainHeat)
         {
-            head = Grid->crp->prm.K_MaxLeaves;
-            Grid->crp->prm.K_MaxLeaves = Grid->crp->prm.K_MaxLeaves->next;
+            head = Grid->crp->prm.ReductionGrainHeat;
+            Grid->crp->prm.ReductionGrainHeat = Grid->crp->prm.ReductionGrainHeat->next;
             free(head);
         }
-        free(Grid->crp->prm.K_MaxLeaves);
-        Grid->crp->prm.K_MaxLeaves = NULL;
-
-
-        while(Grid->soil->VolumetricSoilMoisture)
-        {
-            head = Grid->soil->VolumetricSoilMoisture;
-            Grid->soil->VolumetricSoilMoisture = Grid->soil->VolumetricSoilMoisture->next;
-            free(head);
-        }
-        free(Grid->soil->VolumetricSoilMoisture);
-        Grid->soil->VolumetricSoilMoisture = NULL;
-
-
-        while(Grid->soil->HydraulicConductivity)
-        {
-            head = Grid->soil->HydraulicConductivity;
-            Grid->soil->HydraulicConductivity = Grid->soil->HydraulicConductivity->next;
-            free(head);
-        }
-        free(Grid->soil->HydraulicConductivity);
-        Grid->soil->HydraulicConductivity = NULL;
+        free(Grid->crp->prm.ReductionGrainHeat);
+        Grid->crp->prm.ReductionGrainHeat = NULL;
 
 
         while(Grid->mng->N_Fert_table)
@@ -256,26 +226,6 @@ void Clean(SimUnit *Grid)
         free(Grid->mng->N_Fert_table);
         Grid->mng->N_Fert_table = NULL;
 
-
-        while(Grid->mng->P_Fert_table)
-        {
-            head = Grid->mng->P_Fert_table;
-            Grid->mng->P_Fert_table = Grid->mng->P_Fert_table->next;
-            free(head);
-        }
-        free(Grid->mng->P_Fert_table);
-        Grid->mng->P_Fert_table = NULL;
-
-        while(Grid->mng->K_Fert_table)
-        {
-            head = Grid->mng->K_Fert_table;
-            Grid->mng->K_Fert_table = Grid->mng->K_Fert_table->next;
-            free(head);
-        }
-        free(Grid->mng->K_Fert_table);
-        Grid->mng->K_Fert_table = NULL;
-
-
         while(Grid->mng->N_Uptake_frac)
         {
             head = Grid->mng->N_Uptake_frac;
@@ -286,26 +236,6 @@ void Clean(SimUnit *Grid)
         Grid->mng->N_Uptake_frac = NULL;
 
 
-        while(Grid->mng->P_Uptake_frac)
-        {
-            head = Grid->mng->P_Uptake_frac;
-            Grid->mng->P_Uptake_frac = Grid->mng->P_Uptake_frac->next;
-            free(head);
-        }
-        free(Grid->mng->P_Uptake_frac);
-        Grid->mng->P_Uptake_frac = NULL;
-
-
-        while(Grid->mng->K_Uptake_frac)        
-        {
-            head = Grid->mng->K_Uptake_frac;
-            Grid->mng->K_Uptake_frac = Grid->mng->K_Uptake_frac->next;
-            free(head);
-        }
-        free(Grid->mng->K_Uptake_frac);
-        Grid->mng->K_Uptake_frac = NULL;
-
-
         while(Grid->mng->Irrigation)        
         {
             head = Grid->mng->Irrigation;
@@ -314,34 +244,6 @@ void Clean(SimUnit *Grid)
         }
         free(Grid->mng->Irrigation);
         Grid->mng->Irrigation = NULL;
-
-
-        while(Grid->ste->NotInfTB)        
-        {
-            head = Grid->ste->NotInfTB;
-            Grid->ste->NotInfTB = Grid->ste->NotInfTB->next;
-            free(head);
-        }
-        free(Grid->ste->NotInfTB);
-        Grid->ste->NotInfTB =  NULL;
-
-
-        /* Free the leaves of this node. Loop until the last element in the */
-        /* list and free each node */
-        while (Grid->crp->LeaveProperties)
-        {
-            LeaveProperties = Grid->crp->LeaveProperties;
-            Grid->crp->LeaveProperties = Grid->crp->LeaveProperties->next; 
-
-            free(LeaveProperties);
-            LeaveProperties = NULL;
-        }
-
-        /* Free the last node */
-        free(Grid->crp->LeaveProperties);
-        
-        /* Set the adddress to NULL*/
-        Grid->crp->LeaveProperties = NULL;
         
         /* Go to the next node */
         Grid = Grid->next;

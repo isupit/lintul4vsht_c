@@ -15,9 +15,7 @@
 
 void RateCalculationCrop()
 {
-    float TotalAssimilation;
-    float Maintenance;
-    float GrossAssimilation;
+    float Assimilation;
     float GrossGrowth;
     float Stress;
     float Vernalization;
@@ -30,20 +28,11 @@ void RateCalculationCrop()
     Crop->rt.LAIExp  = 0.;      
     Crop->rt.vernalization = 0.;
 
-    /* Assimilation */
-    GrossAssimilation = DailyTotalAssimilation();
-
     /* Stress: either nutrient shortage or water shortage */
     Stress = min(Crop->NutrientStress, WatBal->WaterStress);
 
-    /* Correction for low minimum temperatures and stress factors */
-    TotalAssimilation = Stress * Correct(GrossAssimilation);       
-
-    /* Respiration */
-    Maintenance = RespirationRef(TotalAssimilation);
-
-    /* Conversion */
-    GrossGrowth = Conversion(TotalAssimilation-Maintenance); 
+    /* Assimilation corrected for stress factors */
+    Assimilation = Stress * DailyTotalAssimilation();;        
 
     /* Growth of roots, stems, leaves and storage organs */
     Growth(GrossGrowth);

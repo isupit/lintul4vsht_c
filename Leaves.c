@@ -7,10 +7,10 @@
 /* ------------------------------------------------------------------------*/
 /*  function DyingLeaves()                                                 */
 /*  Purpose: To compute the amount of dying leaves as a result of shading, */
-/*  (i.e. high LAI), water and/or nutrient stress or age                  */
+/*  (i.e. high LAI), water and/or nutrient stress or age                   */
 /* ------------------------------------------------------------------------*/
 
-float DyingLeaves()
+float DyingOrgans()
 {
     float DeathRateTemp = 0.;
     float DeathRateShading;
@@ -52,5 +52,11 @@ float DyingLeaves()
     
     Crop->drt.leaves = DeathRateStress + DeathRateNStress;
     Crop->drt.LAI    = DeathRateLAIStress + DeathRateNStress * SpecLeafArea;
+    
+    /* Death rate roots */
+    Crop->drt.roots = Crop->st.roots * Afgen(Crop->prm.DeathRateRoots, &(Crop->DevelopmentStage));
+    
+    /* Death rate stems */
+    Crop->drt.stems = Crop->st.stems * Afgen(Crop->prm.DeathRateStems, &(Crop->DevelopmentStage));
     
 }

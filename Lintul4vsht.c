@@ -147,8 +147,7 @@ int main() {
                     RateCalcultionNutrients();
                     RateCalculationCrop();
                     
-                    /* Calculate LAI and DVS */
-                    Crop->st.LAI = LeaveAreaIndex();
+                    /* Calculate development stage */
                     Crop->DevelopmentStage = GetDevelopmentStage();
                                        
                     fprintf(output[Grid->file],"%4d-%02d-%02d,%4d,%7.0f,%7.0f,%7.0f,%7.2f,%7.2f,%7.2f,%7.3f,%7.2f,%7.1f,,%7.2f,%7.1f\n",
