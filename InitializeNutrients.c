@@ -13,7 +13,7 @@ void InitializeNutrients()
     float day_fl;
     
     /* Initial maximum N concentration in plant organs per kg biomass [kg N kg-1 dry biomass]   */
-    Crop->N_st.Max_lv = Afgen(Crop->prm.N_MaxLeaves, &(Crop->DevelopmentStage));
+    Crop->N_st.Max_lv = Afgen(Crop->prm.N_MaxLeaves, &(Crop->st.Development));
     Crop->N_st.Max_st = Crop->prm.N_MaxStems * Crop->N_st.Max_lv;
     Crop->N_st.Max_ro = Crop->prm.N_MaxRoots * Crop->N_st.Max_lv;
     Crop->N_st.Max_so = 0.;

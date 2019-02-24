@@ -16,7 +16,7 @@ void SoilNutrientRates()
     Site->rt_N_mins = 0.;
 
     
-    if (Crop->DevelopmentStage > 0. && Crop->DevelopmentStage <= Crop->prm.DevelopmentStageNLimit)
+    if (Crop->st.Development > 0. && Crop->st.Development <= Crop->prm.DevelopmentStageNLimit)
     {   /* NPK rates that come available through mineralization, cannot exceed */
         /* the available NPK in the soil                                       */
         Site->rt_N_mins = min(Mng->N_Mins * Mng->NRecoveryFrac, Site->st_N_tot); 

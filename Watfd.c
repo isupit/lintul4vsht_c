@@ -75,7 +75,7 @@ void RateCalulationWatBal()
     /* crop-specific correction factor of potential transpiration              */
     
     LightInterception = (1.-exp(-0.75 * KDiffuse * Crop->st.LAI));
-    KDiffuse = Afgen(Crop->prm.KDiffuseTb, &(Crop->DevelopmentStage));
+    KDiffuse = Afgen(Crop->prm.KDiffuseTb, &(Crop->st.Development));
     MaxTranspiration = max(0.0001,  
                              Penman.ET0 * Crop->prm.CorrectionTransp * LightInterception);
     

@@ -253,6 +253,7 @@ typedef struct GROWTH_RATES {
         float roots;
         float stems;
         float leaves;
+        float Development;
         float LAI;
         float LAIExp;
         float RootDepth;
@@ -264,6 +265,7 @@ typedef struct GROWTH_STATES {
         float roots;
         float stems;
         float leaves;
+        float Development;
         float LAI;
         float LAIExp;
         float RootDepth;
@@ -279,12 +281,18 @@ typedef struct DYING_RATES {
         float leaves;
         float LAI;
         } dying_rates; 
+        
+typedef struct DYING_STATES {
+        float roots;
+        float stems;
+        float leaves;
+        float LAI;
+        } dying_states; 
 
 
 typedef struct PLANT {
         int Emergence;
         int GrowthDay;
-        float DevelopmentStage;
         float N_Indx;
         float NutrientStress;
         float DaysOxygenStress;
@@ -299,6 +307,7 @@ typedef struct PLANT {
         
         nutrient_states N_st;        
         nutrient_rates N_rt;
+        dying_states   dst;
 	} Plant;    
 Plant *Crop; /* Place holder for the current crop simulations */
 

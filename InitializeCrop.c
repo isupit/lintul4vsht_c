@@ -41,35 +41,35 @@ void InitializeCrop()
     float InitialShootWeight;
    
     /* Initialize the crop states */
-    Crop->DevelopmentStage = Crop->prm.InitialDVS;
+    Crop->st.Development = Crop->prm.InitialDVS;
 
-    FractionRoots      = Afgen(Crop->prm.Roots, &(Crop->DevelopmentStage));
+    FractionRoots      = Afgen(Crop->prm.Roots, &(Crop->st.Development));
     FractionShoots     = 1 - FractionRoots;
     InitialShootWeight = Crop->prm.InitialDryWeight * FractionShoots;
 
     Crop->st.roots     = Crop->prm.InitialDryWeight * FractionRoots;
     Crop->st.RootDepth    = Crop->prm.InitRootingDepth;
-    Crop->st.stems     = InitialShootWeight * Afgen(Crop->prm.Stems, &(Crop->DevelopmentStage));                   
-    Crop->st.leaves    = InitialShootWeight * Afgen(Crop->prm.Leaves, &(Crop->DevelopmentStage));
-    Crop->st.storage   = InitialShootWeight * Afgen(Crop->prm.Storage, &(Crop->DevelopmentStage));
+    Crop->st.stems     = InitialShootWeight * Afgen(Crop->prm.Stems, &(Crop->st.Development));                   
+    Crop->st.leaves    = InitialShootWeight * Afgen(Crop->prm.Leaves, &(Crop->st.Development));
+    Crop->st.storage   = InitialShootWeight * Afgen(Crop->prm.Storage, &(Crop->st.Development));
 
     /* Adapt the maximum rooting depth */
     Crop->prm.MaxRootingDepth = max(Crop->prm.InitRootingDepth, min(Crop->prm.MaxRootingDepth,
          Site->SoilLimRootDepth));
 
-    Crop->prm.LAIEmergence  = Crop->st.leaves * Afgen(Crop->prm.SpecificLeaveArea, &(Crop->DevelopmentStage)); 
+    Crop->prm.LAIEmergence  = Crop->st.leaves * Afgen(Crop->prm.SpecificLeaveArea, &(Crop->st.Development)); 
 
     Crop->st.LAIExp = Crop->prm.LAIEmergence;
 
     Crop->st.LAI = Crop->prm.LAIEmergence + Crop->st.stems * 
-           Afgen(Crop->prm.SpecificStemArea, &(Crop->DevelopmentStage)) +
+           Afgen(Crop->prm.SpecificStemArea, &(Crop->st.Development)) +
            Crop->st.storage*Crop->prm.SpecificPodArea;
     
     /* Initialize the leaves */
     Crop->LeaveProperties         = malloc(sizeof (Green));
     Crop->LeaveProperties->age    = 0.;
     Crop->LeaveProperties->weight = Crop->st.leaves;
-    Crop->LeaveProperties->area   = Afgen(Crop->prm.SpecificLeaveArea, &(Crop->DevelopmentStage));
+    Crop->LeaveProperties->area   = Afgen(Crop->prm.SpecificLeaveArea, &(Crop->st.Development));
     Crop->LeaveProperties->next   = NULL;
     
     /* Crop death rates set to zero */

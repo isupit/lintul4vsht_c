@@ -22,12 +22,12 @@ float DailyTotalAssimilation()
     /* Daily photosynthetically active radiation (PAR, MJ/m2) */
     PAR = Radiation[Day]/1.0E6 * 0.50;
     
-    KDiffuse = Afgen(Crop->prm.KDiffuseTb,&(Crop->DevelopmentStage));
+    KDiffuse = Afgen(Crop->prm.KDiffuseTb,&(Crop->st.Development));
     
     InterceptedPAR = PAR * (1. - exp(-KDiffuse * Crop->st.LAI));
     
     /* Radiation use efficiency as dependent on development stage (g DM MJ-1) */
-    RadiationUseEFF= Afgen(Crop->prm.RadiationUseEff, &Crop->DevelopmentStage);
+    RadiationUseEFF= Afgen(Crop->prm.RadiationUseEff, &Crop->st.Development);
             
     /* Correction of radiation use efficiency for change in atmospheric CO2 concentration (-) */
     RCO = Afgen(Crop->prm.CO2CorrectionRUE, &CO2);

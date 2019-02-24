@@ -21,7 +21,7 @@ float LeaveGrowth(float LAIExp, float NewLeaves)
     EffectiveTemp = max(0., Temp - Crop->prm.TempBaseLeaves);
     
     /* Growth during juvenile stage */
-    if ((Crop->DevelopmentStage < 0.2) && (Crop->st.LAI < 0.75))
+    if ((Crop->st.Development < 0.2) && (Crop->st.LAI < 0.75))
     {
         GLAI =(Crop->st.LAI * (exp(Crop->prm.RelIncreaseLAI * EffectiveTemp * Step) - 1.)/ Step ) * 
                 WatBal->WaterStress *  exp(-Crop->prm.NLAI* (1.0 - Crop->N_st.Indx));

@@ -12,14 +12,21 @@
 
 void IntegrationCrop()	    
 {
-    float PhysAgeing;
-    Green *LeaveProperties;
-    
+
+    /* Living material */
     Crop->st.roots    += Crop->rt.roots;
     Crop->st.stems    += Crop->rt.stems;
     Crop->st.leaves   += Crop->rt.leaves;
     Crop->st.storage  += Crop->rt.storage;
     Crop->st.LAIExp   += Crop->rt.LAIExp;
+    
+    /* Death material*/
+    Crop->dst.roots    += Crop->drt.roots;
+    Crop->dst.stems    += Crop->drt.stems;
+    Crop->dst.leaves   += Crop->drt.leaves;
+   
+    /* Development */
+    Crop->st.Development += Crop->rt.Development;
     
     /* Calculate vernalization state in case the switch is set */
     if (Crop->prm.IdentifyAnthesis == 2)
@@ -27,20 +34,5 @@ void IntegrationCrop()
         Crop->st.vernalization += Crop->rt.vernalization;       
     }
 
-    /* Establish the age increase */
-    PhysAgeing = max(0., (Temp - Crop->prm.TempBaseLeaves)/(35.- Crop->prm.TempBaseLeaves));
-    
-    /* Store the initial address */
-    LeaveProperties = Crop->LeaveProperties;
-    
-    /* Update the leave age for each age class */
-    while (Crop->LeaveProperties->next)
-    {
-        Crop->LeaveProperties->age += PhysAgeing;
-        Crop->LeaveProperties      = Crop->LeaveProperties->next;
-    }
-  
-    /* Return to beginning of the linked list */
-    Crop->LeaveProperties = LeaveProperties;	 
    
 }       	     

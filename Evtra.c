@@ -51,7 +51,7 @@ void EvapTra() {
     /* crop specific correction on potential evapotranspiration rate */
     Penman.ET0 = Penman.ET0 * Crop->prm.CorrectionTransp;
     
-    KDiffuse = Afgen(Crop->prm.KDiffuseTb, &(Crop->DevelopmentStage));      
+    KDiffuse = Afgen(Crop->prm.KDiffuseTb, &(Crop->st.Development));      
     Evtra.MaxEvapWater = Penman.E0 * exp(-0.75 * KDiffuse * Crop->st.LAI);
     Evtra.MaxEvapSoil  = max(0., Penman.ES0 * exp(-0.75 * KDiffuse * Crop->st.LAI));
     Evtra.MaxTranspiration = max(0.0001,  

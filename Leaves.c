@@ -22,11 +22,11 @@ float DyingOrgans()
     float SpecLeafArea; 
     
     /* Specific Leaf area(m2/g), as dependent on N stress */
-    SpecLeafArea = Afgen(Crop->prm.SpecificLeaveArea, &(Crop->DevelopmentStage)) * 
+    SpecLeafArea = Afgen(Crop->prm.SpecificLeaveArea, &(Crop->st.Development)) * 
         exp(-Crop->prm.NutrientStessSLA * (1.-Crop->N_st.Indx));
     
     /* Death rate due to temperature after a certain development stage */
-    if (Crop->DevelopmentStage > Crop->prm.DeathLeavesDVS)
+    if (Crop->st.Development > Crop->prm.DeathLeavesDVS)
     {
         DeathRateTemp = Afgen(Crop->prm.DeathRateLeaves, &Temp);
     }
@@ -54,9 +54,9 @@ float DyingOrgans()
     Crop->drt.LAI    = DeathRateLAIStress + DeathRateNStress * SpecLeafArea;
     
     /* Death rate roots */
-    Crop->drt.roots = Crop->st.roots * Afgen(Crop->prm.DeathRateRoots, &(Crop->DevelopmentStage));
+    Crop->drt.roots = Crop->st.roots * Afgen(Crop->prm.DeathRateRoots, &(Crop->st.Development));
     
     /* Death rate stems */
-    Crop->drt.stems = Crop->st.stems * Afgen(Crop->prm.DeathRateStems, &(Crop->DevelopmentStage));
+    Crop->drt.stems = Crop->st.stems * Afgen(Crop->prm.DeathRateStems, &(Crop->st.Development));
     
 }

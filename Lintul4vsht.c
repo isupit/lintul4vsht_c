@@ -139,7 +139,7 @@ int main() {
             
             if (Day >= Start && Crop->Emergence == 1)
             {   
-                if (Crop->DevelopmentStage <= Crop->prm.DevelopStageHarvest && Crop->GrowthDay < CycleLength) 
+                if (Crop->st.Development <= Crop->prm.DevelopStageHarvest && Crop->GrowthDay < CycleLength) 
                 {
                     /* Rate calculations */
                     EvapTra();
@@ -148,12 +148,12 @@ int main() {
                     RateCalculationCrop();
                     
                     /* Calculate development stage */
-                    Crop->DevelopmentStage = GetDevelopmentStage();
+                    GetDevelopmentRate();
                                        
                     fprintf(output[Grid->file],"%4d-%02d-%02d,%4d,%7.0f,%7.0f,%7.0f,%7.2f,%7.2f,%7.2f,%7.3f,%7.2f,%7.1f,,%7.2f,%7.1f\n",
                         simTime.tm_year + 1900, simTime.tm_mon +1, simTime.tm_mday,
                         Day,Crop->st.stems,Crop->st.leaves,Crop->st.storage,
-                        Crop->st.LAI,Crop->DevelopmentStage,WatBal->WaterStress,
+                        Crop->st.LAI,Crop->st.Development,WatBal->WaterStress,
                         WatBal->st.Moisture,WatBal->rt.Infiltration,Rain[Day],Crop->NutrientStress, WatBal->WaterStress);
                     
                     /* State calculations */

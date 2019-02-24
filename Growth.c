@@ -15,20 +15,20 @@ void Partioning(float *Fraction_ro, float *Fraction_lv, float *Fraction_st, floa
     if (WatBal->WaterStress < Crop->N_st.Indx)
     {
         factor = max(1., 1./(WatBal->WaterStress + 0.5));
-        *Fraction_ro = min(0.6, Afgen(Crop->prm.Roots, &(Crop->DevelopmentStage)) * factor);
-        *Fraction_lv = Afgen(Crop->prm.Leaves, &(Crop->DevelopmentStage));
-        *Fraction_st = Afgen(Crop->prm.Stems, &(Crop->DevelopmentStage));
-        *Fraction_so = Afgen(Crop->prm.Storage, &(Crop->DevelopmentStage));
+        *Fraction_ro = min(0.6, Afgen(Crop->prm.Roots, &(Crop->st.Development)) * factor);
+        *Fraction_lv = Afgen(Crop->prm.Leaves, &(Crop->st.Development));
+        *Fraction_st = Afgen(Crop->prm.Stems, &(Crop->st.Development));
+        *Fraction_so = Afgen(Crop->prm.Storage, &(Crop->st.Development));
     }
     else
     {
-        flv = Afgen(Crop->prm.Leaves, &(Crop->DevelopmentStage));
+        flv = Afgen(Crop->prm.Leaves, &(Crop->st.Development));
         factor = exp(-Crop->prm.N_lv_partitioning * ( 1. - Crop->N_st.Indx));
         
         *Fraction_lv = flv * factor;
-        *Fraction_ro = Afgen(Crop->prm.Roots, &(Crop->DevelopmentStage));
-        *Fraction_st = Afgen(Crop->prm.Stems, &(Crop->DevelopmentStage)) + flv - Fraction_lv;
-        *Fraction_so = Afgen(Crop->prm.Storage, &(Crop->DevelopmentStage));
+        *Fraction_ro = Afgen(Crop->prm.Roots, &(Crop->st.Development));
+        *Fraction_st = Afgen(Crop->prm.Stems, &(Crop->st.Development)) + flv - Fraction_lv;
+        *Fraction_so = Afgen(Crop->prm.Storage, &(Crop->st.Development));
     }
 }
 
@@ -47,10 +47,14 @@ void Growth(float NewPlantMaterial)
     float Fraction_so;
     
     float RootGrowth;
+    float Translocatable;
         
     
     Partioning(&Fraction_ro, &Fraction_lv, &Fraction_st, &Fraction_so);
     DyingOrgans();
+    
+    /* Available stem reserves for translocation (kg/ha/d) */
+    Translocatable = (Crop->st.stems + Crop->dst.stems) * Crop->rt.Development * Crop->prm.FracStemsToStorage;
     
     Crop->rt.roots  = NewPlantMaterial * Fraction_ro - Crop->drt.roots;
 	

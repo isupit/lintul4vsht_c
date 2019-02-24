@@ -23,7 +23,7 @@ void NutrientPartioning()
     
     Total_N_demand = Crop->N_rt.Demand_lv + Crop->N_rt.Demand_st + Crop->N_rt.Demand_ro;
     
-    NutrientLimit = insw(Crop->DevelopmentStage - Crop->prm.DevelopmentStageNLimit , 
+    NutrientLimit = insw(Crop->st.Development - Crop->prm.DevelopmentStageNLimit , 
             insw(WatBal->rt.Transpiration/Evtra.MaxTranspiration -0.01,0.,1.) , 0.0);
     
     /* Nutrient uptake cannot be larger than the availability and is larger or equal to zero */

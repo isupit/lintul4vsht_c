@@ -41,7 +41,7 @@ void RateCalculationCrop()
     if (Crop->prm.IdentifyAnthesis == 2)
     {
         Vernalization = Afgen(Crop->prm.VernalizationRate, &Temp);
-        Crop->rt.vernalization = insw(Crop->DevelopmentStage - 0.3, Vernalization, 0);       
+        Crop->rt.vernalization = insw(Crop->st.Development - 0.3, Vernalization, 0);       
     }
            
     //printf("  Dmi: %5.1f MRes: %5.1f Gass: %5.1f RtSt: %5.1f", GrossGrowth, Maintenance, TotalAssimilation, Crop->rt.stems );

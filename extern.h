@@ -29,7 +29,7 @@ extern void IntegrationCrop();
 extern void InitializeCrop();
 extern int EmergenceCrop(int Emergence);
 
-extern float GetDevelopmentStage();
+extern void DevelopmentRate();
 extern float DailyTotalAssimilation();
 extern float DyingLeaves();
 extern float InstantAssimilation(float KDiffuse, float EFF, float AssimMax, float SinB, float PARDiffuse, float PARDirect);

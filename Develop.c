@@ -9,33 +9,31 @@
 /*  daily temperature, day length and the vernalization                        */
 /*-----------------------------------------------------------------------------*/
 
-float GetDevelopmentStage(void)
+void GetDevelopmentRate(void)
 {
-    float DevelopmentRate;
     float VernalizationFactor;
 
-    if (Crop->DevelopmentStage  < 1.)
+    if (Crop->st.Development  < 1.)
     {
-        DevelopmentRate = Afgen(Crop->prm.DeltaTempSum, &Temp)/Crop->prm.TempSum1;
-        if (Crop->prm.IdentifyAnthesis == 1 || Crop->prm.IdentifyAnthesis == 2) DevelopmentRate = DevelopmentRate *
+        Crop->rt.Development = Afgen(Crop->prm.DeltaTempSum, &Temp)/Crop->prm.TempSum1;
+        if (Crop->prm.IdentifyAnthesis == 1 || Crop->prm.IdentifyAnthesis == 2) Crop->rt.Development = Crop->rt.Development *
                 limit(0., 1., (PARDaylength - Crop->prm.CriticalDaylength)/(Crop->prm.OptimumDaylength-Crop->prm.CriticalDaylength));
         
         /* Vernalization takes place */
         if (Crop->prm.IdentifyAnthesis == 2)
         {
-            Crop->rt.vernalization = insw(Crop->DevelopmentStage - 0.3, Afgen(Crop->prm.VernalizationRate,&Temp), 0.);
+            Crop->rt.vernalization = insw(Crop->st.Development - 0.3, Afgen(Crop->prm.VernalizationRate,&Temp), 0.);
             VernalizationFactor = limit(0., 1., 
                     (Crop->st.vernalization - Crop->prm.BaseVernRequirement)/
                     (Crop->prm.SatVernRequirement - Crop->prm.BaseVernRequirement));
             
-	    DevelopmentRate = DevelopmentRate * insw(Crop->DevelopmentStage - 0.3, VernalizationFactor, 1.);
+	    Crop->rt.Development = Crop->rt.Development * insw(Crop->st.Development - 0.3, VernalizationFactor, 1.);
         }
         
         /* Adjustment of the development stage */
-        if (DevelopmentRate + Crop->DevelopmentStage >= 1. ) return 1.;
+        if (Crop->rt.Development + Crop->st.Development >= 1. ) return 1.;
     }
     else 
-         DevelopmentRate = Afgen(Crop->prm.DeltaTempSum, &Temp)/Crop->prm.TempSum2;  
+         Crop->rt.Development = Afgen(Crop->prm.DeltaTempSum, &Temp)/Crop->prm.TempSum2;  
 
-    return (Crop->DevelopmentStage + DevelopmentRate);
 }
