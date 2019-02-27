@@ -10,13 +10,15 @@
 /*           stored in the Crop->properties linked list                       */
 /* ---------------------------------------------------------------------------*/
 
-float LeaveGrowth(float LAIExp, float NewLeaves)
+float LeaveGrowth(float *NewLeafMaterial)
 {
     float GLAI;
     float EffectiveTemp;
-    /* Growth during maturation stage */
-    GLAI = SLA * GLV;
-
+    float SpecLeafArea;
+    
+    SpecLeafArea = Afgen(Crop->prm.SpecificLeaveArea,&Crop->st.Development) * 
+            exp(-Crop->prm.NitrogenStessSLA * (1.-Crop->N_st.Indx));
+    
     /* Calculate the effective temperature i.e. the value above the baseline */
     EffectiveTemp = max(0., Temp - Crop->prm.TempBaseLeaves);
     
@@ -24,16 +26,12 @@ float LeaveGrowth(float LAIExp, float NewLeaves)
     if ((Crop->st.Development < 0.2) && (Crop->st.LAI < 0.75))
     {
         GLAI =(Crop->st.LAI * (exp(Crop->prm.RelIncreaseLAI * EffectiveTemp * Step) - 1.)/ Step ) * 
-                WatBal->WaterStress *  exp(-Crop->prm.NLAI* (1.0 - Crop->N_st.Indx));
+                WatBal->WaterStress *  exp(-Crop->prm.NitrogenStressLAI * (1.0 - Crop->N_st.Indx));
     }
-       
+    else
+    {
+        GLAI = *NewLeafMaterial * SpecLeafArea;
+    }   
 
-*---- Growth at day of seedling emergence:
-        IF (Crop->st.LAI.EQ.0.)
-     $   GLAI = LAII / DELT
-      ENDIF  
-
-*---- Growth before seedling emergence:
-      IF (.NOT. EMERG) GLAI = 0.
     return GLAI;
 }

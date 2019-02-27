@@ -34,5 +34,7 @@ void IntegrationCrop()
         Crop->st.vernalization += Crop->rt.vernalization;       
     }
 
-   
+    Crop->st.RootDepth_prev = Crop->st.RootDepth;
+    Crop->st.RootDepth += Crop->rt.RootDepth;
+    
 }       	     

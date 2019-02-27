@@ -140,7 +140,7 @@ typedef struct PARAMETERS {
         float NLUE;   
         float Max_N_storage; 
         float N_lv_partitioning;  
-        float NutrientStessSLA;   
+        float NitrogenStessSLA;   
         float N_ResidualFrac_lv;  
         float N_ResidualFrac_st;  
         float N_ResidualFrac_ro;   

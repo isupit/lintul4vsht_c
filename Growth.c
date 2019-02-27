@@ -45,12 +45,11 @@ void Growth(float NewPlantMaterial)
     float Fraction_lv;
     float Fraction_st;
     float Fraction_so;
-    
-    float RootGrowth;
+   
     float Translocatable;
         
-    
     Partioning(&Fraction_ro, &Fraction_lv, &Fraction_st, &Fraction_so);
+    
     DyingOrgans();
     
     /* Available stem reserves for translocation (kg/ha/d) */
@@ -58,24 +57,19 @@ void Growth(float NewPlantMaterial)
     
     Crop->rt.roots  = NewPlantMaterial * Fraction_ro - Crop->drt.roots;
 	
-    shoots         = NewPlantMaterial * (1-Fraction_ro);
-    Crop->rt.stems  = shoots * Fraction_st - Crop->drt.stems;
+    shoots           = NewPlantMaterial * (1-Fraction_ro);
+    Crop->rt.stems   = shoots * Fraction_st - Crop->drt.stems;
     Crop->rt.storage = shoots * Fraction_so;
 	
-     
-    Crop->rt.leaves  = shoots * Fraction_lv;
-    Crop->rt.LAIExp  = LeaveGrowth(Crop->st.LAIExp, Crop->rt.leaves);	
-    Crop->rt.leaves  = Crop->rt.leaves -  Crop->drt.leaves;
-	
-    Crop->st.RootDepth_prev = Crop->st.RootDepth;
+    Crop->rt.leaves  = shoots * Fraction_lv -  Crop->drt.leaves;
+    Crop->rt.LAI     = LeaveGrowth(&Crop->rt.leaves);	
     
     /* No Root growth if no assimilates are partitioned to the roots or if */
     /* the crop has no airducts and the roots are close to the groundwater */
     if (Fraction_ro <= 0.0 || (!Crop->prm.Airducts && Site->GroundwaterDepth - Crop->st.RootDepth < 10.))
-        RootGrowth = 0.;
+        Crop->rt.RootDepth = 0.;
     else
-        RootGrowth = min(Crop->prm.MaxRootingDepth - Crop->st.RootDepth,
+        Crop->rt.RootDepth = min(Crop->prm.MaxRootingDepth - Crop->st.RootDepth,
                 Crop->prm.MaxIncreaseRoot*Step);
     
-     Crop->st.RootDepth += RootGrowth;
 }	

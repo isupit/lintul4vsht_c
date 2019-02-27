@@ -23,7 +23,7 @@ float DyingOrgans()
     
     /* Specific Leaf area(m2/g), as dependent on N stress */
     SpecLeafArea = Afgen(Crop->prm.SpecificLeaveArea, &(Crop->st.Development)) * 
-        exp(-Crop->prm.NutrientStessSLA * (1.-Crop->N_st.Indx));
+        exp(-Crop->prm.NitrogenStessSLA * (1.-Crop->N_st.Indx));
     
     /* Death rate due to temperature after a certain development stage */
     if (Crop->st.Development > Crop->prm.DeathLeavesDVS)
