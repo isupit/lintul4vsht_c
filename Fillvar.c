@@ -72,7 +72,7 @@ void FillCropVariables(Plant *CROP, float *Variable)
     CROP->prm.NLUE                     = Variable[33];
     CROP->prm.Max_N_storage            = Variable[34];
     CROP->prm.N_lv_partitioning        = Variable[35];
-    CROP->prm.NutrientStessSLA         = Variable[36];
+    CROP->prm.NitrogenStessSLA         = Variable[36];
     CROP->prm.N_ResidualFrac_lv        = Variable[37];
     CROP->prm.N_ResidualFrac_st        = Variable[38];
     CROP->prm.N_ResidualFrac_ro        = Variable[39];

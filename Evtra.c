@@ -55,7 +55,7 @@ void EvapTra() {
     Evtra.MaxEvapWater = Penman.E0 * exp(-0.75 * KDiffuse * Crop->st.LAI);
     Evtra.MaxEvapSoil  = max(0., Penman.ES0 * exp(-0.75 * KDiffuse * Crop->st.LAI));
     Evtra.MaxTranspiration = max(0.0001,  
-                             Penman.ET0 * Afgen(Crop->prm.CO2TRATB, &CO2) *
+                             Penman.ET0 * Afgen(Crop->prm.CO2CorrectionTRA, &CO2) *
                              (1.-exp(-0.75 * KDiffuse * Crop->st.LAI)));
        
     SoilWatDepletion = sweaf();

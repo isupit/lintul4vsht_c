@@ -63,6 +63,7 @@ typedef struct PARAMETERS {
         AFGEN *ReductionRueDayTemp;
         AFGEN *ReductionRueLowTemp;
         AFGEN *CO2CorrectionRUE;
+        AFGEN *CO2CorrectionTRA;
         AFGEN *DeathRateLeaves;
         AFGEN *DeathRateStems;
         AFGEN *DeathRateRoots; 
