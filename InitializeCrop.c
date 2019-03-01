@@ -65,12 +65,11 @@ void InitializeCrop()
            Afgen(Crop->prm.SpecificStemArea, &(Crop->st.Development)) +
            Crop->st.storage*Crop->prm.SpecificPodArea;
     
-    /* Initialize the leaves */
-    Crop->LeaveProperties         = malloc(sizeof (Green));
-    Crop->LeaveProperties->age    = 0.;
-    Crop->LeaveProperties->weight = Crop->st.leaves;
-    Crop->LeaveProperties->area   = Afgen(Crop->prm.SpecificLeaveArea, &(Crop->st.Development));
-    Crop->LeaveProperties->next   = NULL;
+    /* Initialize the heat stress */
+    Crop->Heat = 0.;
+    Crop->HeatDays = 0;
+    Crop->HeatFlag = FALSE;
+    Crop->SeedFlag = FALSE;
     
     /* Crop death rates set to zero */
     Crop->drt.leaves = 0.;

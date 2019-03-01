@@ -32,6 +32,26 @@ void Partioning(float *Fraction_ro, float *Fraction_lv, float *Fraction_st, floa
     }
 }
 
+/* -----------------------------------------------------------------------------*/
+/*  function HeatStess()                                                        */
+/*  Purpose:  Calculation of the mean day-time temperature during the sensitive */
+/*  period around anthesis (between DVSBeginHeatStr and DVSFinalHeatStr)        */
+/* -----------------------------------------------------------------------------*/
+void HeatStress()
+{   
+    if (Crop->st.Development >= Crop->prm.DVSBeginHeatStr && Crop->st.Development <= Crop->prm.DVSFinalHeatStr) 
+    {
+        Crop->Heat += DayTemp;
+        Crop->HeatDays++;
+    }
+    
+    if (Crop->st.Development >= Crop->prm.DVSFinalHeatStr && !Crop->HeatFlag) 
+    {
+           Crop->Heat= Crop->Heat/(float)Crop->HeatDays;
+           Crop->HeatFlag = TRUE;
+    }
+}
+
 /* ---------------------------------------------------------------------------*/
 /*  function Growth(float NewPlantMaterial)                                   */
 /*  Purpose: Establish growth rates of the plant organs (kg ha-1 d-1) and     */
@@ -45,24 +65,68 @@ void Growth(float NewPlantMaterial)
     float Fraction_lv;
     float Fraction_st;
     float Fraction_so;
-   
     float Translocatable;
+    float GrainNr;
+    
+    float rt_GrainMass;
+    float PotGrainMass;
+    float MaxGrainMass;
         
     Partioning(&Fraction_ro, &Fraction_lv, &Fraction_st, &Fraction_so);
     
     DyingOrgans();
     
-    /* Available stem reserves for translocation (kg/ha/d) */
-    Translocatable = (Crop->st.stems + Crop->dst.stems) * Crop->rt.Development * Crop->prm.FracStemsToStorage;
+    if (Crop->prm.IdentifyHeatStress) HeatStress();
     
-    Crop->rt.roots  = NewPlantMaterial * Fraction_ro - Crop->drt.roots;
-	
-    shoots           = NewPlantMaterial * (1-Fraction_ro);
-    Crop->rt.stems   = shoots * Fraction_st - Crop->drt.stems;
+     /* Available stem reserves for translocation (kg/ha/d) */
+    if (Crop->st.Development >= 1.0) 
+        Translocatable = (Crop->st.stems + Crop->dst.stems) * Crop->rt.Development * Crop->prm.FracStemsToStorage;
+    else 
+        Translocatable = 0.;
+           
+    Crop->rt.storage = shoots * Fraction_so + Translocatable;
+     
+    shoots = NewPlantMaterial * (1. - Fraction_ro);
+    if (Crop->prm.IdentifySink)
+    {
+        Crop->rt.stems   = shoots * Fraction_st - Crop->drt.stems - Translocatable;
+        Crop->rt.storage = shoots * Fraction_so + Translocatable;
+        
+        /* Correct for heat stress around anthesis, number of sinks not yet set */
+        if (!Crop->SeedFlag && Crop->HeatFlag) 
+        {
+            /* Number of grains (per ha) as determined from total leaf and stem */
+            /* dry weight at anthesis corrected for heat stress around anthesis */
+            GrainNr = Afgen(Crop->prm.ReductionGrainHeat, &Crop->Heat) * 
+                    (Crop->prm.VarA + Crop->prm.VarB * (Crop->st.leaves + Crop->st.stems));
+            
+            /* The number of sinks is established */
+            Crop->SeedFlag = TRUE;
+            
+            /* Grain growth limited by both maximal grain mass (MaxGrainMass) */
+            /* and by potential growth of the grains (PotGrainMass)           */
+            PotGrainMass = Afgen(Crop->prm.ReductionGrainTemp, &DayTemp) * GrainNr * Crop->prm.PotGrainformation;
+            MaxGrainMass = max (0.0, GrainNr * Crop->prm.MaxGrainMass - Crop->st.storage);
+            rt_GrainMass = min (MaxGrainMass, PotGrainMass);
+            
+            /* Source or sink limitation  */
+            Crop->rt.storage = min(Crop->rt.storage, rt_GrainMass);
+            
+            /* Correction in case of sink limitation */
+            if (rt_GrainMass < Crop->rt.storage) 
+            {
+              Crop->rt.stems -= (Crop->rt.storage - rt_GrainMass);   
+            }       
+        }
+    }
+      
+    Crop->rt.roots   = NewPlantMaterial * Fraction_ro - Crop->drt.roots;
     Crop->rt.storage = shoots * Fraction_so;
 	
     Crop->rt.leaves  = shoots * Fraction_lv -  Crop->drt.leaves;
     Crop->rt.LAI     = LeaveGrowth(&Crop->rt.leaves);	
+    
+    Crop->rt.stems   = shoots * Fraction_st - Crop->drt.stems;
     
     /* No Root growth if no assimilates are partitioned to the roots or if */
     /* the crop has no airducts and the roots are close to the groundwater */
@@ -70,6 +134,6 @@ void Growth(float NewPlantMaterial)
         Crop->rt.RootDepth = 0.;
     else
         Crop->rt.RootDepth = min(Crop->prm.MaxRootingDepth - Crop->st.RootDepth,
-                Crop->prm.MaxIncreaseRoot*Step);
+                Crop->prm.MaxIncreaseRoot * Step);
     
 }	

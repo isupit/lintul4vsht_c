@@ -3,6 +3,9 @@
 #ifndef LINTUL4_H
 #define LINTUL4_H
 
+#define FALSE 0
+#define TRUE 1  
+
 #define NR_VARIABLES_CRP	49
 #define NR_TABLES_CRP   	20
 #define NR_VARIABLES_SITE       12
@@ -294,6 +297,10 @@ typedef struct DYING_STATES {
 typedef struct PLANT {
         int Emergence;
         int GrowthDay;
+        int HeatFlag;
+        int SeedFlag;
+        int HeatDays;
+        float Heat;
         float N_Indx;
         float NutrientStress;
         float DaysOxygenStress;
