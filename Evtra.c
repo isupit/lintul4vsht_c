@@ -40,13 +40,7 @@ float sweaf(){
 /*  Purpose: Calculates the water stress and the transpiration rate */
 /* -----------------------------------------------------------------*/     
 void EvapTra() {   
-    float CriticalSoilMoisture;
     float KDiffuse;
-    float MaxReductionOxygenStress;
-    float MoistureStress;
-    float OxygenStress;
-    float SoilMoistureAeration;
-    float SoilWatDepletion;
     
     /* crop specific correction on potential evapotranspiration rate */
     Penman.ET0 = Penman.ET0 * Crop->prm.CorrectionTransp;
@@ -58,42 +52,4 @@ void EvapTra() {
                              Penman.ET0 * Afgen(Crop->prm.CO2CorrectionTRA, &CO2) *
                              (1.-exp(-0.75 * KDiffuse * Crop->st.LAI)));
        
-    SoilWatDepletion = sweaf();
-    CriticalSoilMoisture = (1. - SoilWatDepletion)*
-            (WatBal->ct.MoistureFC - WatBal->ct.MoistureWP) + WatBal->ct.MoistureWP;
-    
-    /* Transpiration reduction in case of water shortage */
-    MoistureStress = limit(0.,1.,(WatBal->st.Moisture - WatBal->ct.MoistureWP)/
-            (CriticalSoilMoisture - WatBal->ct.MoistureWP));
-    
-    if (!Crop->prm.Airducts) 
-    {
-        /* Critical soil moisture content for aeration */
-        SoilMoistureAeration = WatBal->ct.MoistureSAT - WatBal->ct.CriticalSoilAirC;
-        
-        /* Count days since start oxygen shortage (up to 4 days) */
-        if (WatBal->st.Moisture >= SoilMoistureAeration) {
-            Crop->DaysOxygenStress = min(Crop->DaysOxygenStress++, 4.);
-        }
-        else 
-        {
-            Crop->DaysOxygenStress = 0.;
-        }
-        
-        /* Maximum reduction reached after 4 days */
-        MaxReductionOxygenStress = limit (0.,1.,(WatBal->ct.MoistureSAT - WatBal->st.Moisture)/
-                (WatBal->ct.MoistureSAT - SoilMoistureAeration));
-        
-        OxygenStress   = MaxReductionOxygenStress + 
-                (1.-Crop->DaysOxygenStress/4.)*(1.-MaxReductionOxygenStress);        
-    }
-    else 
-    {
-        OxygenStress = 1.;
-    }
-    
-    WatBal->WaterStress = MoistureStress * OxygenStress;
-    //WatBal->WaterStress = 1.;
-     
-    WatBal->rt.Transpiration = WatBal->WaterStress * Evtra.MaxTranspiration;
     }

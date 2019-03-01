@@ -160,7 +160,7 @@ void FillSiteVariables(Field *SITE, float *Variable) {
     SITE->FlagGroundWater                 = Variable[0];
     SITE->InfRainDependent                = Variable[1];
     SITE->FlagDrains                      = Variable[2];
-    //SITE->MaxSurfaceStorage               = Variable[3];
+    SITE->MaxSurfaceStorage               = Variable[3];
     SITE->InitSoilMoisture                = Variable[4];
     SITE->GroundwaterDepth                = Variable[5];
     SITE->DD                              = Variable[6];
