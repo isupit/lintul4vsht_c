@@ -20,7 +20,7 @@ float DailyTotalAssimilation()
     float KDiffuse;
     
     /* Daily photosynthetically active radiation (PAR, MJ/m2) */
-    PAR = Radiation[Day]/1.0E6 * 0.50;
+    PAR = Radiation[Lon][Lat][Day]/1.0E6 * 0.50;
     
     KDiffuse = Afgen(Crop->prm.KDiffuseTb,&(Crop->st.Development));
     

@@ -130,7 +130,7 @@ void Growth(float NewPlantMaterial)
     
     /* No Root growth if no assimilates are partitioned to the roots or if */
     /* the crop has no airducts and the roots are close to the groundwater */
-    if (Fraction_ro <= 0.0 || (!Crop->prm.Airducts && Site->GroundwaterDepth - Crop->st.RootDepth < 10.))
+    if (Fraction_ro <= 0.0 || (!Crop->prm.Airducts && (Site->GroundwaterDepth - Crop->st.RootDepth) < 10.))
         Crop->rt.RootDepth = 0.;
     else
         Crop->rt.RootDepth = min(Crop->prm.MaxRootingDepth - Crop->st.RootDepth,

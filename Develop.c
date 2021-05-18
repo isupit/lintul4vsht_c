@@ -16,8 +16,8 @@ void GetDevelopmentRate(void)
     if (Crop->st.Development  < 1.)
     {
         Crop->rt.Development = Afgen(Crop->prm.DeltaTempSum, &Temp)/Crop->prm.TempSum1;
-        if (Crop->prm.IdentifyAnthesis == 1 || Crop->prm.IdentifyAnthesis == 2) Crop->rt.Development = Crop->rt.Development *
-                limit(0., 1., (PARDaylength - Crop->prm.CriticalDaylength)/(Crop->prm.OptimumDaylength-Crop->prm.CriticalDaylength));
+        if (Crop->prm.IdentifyAnthesis == 1 || Crop->prm.IdentifyAnthesis == 2) 
+            Crop->rt.Development = Crop->rt.Development * Afgen(Crop->prm.PhotoDayLength, &PARDaylength);
         
         /* Vernalization takes place */
         if (Crop->prm.IdentifyAnthesis == 2)

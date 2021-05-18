@@ -6,17 +6,18 @@
 #define FALSE 0
 #define TRUE 1  
 
-#define NR_VARIABLES_CRP	49
+#define NR_VARIABLES_CRP	51
 #define NR_TABLES_CRP   	20
 #define NR_VARIABLES_SITE       12
 #define NR_TABLES_SITE          1
-#define NR_VARIABLES_SOIL       12
-#define NR_VARIABLES_SOIL_USED  6
-#define NR_TABLES_SOIL          2
+#define NR_VARIABLES_SOIL       13
 #define NR_VARIABLES_MANAGEMENT 2
 #define NR_TABLES_MANAGEMENT    3
 #define NUMBER_OF_TABLES        32
 #define NR_SIMUNITS             4
+#define MAX_STRING             2048
+#define METEO_LENGTH           36600 //max 100 years 
+#define DOMAIN_LENGTH          720   //max 0.5 degree
 
 typedef struct TABLE {
 	float x;
@@ -43,10 +44,12 @@ typedef struct CONSTANTS {
         float CriticalSoilAirC;
         float MoistureInit;
         float MoistureInitLow;
+        float MaxPercolSubS;
+        float MaxPercolRTZ;
         float SoilMaxRootDepth;
         float RunOffFrac;
         float CorrFactor;
-        float KSUB;
+        float K0;
         } Constants;
 
 typedef struct PARAMETERS {
@@ -98,7 +101,7 @@ typedef struct PARAMETERS {
         float TempSum1;       
         float TempSum2; 
         float InitialDVS;
-        float DevelopStageHarvest;
+        float DevelopStageEnd;  //Ripe or Harvest
 
         /** Initial Values  **/
         float InitialDryWeight;
@@ -133,7 +136,7 @@ typedef struct PARAMETERS {
         float DVSLeavesDie;
 
         /** Nutrients **/
-        float DyingLeaves_NPK_Stress; 
+        float DyingLeaves_N_Stress; 
         float DevelopmentStageNLimit; 
         float DevelopmentStageNT;
         float FracTranslocRoots;  
@@ -179,6 +182,7 @@ typedef struct STATES {
         float Moisture;
         float MoistureLOW;
         float Percolation;
+        float Loss;
         float Rain;
         float RootZoneMoisture;
         float Runoff;
@@ -200,6 +204,7 @@ typedef struct RATES {
         float Moisture;
         float MoistureLOW;
         float Percolation;
+        float Loss;
         float RootZoneMoisture;
         float Runoff;
         float Transpiration;
@@ -326,12 +331,14 @@ typedef struct SOIL {
         float DaysSinceLastRain;
         float SoilMaxRootingDepth;
         float WaterStress;
+        float InfPreviousDay;
         
         Constants ct;
         States st;
         Rates rt;
         } Soil;
 Soil *WatBal; /* Place holder for the current water balance simulations */
+
 
 
 typedef struct FIELD {
@@ -378,13 +385,50 @@ typedef struct SIMUNIT {
         
 float CO2;
 
+enum{
+    WEATHER_TMIN,
+    WEATHER_TMAX,
+    WEATHER_RADIATION,
+    WEATHER_RAIN,
+    WEATHER_WINDSPEED,
+    WEATHER_VAPOUR,
+    WEATHER_NTYPES
+};
+
+typedef struct WEATHER {
+        char mask[MAX_STRING];
+        char file[WEATHER_NTYPES][MAX_STRING];
+        char type[WEATHER_NTYPES][MAX_STRING];
+        char var[WEATHER_NTYPES][MAX_STRING];
+        int Ensemble;
+        int StartMonth;
+        int StartYear;
+        int EndYear;
+        size_t nlat;
+        size_t nlon;
+        size_t ntime;
+        struct WEATHER *next;
+        } Weather;
+Weather *Meteo; /* Place holder for the meteo filenames and lat/lon */
+
 /** Meteorological Variables  **/
 int Station, Year;
-float AngstA;
-float AngstB;
-float Longitude, Latitude, Altitude;
-float Tmin[732], Tmax[732], Radiation[732], Rain[732];
-float Windspeed[732], Vapour[732], Irrigation[732];
+int MeteoYear[METEO_LENGTH];
+int MeteoDay[METEO_LENGTH];
+float CO2;
+double Longitude[DOMAIN_LENGTH], Latitude[DOMAIN_LENGTH];
+int **Mask;
+int **Tsum1;
+int **Tsum2;
+float **Altitude;
+float **AngstA;
+float **AngstB;
+float ***Tmin;
+float ***Tmax;
+float ***Radiation;
+float ***Rain;
+float ***Windspeed;
+float ***Vapour;
 
 /* Time step */
 float Step;

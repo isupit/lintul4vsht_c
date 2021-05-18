@@ -47,10 +47,10 @@ float DyingOrgans()
         DeathRateNStress = Crop->prm.DeathRateLeavesNStr * DeathRate * (1 -Crop->N_st.Indx);
     }
     
-    DeathRateStress = Crop->st.leaves * DeathRate;
-    DeathRateLAIStress    = Crop->st.LAI * DeathRate;
+    DeathRateStress     = Crop->st.leaves * DeathRate;
+    DeathRateLAIStress  = Crop->st.LAI    * DeathRate;
     
-    Crop->drt.leaves = DeathRateStress + DeathRateNStress;
+    Crop->drt.leaves = DeathRateStress    + DeathRateNStress;
     Crop->drt.LAI    = DeathRateLAIStress + DeathRateNStress * SpecLeafArea;
     
     /* Death rate roots */

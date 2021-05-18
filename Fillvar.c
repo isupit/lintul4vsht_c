@@ -31,7 +31,7 @@ void FillCropVariables(Plant *CROP, float *Variable)
     CROP->prm.TempSum1                 = Variable[6];       
     CROP->prm.TempSum2                 = Variable[7]; 
     CROP->prm.InitialDVS               = Variable[8];
-    CROP->prm.DevelopStageHarvest      = Variable[9];
+    CROP->prm.DevelopStageEnd          = Variable[9];
     
     /** Initial Values  **/
     CROP->prm.InitialDryWeight         = Variable[10];
@@ -61,7 +61,7 @@ void FillCropVariables(Plant *CROP, float *Variable)
     CROP->prm.DVSLeavesDie             = Variable[24];
 
     /** Nutrients  **/
-    CROP->prm.DyingLeaves_NPK_Stress   = Variable[25];
+    CROP->prm.DyingLeaves_N_Stress     = Variable[25];
     CROP->prm.DevelopmentStageNLimit   = Variable[26];
     CROP->prm.DevelopmentStageNT       = Variable[27];
     CROP->prm.FracTranslocRoots        = Variable[28];
@@ -138,11 +138,13 @@ void FillSoilVariables(Soil *SOIL, float *Variable) {
     SOIL->ct.SoilMaxRootDepth = Variable[7];
     SOIL->ct.RunOffFrac       = Variable[8];
     SOIL->ct.CorrFactor       = Variable[9];
-    SOIL->ct.KSUB             = Variable[10];
+    SOIL->ct.K0               = Variable[10];
+    SOIL->ct.MaxPercolRTZ     = Variable[11];
+    SOIL->ct.MaxPercolSubS    = Variable[12];
     
     /* No workability parameters will be used in this version */
     
-    for (i=0;i<=NR_VARIABLES_SOIL_USED;i++) 
+    for (i=0;i<=NR_VARIABLES_SOIL;i++) 
     {
         Variable[i]= 0.;
     }

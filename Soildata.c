@@ -7,46 +7,35 @@
 
 void GetSoilData(Soil *SOIL, char *soilfile)
 {
-  int i, c;
-  float Variable[100], XValue, YValue;
-  char x[2], xx[2],  word[100];
+  int  i, c;
+  char word[NR_VARIABLES_SITE];
+  float Variable[NR_VARIABLES_SOIL];
   FILE *fq;
 
- if ((fq = fopen(soilfile, "rt")) == NULL)
- {
-     fprintf(stderr, "Cannot open input file.\n"); 
+ if ((fq = fopen(soilfile, "rt")) == NULL) {
+     fprintf(stderr, "Cannot open soil file.\n"); 
      exit(0);
  }
 
  i=0;
-  while ((c=fscanf(fq,"%s",word)) != EOF && i < 12 ) 
-  {
-    if (!strcmp(word, SoilParam[i])) {
+ while ((c=fscanf(fq,"%s",word)) != EOF) {
+    if (!strcmp(word, SiteParam[i])) {
         while ((c=fgetc(fq)) !='=');
+        
 	fscanf(fq,"%f",  &Variable[i]);
 
 	i++; 
-       }  
+      }  
+ }
+
+  if (i != NR_VARIABLES_SOIL) {
+      fprintf(stderr, "Something wrong with the Soil variables.\n");
+      exit(0);
   }
-
- if (i != NR_VARIABLES_SOIL) 
- {
-    fprintf(stderr, "Something wrong with the Soil variables.\n"); 
-    exit(0);
- }
+  rewind(fq); 
  
-  rewind(fq);  
-  
-  FillSoilVariables(SOIL, Variable);
- 
-  fclose(fq);
-
- if (i!= NR_TABLES_SOIL) 
- {
-    fprintf(stderr, "Something wrong with the Soil tables.\n"); 
-    exit(0);
- }
-  
+    FillSoilVariables(SOIL, Variable);
+   
     /* Set state variables of the water balance are set to zero. */   
     SOIL->st.EvapWater         = 0.;
     SOIL->st.EvapSoil          = 0.;

@@ -11,6 +11,8 @@ char *SoilParam[]={"SMDRY",
 		   "RDMSO",
 		   "RUNFR",
                    "CFEV",
+                   "K0",
+                   "SOPE",
 		   "KSUB",
 		   "NULL"
 		   };

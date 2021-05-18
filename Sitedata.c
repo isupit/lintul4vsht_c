@@ -15,7 +15,7 @@ void GetSiteData(Field *SITE, char *sitefile)
   FILE *fq;
 
  if ((fq = fopen(sitefile, "rt")) == NULL) {
-     fprintf(stderr, "Cannot open input file.\n"); 
+     fprintf(stderr, "Cannot open site file.\n"); 
      exit(0);
  }
 

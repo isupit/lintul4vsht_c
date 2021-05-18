@@ -82,7 +82,6 @@ void InitializeNutrients()
        
     /* No nutrient stress at initialization */
     Crop->N_st.Indx = 1.;
-    Crop->NPK_Indx  = 1.;
     
     /* No nutrient losses at initialization */
     Crop->N_rt.death_lv = 0.;
