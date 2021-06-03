@@ -25,16 +25,17 @@ int Astro()
     float AOB;
     float DSinB;
     float FractionDiffuseRad;
-    float AngotRadiation;
     
-    if (fabsf(Latitude) > 90.) return 0;  
+    float day_fl = MeteoDay[Day];
+    
+    if (fabsf(Latitude[Lat]) > 90.) return 0;  
 
     /* We start at Day= 1, we do not use Day = 0 */
-    Declination    = -asin(sin(23.45*RAD)*cos(2.*PI*(float)(Day+10.)/365.));
-    SolarConstant  = 1370.*(1.+0.033*cos(2.*PI*(float)(Day)/365.));
+    Declination    = -asin(sin(23.45*RAD)*cos(2.*PI*(day_fl+10.)/365.));
+    SolarConstant  = 1370.*(1.+0.033*cos(2.*PI*(day_fl)/365.));
   
-    SinLD = sin(RAD*Latitude)*sin(Declination);
-    CosLD = cos(RAD*Latitude)*cos(Declination);
+    SinLD = sin(RAD*Latitude[Lat])*sin(Declination);
+    CosLD = cos(RAD*Latitude[Lat])*cos(Declination);
     AOB   = SinLD/CosLD;
     
    /* Astronomical day length */
@@ -57,8 +58,9 @@ int Astro()
     }
     
     /*  Extraterrestrial radiation and atmospheric transmission */
+
     AngotRadiation  = SolarConstant*DSinB;
-    AtmosphTransm   = Radiation[Day]/AngotRadiation;
+    AtmosphTransm   = Radiation[Lon][Lat][Day]/AngotRadiation;
 
     if (AtmosphTransm > 0.75)
        FractionDiffuseRad = 0.23;

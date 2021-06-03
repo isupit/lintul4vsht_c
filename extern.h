@@ -8,7 +8,6 @@ size_t Day;
 size_t Lon;
 size_t Lat;
 
-int Day;
 float Temp;
 float DayTemp;
 
@@ -22,6 +21,11 @@ extern float notnul(float x);
 extern float insw(float x1, float x2, float x3);
 extern int leap_year(int year);
 extern int GetSimInput();
+extern void GetMeteoInput();
+extern void IfSowing();
+extern void RatesToZero();
+extern void Clean();
+extern void CleanMeteo();
 
 
 /* Crop growth */

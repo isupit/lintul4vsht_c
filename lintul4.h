@@ -303,26 +303,36 @@ typedef struct DYING_STATES {
 
 typedef struct PLANT {
         int Emergence;
-        int GrowthDay;
-        int HeatFlag;
-        int SeedFlag;
-        int HeatDays;
-        float Heat;
-        float N_Indx;
+        int Sowing;
+        int GrowthDay;       
+        float NPK_Indx;
         float NutrientStress;
         float DaysOxygenStress;
         float TSumEmergence;
-        float MaxRootingDepth;
+        float fac_ro;
+        float fac_lv;
+        float fac_st;
+        float fac_so;
+        float Heat;
+        float HeatDays;
+    Crop->HeatFlag = FALSE;
+    Crop->SeedFlag = FALSE;
         
         Parameters prm;
         
         growth_rates  rt;
         growth_states st;
         dying_rates   drt;
+        dying_states  dst;
         
-        nutrient_states N_st;        
+        nutrient_states N_st;
+	nutrient_states P_st;
+        nutrient_states K_st;
+        
         nutrient_rates N_rt;
-        dying_states   dst;
+	nutrient_rates P_rt;
+        nutrient_rates K_rt;            
+        
 	} Plant;    
 Plant *Crop; /* Place holder for the current crop simulations */
 
@@ -366,9 +376,13 @@ typedef struct FIELD {
 Field *Site; /* Place holder for the current site simulations */
 
 
+
+
 /* Simulation time */
 struct tm simTime;
-
+struct tm current_date;
+       
+float CO2;
 
 /* Place holder for a simulation unit */
 typedef struct SIMUNIT {
@@ -376,14 +390,17 @@ typedef struct SIMUNIT {
         Field *ste;
         Management *mng;
         Soil  *soil;
-        int start;
         int emergence;
         int file;
-        char name[100]; 
-        struct SIMUNIT *next;
-        } SimUnit;
+        char start[MAX_STRING];
+        char output[MAX_STRING];
         
-float CO2;
+        /* Statistics */
+        float twso[31];
+        
+        struct SIMUNIT *next;
+        } SimUnit; 
+SimUnit *Grid;
 
 enum{
     WEATHER_TMIN,
@@ -400,8 +417,6 @@ typedef struct WEATHER {
         char file[WEATHER_NTYPES][MAX_STRING];
         char type[WEATHER_NTYPES][MAX_STRING];
         char var[WEATHER_NTYPES][MAX_STRING];
-        int Ensemble;
-        int StartMonth;
         int StartYear;
         int EndYear;
         size_t nlat;

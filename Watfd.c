@@ -18,8 +18,8 @@ void InitializeWatBal()
     float MoistureLowCnt;
     
     /* Set max and initial rooting depth */
-    Crop->MaxRootingDepth = min(Soil.ct.SoilMaxRootDepth, Crop.prm.MaxRootingDepth);
-    Crop->st.RootDepth = Crop.prm.InitRootingDepth;
+    Crop->prm.MaxRootingDepth = min(WatBal->ct.SoilMaxRootDepth, Crop->prm.MaxRootingDepth);
+    Crop->st.RootDepth = Crop->prm.InitRootingDepth;
     
     /* Assume no water stress at initialization */
     WatBal->WaterStress = 1.;
@@ -27,8 +27,8 @@ void InitializeWatBal()
     /* Set the infiltration of the previous day to zero */
     WatBal->InfPreviousDay = 0.;
     
-    MoistureCnt    = max(Soil.ct.MoistureWP, min(Soil.ct.MoistureInit,Soil.ct.MoistureFC));
-    MoistureLowCnt = max(Soil.ct.MoistureWP, min(Soil.ct.MoistureInitLow,Soil.ct.MoistureFC));
+    MoistureCnt    = max(WatBal->ct.MoistureWP, min(WatBal->ct.MoistureInit,WatBal->ct.MoistureFC));
+    MoistureLowCnt = max(WatBal->ct.MoistureWP, min(WatBal->ct.MoistureInitLow,WatBal->ct.MoistureFC));
 
     /* Set initial surface storage */
     WatBal->st.SurfaceStorage = Site->SurfaceStorage;
@@ -101,12 +101,7 @@ void RateCalulationWatBal() {
     /* Preliminary infiltration rate */
     if (WatBal->st.SurfaceStorage <= 0.1) 
     {
-        /* Without surface storage */
-        if (Site->InfRainDependent) WatBal->rt.Infiltration = 
-               (1. - Site->NotInfiltrating * Afgen(Site->NotInfTB, &Rain[Lon][Lat][Day])) * 
-               Rain[Lon][Lat][Day] + WatBal->rt.Irrigation + WatBal->st.SurfaceStorage / Step;
-        else
-            RINPRE = (1. - Site->NotInfiltrating) * Rain[Lon][Lat][Day] + 
+        RINPRE = (1. - WatBal->ct.RunOffFrac) * Rain[Lon][Lat][Day] + 
                 WatBal->rt.Irrigation + WatBal->st.SurfaceStorage / Step;
     }
     else 
@@ -114,7 +109,7 @@ void RateCalulationWatBal() {
         /* Surface storage, infiltration limited by maximum percolation */
         /* rate root zone */
         Available = WatBal->st.SurfaceStorage + (Rain[Lon][Lat][Day] * 
-                (1.-Site->NotInfiltrating) + WatBal->rt.Irrigation 
+                (1. - WatBal->ct.RunOffFrac) + WatBal->rt.Irrigation 
                  - WatBal->rt.EvapSoil) * Step;
         RINPRE = min(WatBal->ct.MaxPercolRTZ * Step, 
                 Available) / Step;

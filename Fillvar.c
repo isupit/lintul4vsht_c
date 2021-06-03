@@ -130,7 +130,7 @@ void FillSoilVariables(Soil *SOIL, float *Variable) {
     
     SOIL->ct.MoistureAirDry   = Variable[0];
     SOIL->ct.MoistureWP       = Variable[1];
-    SOIL->ct.MoistureFC       = Variable[3];
+    SOIL->ct.MoistureFC       = Variable[2];
     SOIL->ct.MoistureSAT      = Variable[3];
     SOIL->ct.CriticalSoilAirC = Variable[4];
     SOIL->ct.MoistureInit     = Variable[5];
