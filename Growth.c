@@ -4,33 +4,29 @@
 #include "lintul4.h"
 #include "extern.h"
 
-void Partioning(float *Fraction_ro, float *Fraction_lv, float *Fraction_st, float *Fraction_so)
+void Partioning()
 {
     float factor;
     float flv;
-    
-    /* Water stress is more severe as compared to Nitrogen stress and */
-    /* partitioning will follow the original assumptions of LINTUL2   */  
-    
+       
     if (WatBal->WaterStress < Crop->N_st.Indx)
     {
         factor = max(1., 1./(WatBal->WaterStress + 0.5));
-        *Fraction_ro = min(0.6, Afgen(Crop->prm.Roots, &(Crop->st.Development)) * factor);
-        *Fraction_lv = Afgen(Crop->prm.Leaves, &(Crop->st.Development));
-        *Fraction_st = Afgen(Crop->prm.Stems, &(Crop->st.Development));
-        *Fraction_so = Afgen(Crop->prm.Storage, &(Crop->st.Development));
+        Crop->fac_ro = min(0.6, Afgen(Crop->prm.Roots, &(Crop->st.Development)) * factor);
+        Crop->fac_lv = Afgen(Crop->prm.Leaves, &(Crop->st.Development));
+        Crop->fac_st = Afgen(Crop->prm.Stems, &(Crop->st.Development));
+        Crop->fac_so = Afgen(Crop->prm.Storage, &(Crop->st.Development));
     }
     else
     {
         flv = Afgen(Crop->prm.Leaves, &(Crop->st.Development));
         factor = exp(-Crop->prm.N_lv_partitioning * ( 1. - Crop->N_st.Indx));
-        
-        *Fraction_lv = flv * factor;
-        *Fraction_ro = Afgen(Crop->prm.Roots, &(Crop->st.Development));
-        *Fraction_st = Afgen(Crop->prm.Stems, &(Crop->st.Development)) + flv - Fraction_lv;
-        *Fraction_so = Afgen(Crop->prm.Storage, &(Crop->st.Development));
+        Crop->fac_lv = flv * factor;
+        Crop->fac_ro = Afgen(Crop->prm.Roots, &(Crop->st.Development));
+        Crop->fac_st = Afgen(Crop->prm.Stems, &(Crop->st.Development)) + flv - Crop->fac_lv;
+        Crop->fac_so = Afgen(Crop->prm.Storage, &(Crop->st.Development));
     }
-}
+}	
 
 /* -----------------------------------------------------------------------------*/
 /*  function HeatStess()                                                        */
@@ -75,6 +71,9 @@ void Growth(float NewPlantMaterial)
     Partioning(&Fraction_ro, &Fraction_lv, &Fraction_st, &Fraction_so);
     
     DyingOrgans();
+    
+    shoots  = NewPlantMaterial * (1-Crop->fac_ro);
+	    
     
     if (Crop->prm.IdentifyHeatStress) HeatStress();
     

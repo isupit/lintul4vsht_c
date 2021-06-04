@@ -26,22 +26,26 @@ extern void IfSowing();
 extern void RatesToZero();
 extern void Clean();
 extern void CleanMeteo();
+extern void header();
+extern void Output();
 
 
 /* Crop growth */
 extern int Astro();
 extern void CalcPenman();
+extern void CalcPenmanMonteith();
 
 extern void Clean();
 extern void RateCalculationCrop();
 extern void Growth(float NewPlantMaterial);
 extern void IntegrationCrop();
 extern void InitializeCrop();
-extern int EmergenceCrop(int Emergence);
+extern void Partioning();
+extern int  EmergenceCrop(int Emergence);
 
 extern void DevelopmentRate();
 extern float DailyTotalAssimilation();
-extern float DyingOrgans();
+extern void DyingOrgans();
 extern float InstantAssimilation(float KDiffuse, float EFF, float AssimMax, float SinB, float PARDiffuse, float PARDirect);
 extern float LeaveGrowth(float *Newleaves);
 extern float LeaveAreaIndex();

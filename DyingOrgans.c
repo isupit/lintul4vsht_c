@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include "extern.h"
 #include "lintul4.h"
 #include "penman.h"
@@ -10,7 +11,7 @@
 /*  (i.e. high LAI), water and/or nutrient stress or age                   */
 /* ------------------------------------------------------------------------*/
 
-float DyingOrgans()
+void DyingOrgans()
 {
     float DeathRateTemp = 0.;
     float DeathRateShading;

@@ -7,32 +7,38 @@
 
 void GetSoilData(Soil *SOIL, char *soilfile)
 {
-  int  i, c;
-  char word[NR_VARIABLES_SITE];
-  float Variable[NR_VARIABLES_SOIL];
-  FILE *fq;
+    AFGEN *Table[NR_TABLES_CRP], *start;
+    
+    int  i, c, count;
+    char x[2], xx[2],  word[NR_VARIABLES_CRP];
+    float Variable[NR_VARIABLES_SOIL], XValue, YValue;
+    FILE *fq;
 
- if ((fq = fopen(soilfile, "rt")) == NULL) {
-     fprintf(stderr, "Cannot open soil file.\n"); 
-     exit(0);
- }
+    if ((fq = fopen(soilfile, "rt")) == NULL) 
+    {
+        fprintf(stderr, "Cannot open soil file.\n"); 
+        exit(0);
+    }
 
- i=0;
- while ((c=fscanf(fq,"%s",word)) != EOF) {
-    if (!strcmp(word, SiteParam[i])) {
-        while ((c=fgetc(fq)) !='=');
-        
-	fscanf(fq,"%f",  &Variable[i]);
+    i=0;
+    while ((c=fscanf(fq,"%s",word)) != EOF)
+    {
+        if (!strcmp(word, SoilParam[i])) 
+        {
+            while ((c=fgetc(fq)) !='=');
+            fscanf(fq,"%f",  &Variable[i]);
 
-	i++; 
-      }  
- }
+            i++; 
+        }  
+    }
 
-  if (i != NR_VARIABLES_SOIL) {
-      fprintf(stderr, "Something wrong with the Soil variables.\n");
-      exit(0);
-  }
-  rewind(fq); 
+    if (i != NR_VARIABLES_SOIL)
+    {
+        fprintf(stderr, "Something wrong with the Soil variables.\n");
+        exit(0);
+    }
+    
+    rewind(fq); 
  
     FillSoilVariables(SOIL, Variable);
    
@@ -63,6 +69,52 @@ void GetSoilData(Soil *SOIL, char *soilfile)
     SOIL->rt.Runoff            = 0.;
     SOIL->rt.WaterRootExt      = 0.;
     SOIL->rt.RootZoneMoisture  = 0.;
+
+    
+    i = 0;
+    count = 0;
+    while (strcmp(SoilParam2[i],"NULL")) 
+    {
+      while ((c=fscanf(fq,"%s",word)) != EOF) 
+      {
+        if (!strcmp(word, SoilParam2[i])) {
+            Table[i] = start= malloc(sizeof(AFGEN));
+            fscanf(fq,"%s %f %s  %f", x, &Table[i]->x, xx, &Table[i]->y);
+            Table[i]->next = NULL;				     
+
+            while ((c=fgetc(fq)) !='\n');
+            while (fscanf(fq," %f %s  %f",  &XValue, xx, &YValue) > 0)  {
+                Table[i]->next = malloc(sizeof(AFGEN));
+                Table[i] = Table[i]->next; 
+                Table[i]->next = NULL;
+                Table[i]->x = XValue;
+                Table[i]->y = YValue;
+
+                while ((c=fgetc(fq)) !='\n');
+                }
+            /* Go back to beginning of the table */
+            Table[i] = start;
+            i++;
+            count++;
+           }      
+      }
+      rewind(fq);
+      if(strcmp(SoilParam2[i],"NULL"))
+          i++;
+    }
+
+    fclose(fq);
+    
+    SOIL->NotInfTB = Table[0];
   
+    if (count == NR_TABLES_CRP || count == NR_TABLES_CRP - 1)
+        ;
+    else
+    {
+        fprintf(stderr, "Something wrong with the Crop tables.\n"); 
+        exit(0);
+    } 
+
+    
 }
 

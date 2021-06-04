@@ -25,6 +25,15 @@ typedef struct TABLE {
 	struct TABLE *next;
 	} AFGEN;
 
+        
+typedef struct TBLD {
+	int month;
+	int day;
+        float amount;
+	struct TBLD *next;
+	} TABLE_D;
+        
+        
 typedef struct MANAGEMENT {
         /** Tables for fertilizer application and recovery fraction **/
         AFGEN *N_Fert_table;
@@ -304,7 +313,9 @@ typedef struct DYING_STATES {
 typedef struct PLANT {
         int Emergence;
         int Sowing;
-        int GrowthDay;       
+        int GrowthDay;  
+        int HeatFlag;
+        int SeedFlag;
         float NPK_Indx;
         float NutrientStress;
         float DaysOxygenStress;
@@ -315,8 +326,6 @@ typedef struct PLANT {
         float fac_so;
         float Heat;
         float HeatDays;
-    Crop->HeatFlag = FALSE;
-    Crop->SeedFlag = FALSE;
         
         Parameters prm;
         
@@ -343,6 +352,8 @@ typedef struct SOIL {
         float WaterStress;
         float InfPreviousDay;
         
+        AFGEN *NotInfTB;
+    
         Constants ct;
         States st;
         Rates rt;

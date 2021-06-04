@@ -17,6 +17,10 @@ char *SoilParam[]={"SMDRY",
 		   "NULL"
 		   };
 		   
+char *SoilParam2[]={
+                    "NotInfTB"
+		    };
+
 extern int FillSoilVariables();
 
 #endif //SOIL_H

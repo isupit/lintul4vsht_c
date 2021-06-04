@@ -31,7 +31,7 @@ void GetDevelopmentRate(void)
         }
         
         /* Adjustment of the development stage */
-        if (Crop->rt.Development + Crop->st.Development >= 1. ) return 1.;
+        if (Crop->rt.Development + Crop->st.Development >= 1. ) Crop->st.Development = 1.;
     }
     else 
          Crop->rt.Development = Afgen(Crop->prm.DeltaTempSum, &Temp)/Crop->prm.TempSum2;  

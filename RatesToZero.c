@@ -94,13 +94,8 @@ void RatesToZero()
     Crop->K_rt.Uptake_ro = 0.; 
     
     /* Set the soil nutrient rates */
-    Site->rt_N_mins = 0.;
-    Site->rt_P_mins = 0.;
-    Site->rt_K_mins = 0.;  
-    
-    Site->rt_N_tot = 0.;
-    Site->rt_P_tot = 0.;
-    Site->rt_K_tot = 0.;
+    Site->rt_N_mins = 0.;   
+    Site->rt_N_tot  = 0.;
     
     /* Set the water balance rates */
     WatBal->rt.EvapWater         = 0.;
