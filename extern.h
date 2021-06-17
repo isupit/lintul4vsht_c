@@ -49,10 +49,7 @@ extern void DyingOrgans();
 extern float InstantAssimilation(float KDiffuse, float EFF, float AssimMax, float SinB, float PARDiffuse, float PARDirect);
 extern float LeaveGrowth(float *Newleaves);
 extern float LeaveAreaIndex();
-extern float Correct(float GrossAssimilation);
 extern float RespirationRef(float TotalAssimilation);
-extern float Conversion(float NetAssimilation);
-
 
 /* Nutrients */
 extern void CropNutrientRates();

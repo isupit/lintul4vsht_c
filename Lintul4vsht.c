@@ -179,9 +179,6 @@ int main(int argc, char **argv)
                                     /* Write to the output files */
                                     //Output(output[Grid->file]);   
 
-                                    /* Calculate LAI */
-                                    Crop->st.LAI = LeaveAreaIndex();             
-
                                     /* State calculations */
                                     IntegrationCrop();
                                     IntegrationWatBal();

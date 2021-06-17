@@ -9,7 +9,7 @@
 /*  daily temperature, day length and the vernalization                        */
 /*-----------------------------------------------------------------------------*/
 
-void GetDevelopmentRate(void)
+void DevelopmentRate(void)
 {
     float VernalizationFactor;
 

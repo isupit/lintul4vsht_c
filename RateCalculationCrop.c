@@ -16,9 +16,7 @@
 void RateCalculationCrop()
 {
     float TotalAssimilation;
-    float Maintenance;
     float GrossAssimilation;
-    float GrossGrowth;
     float Stress;
 
     /* Assimilation */
@@ -28,16 +26,10 @@ void RateCalculationCrop()
     Stress = min(Crop->NutrientStress, WatBal->WaterStress);
 
     /* Correction for low minimum temperatures and stress factors */
-    TotalAssimilation = Stress * Correct(GrossAssimilation);       
-    
-    /* Respiration */
-    Maintenance = RespirationRef(TotalAssimilation);
-
-    /* Conversion */
-    GrossGrowth = Conversion(TotalAssimilation-Maintenance); 
-    
+    TotalAssimilation = Stress * GrossAssimilation;       
+        
     /* Growth of roots, stems, leaves and storage organs */
-    Growth(GrossGrowth);
+    Growth(TotalAssimilation);
     
     NutrientLoss();
     

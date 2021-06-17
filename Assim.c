@@ -33,7 +33,7 @@ float DailyTotalAssimilation()
     RCO = Afgen(Crop->prm.CO2CorrectionRUE, &CO2);
         
     /* Reduction of radiation use efficiency for non-optimal day-time temperatures and for low minimum temperature */
-    RTMP= Afgen(Crop->prm.ReductionRueDayTemp, &DayTemp) * Afgen(Crop->prm.ReductionRueLowTemp, &Tmin[Day]);
+    RTMP= Afgen(Crop->prm.ReductionRueDayTemp, &DayTemp) * Afgen(Crop->prm.ReductionRueLowTemp, &Tmin[Lon][Lat][Day]);
 
     /* Correction of RUE for both non-optimal temperatures and atmospheric CO2 */
     RTMCO= RTMP * RCO;
