@@ -382,7 +382,9 @@ typedef struct FIELD {
         float rt_N_tot;
         float rt_N_mins;
  
-
+        /** Table for the fraction of precipitation that does not infiltrate **/
+        AFGEN *NotInfTB;
+        
         } Field;
 Field *Site; /* Place holder for the current site simulations */
 

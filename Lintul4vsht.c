@@ -188,7 +188,7 @@ int main(int argc, char **argv)
                                     Crop->GrowthDay++;
                                 }
                                 else
-                                {
+                                {   /* End of growth cycle reached */
                                     /* Write to the output files */
                                     Grid->twso[Count]= Crop->st.storage;
                                     //printf("%7d %7d %7.0f\n", MeteoYear[Day],Count, Crop->st.storage);

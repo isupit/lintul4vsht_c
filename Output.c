@@ -10,7 +10,7 @@ void header(FILE *fp)
    
 void Output(FILE *fp)
 {    
-    fprintf(fp,"%7.2f\t%7.2f\t\t%4d\t\t%3d\t\t15%4.2f\n",
+    fprintf(fp,"%7.2f\t%7.2f\t\t%4d\t%3d\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\n",
         Latitude[Lat],
         Longitude[Lon],
         MeteoYear[Day],
