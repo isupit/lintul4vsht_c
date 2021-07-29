@@ -107,11 +107,11 @@ void GetSoilData(Soil *SOIL, char *soilfile)
     
     SOIL->NotInfTB = Table[0];
   
-    if (count == NR_TABLES_CRP || count == NR_TABLES_CRP - 1)
+    if (count == NR_TABLES_SOIL || count == NR_TABLES_SOIL - 1)
         ;
     else
     {
-        fprintf(stderr, "Something wrong with the Crop tables.\n"); 
+        fprintf(stderr, "Something wrong with the Soil tables.\n"); 
         exit(0);
     } 
 

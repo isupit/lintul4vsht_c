@@ -11,6 +11,7 @@
 #define NR_VARIABLES_SITE       12
 #define NR_TABLES_SITE          1
 #define NR_VARIABLES_SOIL       13
+#define NR_TABLES_SOIL       1
 #define NR_VARIABLES_MANAGEMENT 2
 #define NR_TABLES_MANAGEMENT    3
 #define NUMBER_OF_TABLES        32
@@ -78,7 +79,6 @@ typedef struct PARAMETERS {
         AFGEN *ReductionRueDayTemp;
         AFGEN *ReductionRueLowTemp;
         AFGEN *CO2CorrectionRUE;
-        AFGEN *CO2CorrectionTRA;
         AFGEN *DeathRateLeaves;
         AFGEN *DeathRateStems;
         AFGEN *DeathRateRoots; 

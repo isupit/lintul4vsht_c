@@ -67,6 +67,7 @@ void GetCropData(Plant *CROP, char *cropfile)
         if (!strcmp(word, CropParam2[i])) {
             Table[i] = start= malloc(sizeof(AFGEN));
             fscanf(fq,"%s %f %s  %f", x, &Table[i]->x, xx, &Table[i]->y);
+        
             Table[i]->next = NULL;				     
 
             while ((c=fgetc(fq)) !='\n');
@@ -121,7 +122,7 @@ void GetCropData(Plant *CROP, char *cropfile)
     CROP->prm.N_MaxLeaves          = Table[17];
     
     
-    if (CROP->prm.IdentifySink < 1)
+    if (CROP->prm.IdentifySink > 0)
     {
         CROP->prm.ReductionGrainTemp = Table[18];
     }
@@ -130,7 +131,7 @@ void GetCropData(Plant *CROP, char *cropfile)
         CROP->prm.ReductionGrainTemp = NULL;
     }
     
-    if (CROP->prm.IdentifyHeatStress < 1 )
+    if (CROP->prm.IdentifyHeatStress > 0 )
     {
         CROP->prm.ReductionGrainHeat = Table[19];
     }
@@ -145,7 +146,7 @@ void GetCropData(Plant *CROP, char *cropfile)
 
     /* Crop development has not started yet*/
     CROP->st.RootDepth = 0.;
-    Crop->st.Development = 0.;
+    CROP->st.Development = 0.;
     CROP->DaysOxygenStress = 0; // No crop development therefore no oxygen stress
 
     /* No initial nutrient stress */
