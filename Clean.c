@@ -226,16 +226,6 @@ void Clean(SimUnit *Grid)
         free(Grid->mng->N_Fert_table);
         Grid->mng->N_Fert_table = NULL;
 
-        while(Grid->mng->N_Uptake_frac)
-        {
-            head = Grid->mng->N_Uptake_frac;
-            Grid->mng->N_Uptake_frac = Grid->mng->N_Uptake_frac->next;
-            free(head);
-        }
-        free(Grid->mng->N_Uptake_frac);
-        Grid->mng->N_Uptake_frac = NULL;
-
-
         while(Grid->mng->Irrigation)        
         {
             head = Grid->mng->Irrigation;

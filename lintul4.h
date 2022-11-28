@@ -11,9 +11,9 @@
 #define NR_VARIABLES_SITE       12
 #define NR_TABLES_SITE          1
 #define NR_VARIABLES_SOIL       13
-#define NR_TABLES_SOIL       1
-#define NR_VARIABLES_MANAGEMENT 2
-#define NR_TABLES_MANAGEMENT    3
+#define NR_TABLES_SOIL          1
+#define NR_VARIABLES_MANAGEMENT 3
+#define NR_TABLES_MANAGEMENT    2
 #define NUMBER_OF_TABLES        32
 #define NR_SIMUNITS             4
 #define MAX_STRING             2048
@@ -38,9 +38,9 @@ typedef struct TBLD {
 typedef struct MANAGEMENT {
         /** Tables for fertilizer application and recovery fraction **/
         AFGEN *N_Fert_table;
-        AFGEN *N_Uptake_frac;
         AFGEN *Irrigation;
         
+        float N_Uptake_frac;
         float N_Mins;
         float NRecoveryFrac;
         } Management;

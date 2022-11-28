@@ -28,7 +28,7 @@ void GetManagement(Management *MNG, char *management)
   }
 
   if (i != NR_VARIABLES_MANAGEMENT) {
-    fprintf(stderr, "Something wrong with the Site variables.\n"); 
+    fprintf(stderr, "Something wrong with the Management variables.\n"); 
     exit(0);
   }
  
@@ -70,7 +70,6 @@ void GetManagement(Management *MNG, char *management)
       
  
   MNG->N_Fert_table   = Table[0];
-  MNG->N_Uptake_frac  = Table[1];
-  MNG->Irrigation     = Table[2];
+  MNG->Irrigation     = Table[1];
   
   }

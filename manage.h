@@ -1,14 +1,14 @@
 #ifndef MANAGE_H
 #define MANAGE_H
 
-char *ManageParam[]={ "NMINS",
+char *ManageParam[]={ "NRFTAB",
+                      "NMINS",
                       "RTNMINS",
                       "NULL"
 		   };
 
 char *ManageParam2[]={
                     "FERNTAB",
-                    "NRFTAB",
                     "IRRTAB",
                     "NULL"
 		    };
