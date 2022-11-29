@@ -186,6 +186,7 @@ int main(int argc, char **argv)
 
                                     /* Update the number of days that the crop has grown*/
                                     Crop->GrowthDay++;
+                                    printf("%7d %7lu %10.0f %10.0f %10.0f %7.2f\n", MeteoYear[Day],Day,Crop->st.stems,Crop->st.leaves, Crop->st.storage,Crop->st.Development);
                                 }
                                 else
                                 {   /* End of growth cycle reached */

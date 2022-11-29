@@ -11,6 +11,7 @@ void Clean(SimUnit *Grid)
 {
     SimUnit *initial, *GridHead;
     AFGEN *head;
+    TABLE_D *head_m;
     
     /* Store pointer of the beginning of the list */
     initial = Grid;
@@ -219,18 +220,18 @@ void Clean(SimUnit *Grid)
 
         while(Grid->mng->N_Fert_table)
         {
-            head = Grid->mng->N_Fert_table;
+            head_m = Grid->mng->N_Fert_table;
             Grid->mng->N_Fert_table = Grid->mng->N_Fert_table->next;
-            free(head);
+            free(head_m);
         }
         free(Grid->mng->N_Fert_table);
         Grid->mng->N_Fert_table = NULL;
 
         while(Grid->mng->Irrigation)        
         {
-            head = Grid->mng->Irrigation;
+            head_m = Grid->mng->Irrigation;
             Grid->mng->Irrigation = Grid->mng->Irrigation->next;
-            free(head);
+            free(head_m);
         }
         free(Grid->mng->Irrigation);
         Grid->mng->Irrigation = NULL;

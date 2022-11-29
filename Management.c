@@ -6,11 +6,11 @@
        
 void GetManagement(Management *MNG, char *management)
 {
-  AFGEN *Table[NR_TABLES_MANAGEMENT], *start;
+ TABLE_D *Table[NR_TABLES_MANAGEMENT], *start;
   
-  int i, c;
-  float Variable[100], XValue, YValue;
-  char x[2], xx[2],  word[100];
+  int i, c, mnth, dy;
+  float Variable[100], Value;
+  char  word[100], x[2];
   FILE *fq;
 
  if ((fq = fopen(management, "rt")) == NULL) {
@@ -19,7 +19,7 @@ void GetManagement(Management *MNG, char *management)
  }
 
  i=0;
-  while ((c=fscanf(fq,"%s",word)) != EOF && i < 12 ) {
+  while ((c=fscanf(fq,"%s",word)) != EOF) {
     if (!strcmp(word, ManageParam[i])) {
         while ((c=fgetc(fq)) !='=');
 	fscanf(fq,"%f",  &Variable[i]);
@@ -41,18 +41,19 @@ void GetManagement(Management *MNG, char *management)
   while ((c=fscanf(fq,"%s",word)) != EOF) 
   {
     if (!strcmp(word, ManageParam2[i])) {
-        Table[i] = start = malloc(sizeof(AFGEN));
-	fscanf(fq,"%s %f %s  %f", x, &Table[i]->x, xx, &Table[i]->y);
+        Table[i] = start = malloc(sizeof(TABLE_D));
+	fscanf(fq,"%s %d-%d  %f", x, &Table[i]->month, &Table[i]->day, &Table[i]->amount);
         Table[i]->next = NULL;				     
 			       
 	while ((c=fgetc(fq)) !='\n');
-	while (fscanf(fq," %f %s  %f",  &XValue, xx, &YValue) > 0)  {
-	    Table[i]->next = malloc(sizeof(AFGEN));
+	while (fscanf(fq," %2d-%2d  %f",  &mnth, &dy, &Value) > 0)  {
+	    Table[i]->next = malloc(sizeof(TABLE_D));
             Table[i] = Table[i]->next; 
             Table[i]->next = NULL;
-	    Table[i]->x = XValue;
-	    Table[i]->y = YValue;
-	    
+	    Table[i]->month = mnth;
+	    Table[i]->day = dy;
+	    Table[i]->amount = Value;
+            
 	    while ((c=fgetc(fq)) !='\n');
 	    }
         /* Go back to beginning of the table */

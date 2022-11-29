@@ -37,8 +37,8 @@ typedef struct TBLD {
         
 typedef struct MANAGEMENT {
         /** Tables for fertilizer application and recovery fraction **/
-        AFGEN *N_Fert_table;
-        AFGEN *Irrigation;
+        TABLE_D *N_Fert_table;
+        TABLE_D *Irrigation;
         
         float N_Uptake_frac;
         float N_Mins;

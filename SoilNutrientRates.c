@@ -11,7 +11,6 @@
 void SoilNutrientRates()
 {
     float N_fert;
-    float day_fl;
     
     Site->rt_N_mins = 0.;
 
@@ -22,10 +21,8 @@ void SoilNutrientRates()
         Site->rt_N_mins = min(Mng->N_Mins * Mng->NRecoveryFrac, Site->st_N_tot); 
     }
     
-    day_fl = (float)Day;
-    
     /* N amount that comes available for the crop at day_fl through fertilizer applications */
-    N_fert = Afgen(Mng->N_Fert_table, &day_fl) * Afgen(Mng->N_Uptake_frac, &day_fl);
+    N_fert = List(Mng->N_Fert_table) * List(Mng->N_Uptake_frac);
     
     /* Change in total inorganic NPK in soil as function of fertilizer input, */
     /* soil N mineralization and crop uptake                                */

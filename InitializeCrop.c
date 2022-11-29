@@ -48,7 +48,7 @@ void InitializeCrop()
     InitialShootWeight = Crop->prm.InitialDryWeight * FractionShoots;
 
     Crop->st.roots     = Crop->prm.InitialDryWeight * FractionRoots;
-    Crop->st.RootDepth    = Crop->prm.InitRootingDepth;
+    Crop->st.RootDepth = Crop->prm.InitRootingDepth;
     Crop->st.stems     = InitialShootWeight * Afgen(Crop->prm.Stems, &(Crop->st.Development));                   
     Crop->st.leaves    = InitialShootWeight * Afgen(Crop->prm.Leaves, &(Crop->st.Development));
     Crop->st.storage   = InitialShootWeight * Afgen(Crop->prm.Storage, &(Crop->st.Development));
