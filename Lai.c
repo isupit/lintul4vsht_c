@@ -10,7 +10,7 @@
 /*           stored in the Crop->properties linked list                       */
 /* ---------------------------------------------------------------------------*/
 
-float LeaveGrowth(float *NewLeafMaterial)
+float LeaveGrowth(float *shoots)
 {
     float GLAI;
     float EffectiveTemp;
@@ -30,7 +30,7 @@ float LeaveGrowth(float *NewLeafMaterial)
     }
     else
     {
-        GLAI = *NewLeafMaterial * SpecLeafArea;
+        GLAI = (*shoots * Crop->fac_lv) * SpecLeafArea;
     }   
 
     return GLAI;

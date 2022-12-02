@@ -17,17 +17,18 @@ void DyingOrgans()
     float DeathRateShading;
     float DeathRateWaterStress;
     float DeathRate;
-    float DeathRateStress;
-    float DeathRateLAIStress;
     float DeathRateNStress;
+    float DeathRateLAIStress;
     float SpecLeafArea; 
+    float DeathLeaves;
+    float DeathLAI;
     
     /* Specific Leaf area(m2/g), as dependent on N stress */
     SpecLeafArea = Afgen(Crop->prm.SpecificLeaveArea, &(Crop->st.Development)) * 
         exp(-Crop->prm.NitrogenStessSLA * (1.-Crop->N_st.Indx));
     
     /* Death rate due to temperature after a certain development stage */
-    if (Crop->st.Development > Crop->prm.DeathLeavesDVS)
+    if (Crop->st.Development > Crop->prm.DVSLeavesDie)
     {
         DeathRateTemp = Afgen(Crop->prm.DeathRateLeaves, &Temp);
     }
@@ -42,17 +43,19 @@ void DyingOrgans()
     DeathRate = max(DeathRateTemp, max(DeathRateShading, DeathRateWaterStress));
     
     /* Death rate due to N stress */
-    DeathRateNStress = 0.;
+    DeathRateNStress   = 0.;
+    DeathRateLAIStress = 0.;
     if (Crop->N_st.Indx < 1.)
     {
-        DeathRateNStress = Crop->prm.DeathRateLeavesNStr * DeathRate * (1 -Crop->N_st.Indx);
+        DeathRateNStress   = Crop->prm.DeathRateLeavesNStr * Crop->st.leaves * (1 -Crop->N_st.Indx);
+        DeathRateLAIStress = DeathRateNStress * SpecLeafArea;
     }
+         
+    DeathLeaves = Crop->st.leaves * DeathRate;
+    DeathLAI    = Crop->st.LAI * DeathRate;
     
-    DeathRateStress     = Crop->st.leaves * DeathRate;
-    DeathRateLAIStress  = Crop->st.LAI    * DeathRate;
-    
-    Crop->drt.leaves = DeathRateStress    + DeathRateNStress;
-    Crop->drt.LAI    = DeathRateLAIStress + DeathRateNStress * SpecLeafArea;
+    Crop->drt.leaves = DeathLeaves    + DeathRateNStress;
+    Crop->drt.LAI    = DeathLAI + DeathRateLAIStress;
     
     /* Death rate roots */
     Crop->drt.roots = Crop->st.roots * Afgen(Crop->prm.DeathRateRoots, &(Crop->st.Development));
