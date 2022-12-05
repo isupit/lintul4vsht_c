@@ -12,7 +12,6 @@
 
 float LeaveGrowth(float *shoots)
 {
-    float GLAI;
     float EffectiveTemp;
     float SpecLeafArea;
     
@@ -25,13 +24,13 @@ float LeaveGrowth(float *shoots)
     /* Growth during juvenile stage */
     if ((Crop->st.Development < 0.2) && (Crop->st.LAI < 0.75))
     {
-        GLAI =(Crop->st.LAI * (exp(Crop->prm.RelIncreaseLAI * EffectiveTemp * Step) - 1.)/ Step ) * 
+        Crop->rt.LAI =(Crop->st.LAI * (exp(Crop->prm.RelIncreaseLAI * EffectiveTemp * Step) - 1.)/ Step ) * 
                 WatBal->WaterStress *  exp(-Crop->prm.NitrogenStressLAI * (1.0 - Crop->N_st.Indx));
     }
     else
     {
-        GLAI = (*shoots * Crop->fac_lv) * SpecLeafArea;
+        Crop->rt.LAI = (*shoots * Crop->fac_lv) * SpecLeafArea;
     }   
 
-    return GLAI;
+    return Crop->rt.LAI;
 }

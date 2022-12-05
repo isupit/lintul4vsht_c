@@ -14,11 +14,11 @@ void IntegrationCrop()
 {
 
     /* Living material */
-    Crop->st.roots    += Crop->rt.roots;
-    Crop->st.stems    += Crop->rt.stems;
-    Crop->st.leaves   += Crop->rt.leaves;
+    Crop->st.roots    += (Crop->rt.roots - Crop->drt.roots);
+    Crop->st.stems    += (Crop->rt.stems - Crop->drt.stems);
+    Crop->st.leaves   += (Crop->rt.leaves - Crop->drt.leaves);
     Crop->st.storage  += Crop->rt.storage;
-    Crop->st.LAIExp   += Crop->rt.LAIExp;
+    Crop->st.LAI      += (Crop->rt.LAI -Crop->drt.LAI);
     
     /* Death material*/
     Crop->dst.roots    += Crop->drt.roots;

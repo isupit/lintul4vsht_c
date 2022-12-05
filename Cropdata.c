@@ -112,19 +112,20 @@ void GetCropData(Plant *CROP, char *cropfile)
     CROP->prm.ReductionRueDayTemp  = Table[7];
     CROP->prm.ReductionRueLowTemp  = Table[8];
     CROP->prm.CO2CorrectionRUE     = Table[9];
-    CROP->prm.Roots                = Table[10];
-    CROP->prm.Leaves               = Table[11];
-    CROP->prm.Stems                = Table[12];
-    CROP->prm.Storage              = Table[13];
-    CROP->prm.DeathRateLeaves      = Table[14];
-    CROP->prm.DeathRateStems       = Table[15];
-    CROP->prm.DeathRateRoots       = Table[16]; 
-    CROP->prm.N_MaxLeaves          = Table[17];
+    CROP->prm.CO2TRATB             = Table[10];
+    CROP->prm.Roots                = Table[11];
+    CROP->prm.Leaves               = Table[12];
+    CROP->prm.Stems                = Table[13];
+    CROP->prm.Storage              = Table[14];
+    CROP->prm.DeathRateLeaves      = Table[15];
+    CROP->prm.DeathRateStems       = Table[16];
+    CROP->prm.DeathRateRoots       = Table[17]; 
+    CROP->prm.N_MaxLeaves          = Table[18];
     
     
     if (CROP->prm.IdentifySink > 0)
     {
-        CROP->prm.ReductionGrainTemp = Table[18];
+        CROP->prm.ReductionGrainTemp = Table[19];
     }
     else
     {
@@ -133,7 +134,7 @@ void GetCropData(Plant *CROP, char *cropfile)
     
     if (CROP->prm.IdentifyHeatStress > 0 )
     {
-        CROP->prm.ReductionGrainHeat = Table[19];
+        CROP->prm.ReductionGrainHeat = Table[20];
     }
     else
     {

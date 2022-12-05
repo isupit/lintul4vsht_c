@@ -54,13 +54,15 @@ void DyingOrgans()
     DeathLeaves = Crop->st.leaves * DeathRate;
     DeathLAI    = Crop->st.LAI * DeathRate;
     
-    Crop->drt.leaves = DeathLeaves    + DeathRateNStress;
-    Crop->drt.LAI    = DeathLAI + DeathRateLAIStress;
+    Crop->drt.leaves = min(Crop->st.leaves, DeathLeaves + DeathRateNStress);
+    Crop->drt.LAI    = min(Crop->st.LAI, DeathLAI + DeathRateLAIStress);
     
     /* Death rate roots */
-    Crop->drt.roots = Crop->st.roots * Afgen(Crop->prm.DeathRateRoots, &(Crop->st.Development));
+    Crop->drt.roots = min(Crop->st.roots, Crop->st.roots * 
+            Afgen(Crop->prm.DeathRateRoots, &(Crop->st.Development)));
     
     /* Death rate stems */
-    Crop->drt.stems = Crop->st.stems * Afgen(Crop->prm.DeathRateStems, &(Crop->st.Development));
+    Crop->drt.stems = min(Crop->st.stems, Crop->st.stems * 
+            Afgen(Crop->prm.DeathRateStems, &(Crop->st.Development)));
     
 }

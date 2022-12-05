@@ -186,13 +186,13 @@ int main(int argc, char **argv)
 
                                     /* Update the number of days that the crop has grown*/
                                     Crop->GrowthDay++;
-                                    printf("%7d %7lu %10.2f %10.2f %10.2f %7.2f\n", MeteoYear[Day],Day,Crop->st.stems,Crop->st.leaves, Crop->st.storage,Crop->st.Development);
+                                    printf("%7d %7lu %10.2f %10.2f %10.2f %7.2f %7.2f\n", MeteoYear[Day],Day,Crop->st.stems,Crop->st.leaves, Crop->st.LAI, Crop->st.storage,Crop->st.Development);
                                 }
                                 else
                                 {   /* End of growth cycle reached */
                                     /* Write to the output files */
                                     Grid->twso[Count]= Crop->st.storage;
-                                    printf("%7d %7d %7.0f\n", MeteoYear[Day],Count, Crop->st.storage);
+                                    //printf("%7d %7d %7.0f\n", MeteoYear[Day],Count, Crop->st.storage);
                                     if (MeteoYear[Day] == Meteo->EndYear) {
                                         Output(files[Grid->file]);
                                     }

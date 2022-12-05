@@ -57,11 +57,10 @@ void InitializeCrop()
     Crop->prm.MaxRootingDepth = max(Crop->prm.InitRootingDepth, min(Crop->prm.MaxRootingDepth,
          Site->SoilLimRootDepth));
 
-    Crop->prm.LAIEmergence  = Crop->st.leaves * Afgen(Crop->prm.SpecificLeaveArea, &(Crop->st.Development)); 
+    Crop->st.LAI = Crop->st.leaves * Afgen(Crop->prm.SpecificLeaveArea, &(Crop->st.Development)); 
 
-    Crop->st.LAIExp = Crop->prm.LAIEmergence;
 
-    Crop->st.LAI = Crop->prm.LAIEmergence + Crop->st.stems * 
+    Crop->st.LAI = Crop->st.LAI + Crop->st.stems * 
            Afgen(Crop->prm.SpecificStemArea, &(Crop->st.Development)) +
            Crop->st.storage*Crop->prm.SpecificPodArea;
     

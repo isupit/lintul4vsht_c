@@ -7,7 +7,7 @@
 #define TRUE 1  
 
 #define NR_VARIABLES_CRP	51
-#define NR_TABLES_CRP   	20
+#define NR_TABLES_CRP   	21
 #define NR_VARIABLES_SITE       12
 #define NR_TABLES_SITE          1
 #define NR_VARIABLES_SOIL       13
@@ -79,6 +79,7 @@ typedef struct PARAMETERS {
         AFGEN *ReductionRueDayTemp;
         AFGEN *ReductionRueLowTemp;
         AFGEN *CO2CorrectionRUE;
+        AFGEN *CO2TRATB;
         AFGEN *DeathRateLeaves;
         AFGEN *DeathRateStems;
         AFGEN *DeathRateRoots; 
@@ -114,7 +115,6 @@ typedef struct PARAMETERS {
 
         /** Initial Values  **/
         float InitialDryWeight;
-        float LAIEmergence;
         float RelIncreaseLAI;
 
         /**  Green Area  **/
