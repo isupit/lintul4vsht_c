@@ -38,7 +38,8 @@ float sweaf(){
 /* -----------------------------------------------------------------*/
 /*  function EvapTra()                                              */
 /*  Purpose: Calculates the water stress and the transpiration rate */
-/* -----------------------------------------------------------------*/void EvapTra() {   
+/* -----------------------------------------------------------------*/
+void EvapTra() {   
     float CriticalSoilMoisture;
     float KDiffuse;
     float MaxReductionOxygenStress;

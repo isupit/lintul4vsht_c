@@ -162,7 +162,6 @@ int main(int argc, char **argv)
                                 {
                                     Astro();
                                     CalcPenman();
-                                    CalcPenmanMonteith();
 
                                    /* Calculate the evapotranspiration */
                                     EvapTra();
