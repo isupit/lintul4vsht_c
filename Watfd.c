@@ -101,14 +101,14 @@ void RateCalulationWatBal() {
     /* Preliminary infiltration rate */
     if (WatBal->st.SurfaceStorage <= 0.1) 
     {
-        RINPRE = (1. - WatBal->ct.RunOffFrac) * Rain[Lon][Lat][Day] + 
+        RINPRE = (1. - WatBal->ct.RunOffFrac) * Rain[Day] + 
                 WatBal->rt.Irrigation + WatBal->st.SurfaceStorage / Step;
     }
     else 
     {
         /* Surface storage, infiltration limited by maximum percolation */
         /* rate root zone */
-        Available = WatBal->st.SurfaceStorage + (Rain[Lon][Lat][Day] * 
+        Available = WatBal->st.SurfaceStorage + (Rain[Day] * 
                 (1. - WatBal->ct.RunOffFrac) + WatBal->rt.Irrigation 
                  - WatBal->rt.EvapSoil) * Step;
         RINPRE = min(WatBal->ct.MaxPercolRTZ * Step, 
@@ -168,12 +168,12 @@ void IntegrationWatBal()
     WatBal->st.EvapWater     += WatBal->rt.EvapWater;
     WatBal->st.EvapSoil      += WatBal->rt.EvapSoil;
     
-    WatBal->st.Rain += Rain[Lon][Lat][Day];
+    WatBal->st.Rain += Rain[Day];
     WatBal->st.Infiltration += WatBal->rt.Infiltration;
     WatBal->st.Irrigation   += WatBal->rt.Irrigation;
     
     /* Surface storage and runoff */
-    PreSurfaceStorage = WatBal->st.SurfaceStorage + (Rain[Lon][Lat][Day] + 
+    PreSurfaceStorage = WatBal->st.SurfaceStorage + (Rain[Day] + 
             WatBal->rt.Irrigation - WatBal->rt.EvapWater - 
             WatBal->rt.Infiltration) * Step;
     WatBal->st.SurfaceStorage = min(PreSurfaceStorage, 

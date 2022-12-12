@@ -11,8 +11,8 @@ void header(FILE *fp)
 void Output(FILE *fp)
 {    
     fprintf(fp,"%7.2f\t%7.2f\t\t%4d\t%3d\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\n",
-        Latitude[Lat],
-        Longitude[Lon],
+        Latitude,
+        Longitude,
         MeteoYear[Day],
         MeteoDay[Day],
         Crop->st.Development,
@@ -23,7 +23,7 @@ void Output(FILE *fp)
         Crop->st.LAI,
         WatBal->WaterStress,
         WatBal->st.Moisture,
-        Rain[Lon][Lat][Day],
+        Rain[Day],
         WatBal->rt.Infiltration,
         WatBal->rt.Runoff,
         WatBal->rt.Loss,

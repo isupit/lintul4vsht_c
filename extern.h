@@ -25,7 +25,6 @@ extern void GetMeteoInput();
 extern void IfSowing();
 extern void RatesToZero();
 extern void Clean();
-extern void CleanMeteo();
 extern void header();
 extern void Output();
 

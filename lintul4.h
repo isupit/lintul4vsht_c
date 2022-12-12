@@ -18,7 +18,7 @@
 #define NR_SIMUNITS             4
 #define MAX_STRING             2048
 #define METEO_LENGTH           36600 //max 100 years 
-#define DOMAIN_LENGTH          720   //max 0.5 degree
+
 
 typedef struct TABLE {
 	float x;
@@ -415,26 +415,13 @@ typedef struct SIMUNIT {
         } SimUnit; 
 SimUnit *Grid;
 
-enum{
-    WEATHER_TMIN,
-    WEATHER_TMAX,
-    WEATHER_RADIATION,
-    WEATHER_RAIN,
-    WEATHER_WINDSPEED,
-    WEATHER_VAPOUR,
-    WEATHER_NTYPES
-};
 
 typedef struct WEATHER {
-        char mask[MAX_STRING];
-        char file[WEATHER_NTYPES][MAX_STRING];
-        char type[WEATHER_NTYPES][MAX_STRING];
-        char var[WEATHER_NTYPES][MAX_STRING];
+        char file[MAX_STRING];
         int StartYear;
         int EndYear;
-        size_t nlat;
-        size_t nlon;
-        size_t ntime;
+        float lat;
+        float lon;
         struct WEATHER *next;
         } Weather;
 Weather *Meteo; /* Place holder for the meteo filenames and lat/lon */
@@ -444,19 +431,16 @@ int Station, Year;
 int MeteoYear[METEO_LENGTH];
 int MeteoDay[METEO_LENGTH];
 float CO2;
-double Longitude[DOMAIN_LENGTH], Latitude[DOMAIN_LENGTH];
-int **Mask;
-int **Tsum1;
-int **Tsum2;
-float **Altitude;
-float **AngstA;
-float **AngstB;
-float ***Tmin;
-float ***Tmax;
-float ***Radiation;
-float ***Rain;
-float ***Windspeed;
-float ***Vapour;
+float AngstA;
+float AngstB;
+float Longitude, Latitude, Altitude;
+float Tmin[METEO_LENGTH];
+float Tmax[METEO_LENGTH];
+float Radiation[METEO_LENGTH];
+float Rain[METEO_LENGTH];
+float Windspeed[METEO_LENGTH];
+float Vapour[METEO_LENGTH];
+
 
 /* Time step */
 float Step;
