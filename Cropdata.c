@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "lintul4.h"
-#include "crop.h"
 #include "extern.h"
+#include "crop.h"
 
 /* ------------------------------------------------------------------------*/
 /*  function GetCropData()                                                 */

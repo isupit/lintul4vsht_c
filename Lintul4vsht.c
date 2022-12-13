@@ -4,11 +4,11 @@
 #include <float.h>
 #include "lintul4.h"
 #include "extern.h"
+#include <time.h>
 
 
 int main(int argc, char **argv)
 {
-    
     FILE **output;
     
     SimUnit *initial  = NULL;
@@ -135,10 +135,7 @@ int main(int argc, char **argv)
                             RateCalculationCrop();
 
                             /* Write to the output files */
-                            //Output(output[Grid->file]);   
-
-                            /* Calculate LAI */
-                            Crop->st.LAI = LeaveAreaIndex();             
+                            //Output(output[Grid->file]);              
 
                             /* State calculations */
                             IntegrationCrop();

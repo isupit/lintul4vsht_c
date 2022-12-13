@@ -77,7 +77,9 @@ int GetSimInput(char *list)
             Grid = Grid->next;  
         }
         
-        GetCropData(Grid->crp   = malloc(sizeof(Plant)), cropfile); 
+        Grid->crp   = malloc(sizeof(Plant));
+        
+        GetCropData(Grid->crp   , cropfile); 
         GetSiteData(Grid->ste   = malloc(sizeof(Field)), sitefile);
         GetManagement(Grid->mng = malloc(sizeof(Management)), management);
         GetSoilData(Grid->soil  = malloc(sizeof(Soil)), soilfile);
@@ -89,7 +91,7 @@ int GetSimInput(char *list)
         memset(Grid->output,'\0',MAX_STRING);
         memset(Grid->start,'\0',MAX_STRING);
         
-        strncpy(Grid->output,output,strlen(output)); // Name og output file
+        strncpy(Grid->output,output,strlen(output)); // Name of output file
         strncpy(Grid->start,start,strlen(start)); // Starting string month day of the simulations 
         
         Grid->file  = count++;            // number of elements in Grid carousel
