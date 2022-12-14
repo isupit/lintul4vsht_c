@@ -40,8 +40,19 @@ void InitializeWatBal()
         MoistureLowCnt = WatBal->ct.MoistureSAT;
     }
        
-    /* Initial moisture amount in rootable zone [cm] */
-    WatBal->st.RootZoneMoisture = MoistureCnt * Crop->st.RootDepth;
+    /* Initial  available moisture amount in rootable zone [cm] */
+    WatBal->st.RootZoneMoisture = (MoistureCnt - WatBal->ct.MoistureWP) * Crop->st.RootDepth;
+    
+   /* Initial available moisture amount between rooted zone and max.rooting depth [cm] */
+    WatBal->st.MoistureLOW  = (MoistureLowCnt - WatBal->ct.MoistureWP) * 
+            (Crop->prm.MaxRootingDepth - Crop->st.RootDepth);
+    
+        /* Initial  total moisture amount in rootable zone [cm] */
+    WatBal->st.TotalWaterRootZone = MoistureCnt * Crop->st.RootDepth;
+    
+   /* Initial total moisture amount between rooted zone and max.rooting depth [cm] */
+    WatBal->st.TotalWaterLowerZone = MoistureLowCnt  * 
+            (Crop->prm.MaxRootingDepth - Crop->st.RootDepth);
     
     /*  Soil evaporation, days since last rain */
     WatBal->DaysSinceLastRain = 1.;
@@ -49,8 +60,7 @@ void InitializeWatBal()
             0.5 * (WatBal->ct.MoistureFC - WatBal->ct.MoistureWP))) 
             WatBal->DaysSinceLastRain = 5.;
     
-    /* Moisture amount between rooted zone and max.rooting depth [cm] */
-    WatBal->st.MoistureLOW  = MoistureLowCnt * (Crop->prm.MaxRootingDepth - Crop->st.RootDepth);
+
     
     KDiffuse = Afgen(Crop->prm.KDiffuseTb, &(Crop->st.Development));
     WatBal->rt.EvapSoil = max(0., Penman.ES0 * exp(-0.75 * KDiffuse * Crop->st.LAI));
@@ -132,7 +142,7 @@ void RateCalulationWatBal() {
     
     /* For rice water losses are limited to K0/20 */
     if (Crop->prm.Airducts) 
-        WatBal->rt.Loss = min(WatBal->rt.Loss, 0.05*WatBal->ct.K0);
+        WatBal->rt.Loss = min(WatBal->rt.Loss, 0.05*WatBal->ct.KSUB);
     
     /* Percolation not to exceed uptake capacity of subsoil */
     Perc2 = ((Crop->prm.MaxRootingDepth - Crop->st.RootDepth) * WatBal->ct.MoistureSAT - 

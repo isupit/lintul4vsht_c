@@ -138,9 +138,7 @@ void FillSoilVariables(Soil *SOIL, float *Variable) {
     SOIL->ct.SoilMaxRootDepth = Variable[7];
     SOIL->ct.RunOffFrac       = Variable[8];
     SOIL->ct.CorrFactor       = Variable[9];
-    SOIL->ct.K0               = Variable[10];
-    SOIL->ct.MaxPercolRTZ     = Variable[11];
-    SOIL->ct.MaxPercolSubS    = Variable[12];
+    SOIL->ct.KSUB             = Variable[10];
     
     /* No workability parameters will be used in this version */
     

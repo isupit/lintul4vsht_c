@@ -7,10 +7,10 @@
 
 void GetSoilData(Soil *SOIL, char *soilfile)
 {
-    AFGEN *Table[NR_TABLES_CRP], *start;
+    AFGEN *Table[NR_TABLES_SOIL], *start;
     
     int  i, c, count;
-    char x[2], xx[2],  word[NR_VARIABLES_CRP];
+    char x[2], xx[2],  word[NR_VARIABLES_SOIL];
     float Variable[NR_VARIABLES_SOIL], XValue, YValue;
     FILE *fq;
 
@@ -21,21 +21,31 @@ void GetSoilData(Soil *SOIL, char *soilfile)
     }
 
     i=0;
-    while ((c=fscanf(fq,"%s",word)) != EOF)
+    count = 0;
+    while (strcmp(SoilParam[i],"NULL")) 
     {
-        if (!strcmp(word, SoilParam[i])) 
+        while ((c=fscanf(fq,"%s",word)) != EOF )
         {
-            while ((c=fgetc(fq)) !='=');
-            fscanf(fq,"%f",  &Variable[i]);
-
-            i++; 
+            if (!strcmp(word, SoilParam[i])) 
+            {
+                while ((c=fgetc(fq)) !='=');
+                fscanf(fq,"%f",  &Variable[i]);
+                i++;
+                count++;
+            }
         }  
+        rewind(fq);
+        if(strcmp(SoilParam[i],"NULL")) 
+            i++;
     }
 
-    if (i != NR_VARIABLES_SOIL)
+
+    if  (count == NR_VARIABLES_SOIL  || count == NR_VARIABLES_SOIL - 1)
+        ;
+    else
     {
-        fprintf(stderr, "Something wrong with the Soil variables.\n");
-        exit(0);
+       fprintf(stderr, "Something wrong with the Crop variables.\n"); 
+       exit(0);
     }
     
     rewind(fq); 

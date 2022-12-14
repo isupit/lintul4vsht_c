@@ -189,4 +189,3 @@ void GetCropData(Plant *CROP, char *cropfile)
     CROP->N_st.death_st = 0.;
     CROP->N_st.death_ro = 0.;   
 }
-

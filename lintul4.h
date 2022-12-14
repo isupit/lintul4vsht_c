@@ -10,7 +10,7 @@
 #define NR_TABLES_CRP   	21
 #define NR_VARIABLES_SITE       12
 #define NR_TABLES_SITE          1
-#define NR_VARIABLES_SOIL       13
+#define NR_VARIABLES_SOIL       11
 #define NR_TABLES_SOIL          1
 #define NR_VARIABLES_MANAGEMENT 3
 #define NR_TABLES_MANAGEMENT    2
@@ -59,7 +59,7 @@ typedef struct CONSTANTS {
         float SoilMaxRootDepth;
         float RunOffFrac;
         float CorrFactor;
-        float K0;
+        float KSUB;
         } Constants;
 
 typedef struct PARAMETERS {
@@ -334,13 +334,8 @@ typedef struct PLANT {
         dying_rates   drt;
         dying_states  dst;
         
-        nutrient_states N_st;
-	nutrient_states P_st;
-        nutrient_states K_st;
-        
+        nutrient_states N_st;      
         nutrient_rates N_rt;
-	nutrient_rates P_rt;
-        nutrient_rates K_rt;            
         
 	} Plant;    
 Plant *Crop; /* Place holder for the current crop simulations */
