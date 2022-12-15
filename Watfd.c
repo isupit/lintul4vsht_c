@@ -14,8 +14,6 @@
 void InitializeWatBal()
 { 
     float KDiffuse;
-    float MoistureCnt;
-    float MoistureLowCnt;
     
     /* Set max and initial rooting depth */
     Crop->prm.MaxRootingDepth = min(WatBal->ct.SoilMaxRootDepth, Crop->prm.MaxRootingDepth);
@@ -27,8 +25,8 @@ void InitializeWatBal()
     /* Set the infiltration of the previous day to zero */
     WatBal->InfPreviousDay = 0.;
     
-    MoistureCnt    = max(WatBal->ct.MoistureWP, min(WatBal->ct.MoistureInit,WatBal->ct.MoistureFC));
-    MoistureLowCnt = max(WatBal->ct.MoistureWP, min(WatBal->ct.MoistureInitLow,WatBal->ct.MoistureFC));
+    WatBal->st.Moisture    = max(WatBal->ct.MoistureWP, min(WatBal->ct.MoistureInit,WatBal->ct.MoistureFC));
+    WatBal->st.MoistureLow = max(WatBal->ct.MoistureWP, min(WatBal->ct.MoistureInitLow,WatBal->ct.MoistureFC));
 
     /* Set initial surface storage */
     WatBal->st.SurfaceStorage = Site->SurfaceStorage;
@@ -36,22 +34,22 @@ void InitializeWatBal()
     /* Initial soil moisture for a rice crop */
     if (Crop->prm.Airducts) 
     {
-        MoistureCnt = WatBal->ct.MoistureSAT; 
-        MoistureLowCnt = WatBal->ct.MoistureSAT;
+        WatBal->st.MoistureCnt = WatBal->ct.MoistureSAT; 
+        WatBal->st.MoistureLowCnt = WatBal->ct.MoistureSAT;
     }
        
     /* Initial  available moisture amount in rootable zone [cm] */
-    WatBal->st.RootZoneMoisture = (MoistureCnt - WatBal->ct.MoistureWP) * Crop->st.RootDepth;
+    WatBal->st.RootZoneMoisture = (WatBal->st.Moisture - WatBal->ct.MoistureWP) * Crop->st.RootDepth;
     
    /* Initial available moisture amount between rooted zone and max.rooting depth [cm] */
-    WatBal->st.MoistureLOW  = (MoistureLowCnt - WatBal->ct.MoistureWP) * 
+    WatBal->st.MoistureLOW  = (WatBal->st.MoistureLow - WatBal->ct.MoistureWP) * 
             (Crop->prm.MaxRootingDepth - Crop->st.RootDepth);
     
-        /* Initial  total moisture amount in rootable zone [cm] */
-    WatBal->st.TotalWaterRootZone = MoistureCnt * Crop->st.RootDepth;
+    /* Initial  total moisture amount in rootable zone [cm] */
+    WatBal->st.TotalWaterRootZone = WatBal->st.Moisture * Crop->st.RootDepth;
     
    /* Initial total moisture amount between rooted zone and max.rooting depth [cm] */
-    WatBal->st.TotalWaterLowerZone = MoistureLowCnt  * 
+    WatBal->st.TotalWaterLowerZone = WatBal->st.MoistureLow * 
             (Crop->prm.MaxRootingDepth - Crop->st.RootDepth);
     
     /*  Soil evaporation, days since last rain */
@@ -85,29 +83,6 @@ void RateCalulationWatBal() {
     /* Get the irrigation rate */
     WatBal->rt.Irrigation = List(Mng->Irrigation);
     
-    /* If surface storage > 1 cm */
-    if (WatBal->st.SurfaceStorage > 1.) 
-    {
-        WatBal->rt.EvapWater = Evtra.MaxEvapWater;
-    }
-    else 
-    {
-        if (WatBal->InfPreviousDay >= 1.) 
-        {
-            //If infiltration >= 1cm on previous day assume maximum soil evaporation
-            WatBal->rt.EvapSoil = Evtra.MaxEvapSoil;
-            WatBal->DaysSinceLastRain = 1.;
-        }
-        else 
-        {
-            WatBal->DaysSinceLastRain++;
-            CMaxSoilEvap = Evtra.MaxEvapSoil*(sqrt(WatBal->DaysSinceLastRain) - 
-                    sqrt(WatBal->DaysSinceLastRain - 1));
-            WatBal->rt.EvapSoil = min(Evtra.MaxEvapSoil, CMaxSoilEvap + 
-                    WatBal->InfPreviousDay);
-        }
-    }
-    
     /* Preliminary infiltration rate */
     if (WatBal->st.SurfaceStorage <= 0.1) 
     {
@@ -124,6 +99,32 @@ void RateCalulationWatBal() {
         RINPRE = min(WatBal->ct.MaxPercolRTZ * Step, 
                 Available) / Step;
     }
+    
+    
+    /* If surface storage > 1 cm */
+    if (WatBal->st.SurfaceStorage > 1.) 
+    {
+        WatBal->rt.EvapWater = Evtra.MaxEvapWater;
+    }
+    else 
+    {
+        if (WatBal->InfPreviousDay >= 1.) 
+        {
+            //If infiltration >= 1cm on previous day assume maximum soil evaporation
+            WatBal->rt.EvapSoil = Evtra.MaxEvapSoil;
+            WatBal->DaysSinceLastRain = 1.;
+        }
+        else 
+        {
+            WatBal->DaysSinceLastRain++;
+            CMaxSoilEvap = Evtra.MaxEvapSoil*limit(0.,1.,(sqrt(WatBal->DaysSinceLastRain) - 
+                    sqrt(WatBal->DaysSinceLastRain - 1)))* WatBal->ct.CorrFactor;
+            WatBal->rt.EvapSoil = min(Evtra.MaxEvapSoil, 
+                    min(CMaxSoilEvap + RINPRE,10*(WatBal->st.MoistureCnt - WatBal->ct.MoistureAirDry)));
+        }
+    }
+    
+
     
     /* Equilibrium amount of soil moisture in rooted zone*/
     WaterEq = WatBal->ct.MoistureFC * Crop->st.RootDepth;
