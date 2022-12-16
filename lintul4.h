@@ -10,7 +10,7 @@
 #define NR_TABLES_CRP   	21
 #define NR_VARIABLES_SITE       12
 #define NR_TABLES_SITE          1
-#define NR_VARIABLES_SOIL       11
+#define NR_VARIABLES_SOIL       10
 #define NR_TABLES_SOIL          1
 #define NR_VARIABLES_MANAGEMENT 3
 #define NR_TABLES_MANAGEMENT    2
@@ -189,12 +189,11 @@ typedef struct STATES {
         float SurfaceStorage;
         float Irrigation;
         float Moisture;
-        float MoistureLOW;
+        float MoistureLow;
         float Percolation;
         float Loss;
         float Rain;
         float RootZoneMoisture;
-        float Runoff;
         float Transpiration;
         float WaterRootExt;
         float TotalWaterRootZone;
@@ -211,7 +210,7 @@ typedef struct RATES {
         float SurfaceStorage;
         float Irrigation;
         float Moisture;
-        float MoistureLOW;
+        float MoistureLow;
         float Percolation;
         float Loss;
         float RootZoneMoisture;
@@ -437,9 +436,5 @@ float Windspeed[METEO_LENGTH];
 float Vapour[METEO_LENGTH];
 
 
-/* Time step */
-float Step;
-
-             
 #endif	// 
 

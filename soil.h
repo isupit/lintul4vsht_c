@@ -9,7 +9,6 @@ char *SoilParam[]={"SMDRY",
 		   "SMI",
 		   "SMLOWI",
 		   "RDMSO",
-		   "RUNFR",
                    "CFEV",
 		   "KSUB",
 		   "NULL"

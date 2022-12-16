@@ -23,8 +23,6 @@ int main(int argc, char **argv)
     char meteolist[MAX_STRING];
     char name[MAX_STRING];
     
-    Step = 1.;
-    
     if (argc != 3) exit(0);
     if (strlen(argv[1]) >= MAX_STRING) exit(0);
     if (strlen(argv[2]) >= MAX_STRING) exit(0);

@@ -26,5 +26,5 @@ void SoilNutrientRates()
     
     /* Change in total inorganic NPK in soil as function of fertilizer input, */
     /* soil N mineralization and crop uptake                                */
-    Site->rt_N_tot = (N_fert / Step) - Crop->N_rt.Uptake  + Site->rt_N_mins;
+    Site->rt_N_tot = N_fert - Crop->N_rt.Uptake  + Site->rt_N_mins;
 }

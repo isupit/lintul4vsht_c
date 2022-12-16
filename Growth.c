@@ -130,6 +130,6 @@ void Growth(float NewPlantMaterial)
         Crop->rt.RootDepth = 0.;
     else
         Crop->rt.RootDepth = min(Crop->prm.MaxRootingDepth - Crop->st.RootDepth,
-                Crop->prm.MaxIncreaseRoot * Step);
+                Crop->prm.MaxIncreaseRoot);
     
 }	

@@ -59,11 +59,10 @@ void GetSoilData(Soil *SOIL, char *soilfile)
     SOIL->st.Irrigation        = 0.;
     SOIL->st.Loss              = 0.;
     SOIL->st.Moisture          = 0.;
-    SOIL->st.MoistureLOW       = 0.;
+    SOIL->st.MoistureLow       = 0.;
     SOIL->st.Percolation       = 0.;
     SOIL->st.Rain              = 0.;
     SOIL->st.RootZoneMoisture  = 0.;
-    SOIL->st.Runoff            = 0.;
     SOIL->st.Transpiration     = 0.;
     SOIL->st.WaterRootExt      = 0.;
     
@@ -73,7 +72,7 @@ void GetSoilData(Soil *SOIL, char *soilfile)
     SOIL->rt.Irrigation        = 0.;
     SOIL->rt.Loss              = 0.;
     SOIL->rt.Moisture          = 0.;
-    SOIL->rt.MoistureLOW       = 0.;
+    SOIL->rt.MoistureLow       = 0.;
     SOIL->rt.Percolation       = 0.;
     SOIL->rt.RootZoneMoisture  = 0.;
     SOIL->rt.Runoff            = 0.;

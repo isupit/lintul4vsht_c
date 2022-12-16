@@ -27,7 +27,7 @@ void NutrientPartioning()
             insw(WatBal->rt.Transpiration/Evtra.MaxTranspiration -0.01,0.,1.) , 0.0);
     
     /* Nutrient uptake cannot be larger than the availability and is larger or equal to zero */
-    Crop->N_rt.Uptake = min((1.-Crop->prm.N_fixation)*Total_N_demand, Site->st_N_tot)* NutrientLimit/Step;
+    Crop->N_rt.Uptake = min((1.-Crop->prm.N_fixation)*Total_N_demand, Site->st_N_tot)* NutrientLimit;
  
     N_Fix_rt= max(0.,Crop->N_rt.Uptake * Crop->prm.N_fixation / max(0.02, 1.-Crop->prm.N_fixation));
    
