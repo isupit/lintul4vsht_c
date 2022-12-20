@@ -65,7 +65,7 @@ void RatesToZero()
     WatBal->rt.Irrigation        = 0.;
     WatBal->rt.Loss              = 0.;
     WatBal->rt.Moisture          = 0.;
-    WatBal->rt.MoistureLOW       = 0.;
+    WatBal->rt.MoistureLow       = 0.;
     WatBal->rt.Percolation       = 0.;
     WatBal->rt.RootZoneMoisture  = 0.;
     WatBal->rt.Runoff            = 0.;
