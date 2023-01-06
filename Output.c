@@ -10,7 +10,7 @@ void header(FILE *fp)
    
 void Output(FILE *fp)
 {    
-    fprintf(fp,"%7.2f\t%7.2f\t\t%4d\t%3d\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\n",
+    fprintf(fp,"%7.2f\t%7.2f\t\t%4d\t%3d\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\n",
         Latitude,
         Longitude,
         MeteoYear[Day],
@@ -25,10 +25,9 @@ void Output(FILE *fp)
         WatBal->st.Moisture,
         Rain[Day],
         WatBal->rt.Infiltration,
-        WatBal->rt.Runoff,
+        WatBal->rt.RunOff,
         WatBal->rt.Loss,
         Crop->N_st.Indx,
-        Site->st_N_tot,
         Crop->N_rt.Demand_lv + Crop->N_rt.Demand_st + Crop->N_rt.Demand_ro);
 }
 

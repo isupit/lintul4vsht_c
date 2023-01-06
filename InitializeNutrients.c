@@ -10,54 +10,44 @@
 
 void InitializeNutrients()
 {    
-    /* Initial maximum N concentration in plant organs per kg biomass [kg N kg-1 dry biomass]   */
+    // Initial maximum N concentration in plant organs per kg biomass [kg N kg-1 dry biomass]  
     Crop->N_st.Max_lv = Afgen(Crop->prm.N_MaxLeaves, &(Crop->st.Development));
     Crop->N_st.Max_st = Crop->prm.N_MaxStems * Crop->N_st.Max_lv;
     Crop->N_st.Max_ro = Crop->prm.N_MaxRoots * Crop->N_st.Max_lv;
     Crop->N_st.Max_so = 0.;
         
-    /* Initial maximum N concentration in plant organs [kg N ]           */
+    // Initial maximum N concentration in plant organs [kg N ]           
     Crop->N_st.leaves = Crop->N_st.Max_lv * Crop->st.leaves;
     Crop->N_st.stems  = Crop->N_st.Max_st * Crop->st.stems;
     Crop->N_st.roots  = Crop->N_st.Max_ro * Crop->st.roots;
     Crop->N_st.storage = 0.;
           
-    /* No nutrient losses at initialization */
+    // No nutrient losses at initialization
     Crop->N_st.death_lv = 0.;
     Crop->N_st.death_st = 0.;
     Crop->N_st.death_ro = 0.;
     
-    /* No death rats at initialization */
+    // No death rats at initialization 
     Crop->N_rt.death_lv = 0.;
     Crop->N_rt.death_st = 0.;
     Crop->N_rt.death_ro = 0.;
        
-    /* Set the initial demand rates */
+    // Set the initial demand rates 
     Crop->N_rt.Demand_lv = 0.;
     Crop->N_rt.Demand_st = 0.;
     Crop->N_rt.Demand_ro = 0.;
     Crop->N_rt.Demand_so = 0.;
 
-    /* Set the initial translocation rates */
+    // Set the initial translocation rates 
     Crop->N_rt.Transloc = 0.;
     
-    /* Set the initial uptake to zero*/
+    // Set the initial uptake to zero
     Crop->N_st.Uptake    = 0.;
     Crop->N_st.Uptake_lv = 0.;
     Crop->N_st.Uptake_st = 0.;
     Crop->N_st.Uptake_ro = 0.;
-                     
-    /* Set the soil nutrient rates to zero */
-    Site->rt_N_tot = 0.;
-    Site->rt_N_mins = 0.;
-
-    
-     /* Set the soil nutrient states */
-    Site->st_N_tot = List(Mng->N_Fert_table) * List(Mng->N_Uptake_frac) + Mng->N_Mins;
-    Site->st_N_mins = Mng->N_Mins;
-
-    
-    /* Set the crop nutrient rates to zero */
+                        
+    // Set the crop nutrient rates to zero
     Crop->N_rt.Uptake = 0.;
     Crop->N_rt.Uptake_lv = 0.;
     Crop->N_rt.Uptake_st = 0.;
@@ -76,16 +66,20 @@ void InitializeNutrients()
     Crop->N_rt.roots  = 0.;
     Crop->N_rt.storage= 0.;
        
-    /* No nutrient stress at initialization */
+    // No nutrient stress at initialization
     Crop->N_st.Indx = 1.;
     
-    /* No nutrient losses at initialization */
+    // No nutrient losses at initialization
     Crop->N_rt.death_lv = 0.;
     Crop->N_rt.death_st = 0.;
     Crop->N_rt.death_ro = 0.;
        
-    /* Set the initial optimal leave concentrations to zero */
+    // Set the initial optimal leave concentrations to zero
     Crop->N_st.Optimum_lv = 0;
     Crop->N_st.Optimum_st = 0;
+    
+    // No left over nutrients from previous cycle
+    Mng->st.N_tot = 0.;
+    Mng->rt.N_tot = 0.;
     
 }     

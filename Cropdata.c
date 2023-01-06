@@ -16,7 +16,7 @@ void GetCropData(Plant *CROP, char *cropfile)
 
     int i, c, count;
     float Variable[NR_VARIABLES_CRP], XValue, YValue;
-    char x[2], xx[2],  word[NR_VARIABLES_CRP];
+    char x[2], xx[2],  word[MAX_STRING];
     FILE *fq;
 
 

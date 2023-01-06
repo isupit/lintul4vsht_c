@@ -48,16 +48,11 @@ void RatesToZero()
     Crop->N_rt.Transloc = 0.;
 
     /* Set the nutrient uptake rates */
-    
     Crop->N_rt.Uptake    = 0.;
     Crop->N_rt.Uptake_lv = 0.;
     Crop->N_rt.Uptake_st = 0.;
     Crop->N_rt.Uptake_ro = 0.;
-    
-    /* Set the soil nutrient rates */
-    Site->rt_N_mins = 0.;   
-    Site->rt_N_tot  = 0.;
-    
+       
     /* Set the water balance rates */
     WatBal->rt.EvapWater         = 0.;
     WatBal->rt.EvapSoil          = 0.;   
@@ -68,7 +63,7 @@ void RatesToZero()
     WatBal->rt.MoistureLow       = 0.;
     WatBal->rt.Percolation       = 0.;
     WatBal->rt.RootZoneMoisture  = 0.;
-    WatBal->rt.Runoff            = 0.;
+    WatBal->rt.RunOff            = 0.;
     WatBal->rt.WaterRootExt      = 0.;
     WatBal->rt.RootZoneMoisture  = 0.;
 }

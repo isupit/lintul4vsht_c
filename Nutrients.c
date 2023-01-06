@@ -47,7 +47,34 @@ void NutrientDemand()
     Crop->N_rt.Demand_ro =  max (Crop->N_st.Max_ro *Crop->st.roots  - Crop->N_st.roots, 0.);
     Crop->N_rt.Demand_so =  max (Crop->N_st.Max_so *Crop->st.storage- Crop->N_st.storage, 0.)/Crop->prm.TCNT;
 }
- 
+
+/* ---------------------------------------------------------------*/
+/*  function SoilNutrientRates()                                  */
+/*  Purpose: Calculation of the soil nutrient rates kg ha-1 d-1   */
+/* ---------------------------------------------------------------*/     
+
+void SoilNutrientRates()
+{
+    float N_fert;
+    
+    Mng->rt.N_mins = 0.;
+
+    
+    if (Crop->st.Development > 0. && Crop->st.Development <= Crop->prm.DevelopmentStageNLimit)
+    {   // N rates that come available through mineralization, cannot exceed 
+        // the available NPK in the soil                                       
+        Mng->rt.N_mins = min(Mng->N_Mins * Mng->NRecoveryFrac, Mng->st.N_mins); 
+    }
+    
+    // N amount that comes available for the crop at day_fl through fertilizer applications 
+    N_fert = List(Mng->N_Fert_table) * List(Mng->N_Uptake_frac);
+    
+    // Change in total inorganic NPK in soil as function of fertilizer input, */
+    // soil N mineralization and crop uptake                                */
+    Mng->rt.N_tot = min(0.,N_fert - Crop->N_rt.Uptake  + Mng->rt.N_mins);
+}
+
+
                
 void RateCalcultionNutrients()
 {
@@ -70,5 +97,4 @@ void RateCalcultionNutrients()
     
     /* Calculate the nutrition index */
     NutritionINDX();    
-    
 }

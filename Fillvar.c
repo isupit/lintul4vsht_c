@@ -139,7 +139,7 @@ void FillSoilVariables(Soil *SOIL, float *Variable) {
     SOIL->ct.CorrFactor       = Variable[8];
     SOIL->ct.KSUB             = Variable[9];
     
-    /* No workability parameters will be used in this version */
+    // No workability parameters will be used in this version
     
     for (i=0;i<=NR_VARIABLES_SOIL;i++) 
     {
@@ -147,50 +147,20 @@ void FillSoilVariables(Soil *SOIL, float *Variable) {
     }
 }
 
-
-/* ---------------------------------------------------------------------------*/
-/*  function FillSiteVariables(float *Variable)                               */
-/*  Purpose: Fill the site parameters that are read by GetSiteData()          */
-/* ---------------------------------------------------------------------------*/
-
-void FillSiteVariables(Field *SITE, float *Variable) {
-    int i;
-   
-    SITE->FlagGroundWater                 = Variable[0];
-    SITE->InfRainDependent                = Variable[1];
-    SITE->FlagDrains                      = Variable[2];
-    SITE->MaxSurfaceStorage               = Variable[3];
-    SITE->InitSoilMoisture                = Variable[4];
-    SITE->GroundwaterDepth                = Variable[5];
-    SITE->DD                              = Variable[6];
-    SITE->SoilLimRootDepth                = Variable[7];
-    SITE->NotInfiltrating                 = Variable[8];
-    SITE->SurfaceStorage                  = Variable[9];
-    SITE->MaxInitSoilM                    = Variable[10];
-    
-    CO2 = Variable[11];
-       
-    for (i=0;i<=NR_VARIABLES_SITE;i++) 
-    {
-        Variable[i]= 0.;
-    }
-}
-
-
 /* ---------------------------------------------------------------------------*/
 /*  function FillManageVariables(float *Variable)                             */
 /*  Purpose: Fill the management parameters that are read by GetManagement()  */
 /* ---------------------------------------------------------------------------*/
 
-void FillManageVariables(Management *MNG, float *Variable) {
+void FillManageVariables(Management *MNG, float *Variable) 
+{
     int i;
     
     MNG->N_Uptake_frac                   = Variable[0];
     MNG->N_Mins                          = Variable[1];
     MNG->NRecoveryFrac                   = Variable[2];
     
-    for (i=0;i<=NR_VARIABLES_MANAGEMENT;i++) 
-    {
+    for (i=0;i<=NR_VARIABLES_MANAGEMENT;i++) {
         Variable[i]= 0.;
     }
 }

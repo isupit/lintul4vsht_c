@@ -15,7 +15,7 @@ char *SoilParam[]={"SMDRY",
 		   };
 		   
 char *SoilParam2[]={
-                    "NotInfTB",
+                    "NINFTB",
                     "NULL"
 		    };
 

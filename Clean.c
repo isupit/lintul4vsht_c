@@ -247,12 +247,10 @@ void Clean(SimUnit *Grid)
        free( Grid->crp);
        free(Grid->mng);
        free(Grid->soil);
-       free(Grid->ste);
 
        Grid->crp = NULL;
        Grid->mng = NULL;
        Grid->soil = NULL;
-       Grid->ste = NULL;
 
        Grid = Grid->next;
        free(GridHead);

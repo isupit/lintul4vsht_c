@@ -8,8 +8,6 @@
 
 #define NR_VARIABLES_CRP	51
 #define NR_TABLES_CRP   	21
-#define NR_VARIABLES_SITE       12
-#define NR_TABLES_SITE          1
 #define NR_VARIABLES_SOIL       10
 #define NR_TABLES_SOIL          1
 #define NR_VARIABLES_MANAGEMENT 3
@@ -34,6 +32,16 @@ typedef struct TBLD {
 	struct TBLD *next;
 	} TABLE_D;
         
+     
+typedef struct SITE_STATES {
+    float N_tot;
+    float N_mins;
+} site_states;
+
+typedef struct SITE_RATES {
+    float N_tot;
+    float N_mins;
+} site_rates;    
         
 typedef struct MANAGEMENT {
         /** Tables for fertilizer application and recovery fraction **/
@@ -43,24 +51,13 @@ typedef struct MANAGEMENT {
         float N_Uptake_frac;
         float N_Mins;
         float NRecoveryFrac;
+        
+        site_rates rt;
+        site_states st;
+        
         } Management;
 Management *Mng;
 
-typedef struct CONSTANTS {
-        float MoistureAirDry;
-        float MoistureFC;
-        float MoistureWP;
-        float MoistureSAT;
-        float CriticalSoilAirC;
-        float MoistureInit;
-        float MoistureInitLow;
-        float MaxPercolSubS;
-        float MaxPercolRTZ;
-        float SoilMaxRootDepth;
-        float RunOffFrac;
-        float CorrFactor;
-        float KSUB;
-        } Constants;
 
 typedef struct PARAMETERS {
           /** Tables for the Crop simulations **/
@@ -179,48 +176,6 @@ typedef struct PARAMETERS {
         float DVSFinalHeatStr;
         
         } Parameters;
-
-
-typedef struct STATES {
-        float EvapWater;
-        float EvapSoil;
-        float RunOff;
-        float Infiltration;
-        float SurfaceStorage;
-        float Irrigation;
-        float Moisture;
-        float MoistureLow;
-        float Percolation;
-        float Loss;
-        float Rain;
-        float RootZoneMoisture;
-        float Transpiration;
-        float WaterRootExt;
-        float TotalWaterRootZone;
-        float TotalWaterLowerZone;
-        float Drainage;
-        } States;
-        
-
-typedef struct RATES {
-        float EvapWater;
-        float EvapSoil;
-        float RunOff;
-        float Infiltration;
-        float SurfaceStorage;
-        float Irrigation;
-        float Moisture;
-        float MoistureLow;
-        float Percolation;
-        float Loss;
-        float RootZoneMoisture;
-        float Runoff;
-        float Transpiration;
-        float WaterRootExt;
-        float TotalWaterRootZone;
-        float TotalWaterLowerZone;
-        float Drainage;
-        } Rates;
         
  
 typedef struct NUTRIENT_RATES {
@@ -339,6 +294,58 @@ typedef struct PLANT {
 	} Plant;    
 Plant *Crop; /* Place holder for the current crop simulations */
 
+typedef struct CONSTANTS {
+        float MoistureAirDry;
+        float MoistureFC;
+        float MoistureWP;
+        float MoistureSAT;
+        float CriticalSoilAirC;
+        float MoistureInit;
+        float MoistureInitLow;
+        float SoilMaxRootDepth;
+        float CorrFactor;
+        float KSUB;
+        } Constants;
+
+typedef struct STATES {
+        float EvapWater;
+        float EvapSoil;
+        float RunOff;
+        float Infiltration;
+        float SurfaceStorage;
+        float Irrigation;
+        float Moisture;
+        float MoistureLow;
+        float Percolation;
+        float Loss;
+        float Rain;
+        float RootZoneMoisture;
+        float Transpiration;
+        float WaterRootExt;
+        float TotalWaterRootZone;
+        float TotalWaterLowerZone;
+        float Drainage;
+        } States;
+        
+
+typedef struct RATES {
+        float EvapWater;
+        float EvapSoil;
+        float RunOff;
+        float Infiltration;
+        float SurfaceStorage;
+        float Irrigation;
+        float Moisture;
+        float MoistureLow;
+        float Percolation;
+        float Loss;
+        float RootZoneMoisture;
+        float Transpiration;
+        float WaterRootExt;
+        float TotalWaterRootZone;
+        float TotalWaterLowerZone;
+        float Drainage;
+        } Rates;
 
 typedef struct SOIL {
         float DaysSinceLastRain;
@@ -355,36 +362,6 @@ typedef struct SOIL {
 Soil *WatBal; /* Place holder for the current water balance simulations */
 
 
-
-typedef struct FIELD {
-        /* Water related parameters */
-        float FlagGroundWater;
-        float InfRainDependent;
-        float FlagDrains;  
-        float InitSoilMoisture;
-        float GroundwaterDepth;
-        float DD;
-        float MaxSurfaceStorage;  
-        float SoilLimRootDepth;
-        float NotInfiltrating;
-        float SurfaceStorage;
-        float MaxInitSoilM;
-        
-        /* Mineral states and rates */
-        float st_N_tot;
-        float st_N_mins;
-        float rt_N_tot;
-        float rt_N_mins;
- 
-        /** Table for the fraction of precipitation that does not infiltrate **/
-        AFGEN *NotInfTB;
-        
-        } Field;
-Field *Site; /* Place holder for the current site simulations */
-
-
-
-
 /* Simulation time */
 struct tm simTime;
 struct tm current_date;
@@ -394,7 +371,6 @@ float CO2;
 /* Place holder for a simulation unit */
 typedef struct SIMUNIT {
         Plant *crp;
-        Field *ste;
         Management *mng;
         Soil  *soil;
         int emergence;

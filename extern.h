@@ -73,7 +73,6 @@ extern int FillAfgenTables();
 
 extern void GetCropData();
 extern void FillCropVariables();
-extern void GetSiteData();
 extern void FillSiteVariables();
 extern void GetSoilData();
 extern void FillSoilVariables();

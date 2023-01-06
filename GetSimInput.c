@@ -24,13 +24,11 @@ int GetSimInput(char *list)
     char path[MAX_STRING];
     char cropfile[MAX_STRING];
     char soilfile[MAX_STRING];
-    char sitefile[MAX_STRING];
     char management[MAX_STRING];
     char output[MAX_STRING];
     char start[MAX_STRING];
-    char cf[MAX_STRING], sf[MAX_STRING], mf[MAX_STRING], site[MAX_STRING];
+    char cf[MAX_STRING], sf[MAX_STRING], mf[MAX_STRING];
   
-    
     ifp = fopen(list, "r");
 
     if (ifp == NULL) 
@@ -45,11 +43,10 @@ int GetSimInput(char *list)
             continue;
         }
         
-        sscanf(line,"%s %s %s %s %s %s %d %s" ,
-            path, cf, sf, mf, site, start, &Emergence, output);
+        sscanf(line,"%s %s %s %s  %s %d %s" ,
+            path, cf, sf, mf, start, &Emergence, output);
         
         memset(cropfile,'\0',MAX_STRING);
-        memset(sitefile,'\0',MAX_STRING);
         memset(soilfile,'\0',MAX_STRING);
         memset(management,'\0',MAX_STRING);
                 
@@ -61,12 +58,9 @@ int GetSimInput(char *list)
 
         strncpy(management, path, strlen(path));
         strncat(management, mf, strlen(mf));
-
-        strncpy(sitefile, path, strlen(path));
-        strncat(sitefile, site, strlen(site));
         
-        /* count the number of output files */
-        /* number is the index number of the list of file pointers */
+        // Count the number of output files 
+        // Number is the index number of the list of file pointers 
         if (initial == NULL) 
         {
             Grid = initial =  malloc(sizeof(SimUnit));
@@ -76,11 +70,8 @@ int GetSimInput(char *list)
             Grid->next = malloc(sizeof(SimUnit));
             Grid = Grid->next;  
         }
-        
-        Grid->crp   = malloc(sizeof(Plant));
-        
-        GetCropData(Grid->crp   , cropfile); 
-        GetSiteData(Grid->ste   = malloc(sizeof(Field)), sitefile);
+             
+        GetCropData(Grid->crp   = malloc(sizeof(Plant)), cropfile); 
         GetManagement(Grid->mng = malloc(sizeof(Management)), management);
         GetSoilData(Grid->soil  = malloc(sizeof(Soil)), soilfile);
 
@@ -103,9 +94,9 @@ int GetSimInput(char *list)
     
     fclose(ifp);
     
-    /* Set Grid back to initial address */
-    Grid = initial;
+    //Set Grid back to initial address 
+    Grid = initial; 
     
-    /* Return the number of meteo files */
+    // Return the number of meteo files 
     return count;
 }   

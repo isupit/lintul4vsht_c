@@ -16,7 +16,7 @@ int main(int argc, char **argv)
     Weather *head;
       
     int CycleLength   = 300;
-    int NumberOfFiles;
+    int NumberOfFiles = 0;
     int Emergence;
     
     char list[MAX_STRING];
@@ -33,24 +33,21 @@ int main(int argc, char **argv)
     strncpy(list,argv[1],strlen(argv[1]));
     strncpy(meteolist,argv[2],strlen(argv[2]));
     
-    /* Fill the crop, soil, site and management place holders*/
+    // Fill the crop, soil, site and management place holders
     NumberOfFiles = GetSimInput(list);
     
-    /* Set the initial Grid address */
+    // Set the initial Grid address 
     initial = Grid;    
     
-    /* Get the meteo filenames and put them in the placeholder */
+    // Get the meteo filenames and put them in the placeholder
     GetMeteoInput(meteolist);
     
-    /* Allocate memory for the file pointers */
+    // Allocate memory for the file pointers 
     output = malloc(sizeof(**output) * NumberOfFiles);
-    
-    /* Go back to the beginning of the list */
-    Grid = initial;
-    
-    /* Open the output files */
+   
+    // Open the output files
     while (Grid)
-    {   /* Make valgrind happy  */
+    {   // Make valgrind happy 
         memset(name,'\0',MAX_STRING);
         strncpy(name, Grid->output,strlen(Grid->output));
            
@@ -59,54 +56,51 @@ int main(int argc, char **argv)
         Grid = Grid->next;
     }
     
-    /* Go back to the beginning of the list */
+    // Go back to the beginning of the list
     Grid = initial;
-    
     
     while (Meteo)
     {
-        /* Get the meteodata */
+        // Get the meteodata 
         GetMeteoData(Meteo->file);
         printf("%s\n", Meteo->file);
-        
-        
         for (Day = 1; Day < METEO_LENGTH; Day++) //assume that the series start January first
         {                   
-            /* Go back to the beginning of the list */
+            // Go back to the beginning of the list 
             Grid = initial;
             
-            /* Set the date struct */
+            // Set the date struct 
             memset(&current_date, 0, sizeof(current_date)); 
             current_date.tm_year = MeteoYear[Day] -1900;
             current_date.tm_mday =  0 + MeteoDay[Day];
             mktime(&current_date);
-
+            
             while (Grid)
             {
-                /* Get data, states and rates from the Grid structure and */
-                /* put them in the place holders */
+                // Get data, states and rates from the Grid structure and 
+                // put them in the place holders 
                 Crop      = Grid->crp;
                 WatBal    = Grid->soil;
                 Mng       = Grid->mng;
-                Site      = Grid->ste;
+
                 //Start     = Grid->start;
-                Emergence = Grid->emergence; /* Start simulation at sowing or emergence */
+                Emergence = Grid->emergence; //* Start simulation at sowing or emergence 
                 
                 Temp = 0.5 * (Tmax[Day] + Tmin[Day]);
                 DayTemp = 0.5 * (Tmax[Day] + Temp);
                 
-                /* Only simulate between start and end year */
+                // Only simulate between start and end year 
                 if ( MeteoYear[Day] >=  Meteo->StartYear && MeteoYear[Day] <= Meteo->EndYear + 1)
                 {   
-                    /* Determine if the sowing already has occurred */
+                    // Determine if the sowing already has occurred 
                     IfSowing(Grid->start);
                 
-                    /* If sowing gas occurred than determine the emergence */
+                    // If sowing gas occurred than determine the emergence 
                     if (Crop->Sowing >= 1 && Crop->Emergence == 0)
                     {
                         if (EmergenceCrop(Emergence))
                         {                 
-                            /* Initialize: set state variables */
+                            // Initialize: set state variables 
                             InitializeCrop();
                             InitializeWatBal();
                             InitializeNutrients(); 
@@ -120,33 +114,33 @@ int main(int argc, char **argv)
                             Astro();
                             CalcPenman();
 
-                           /* Calculate the evapotranspiration */
+                           // Calculate the evapotranspiration 
                             EvapTra();
 
-                            /* Set the rate variables to zero */
+                            // Set the rate variables to zero 
                             RatesToZero();
 
-                             /* Rate calculations */
+                             // Rate calculations
                             RateCalulationWatBal();
                             Partioning();
                             RateCalcultionNutrients();
                             RateCalculationCrop();
 
-                            /* Write to the output files */
+                            // Write to the output files 
                             //Output(output[Grid->file]);              
 
-                            /* State calculations */
+                            // State calculations 
                             IntegrationCrop();
                             IntegrationWatBal();
                             IntegrationNutrients();
 
-                            /* Update the number of days that the crop has grown*/
+                            // Update the number of days that the crop has grown
                             Crop->GrowthDay++;
                             
                         }
                         else
                         {
-                            /* Write to the output files */
+                            // Write to the output files 
                             Output(output[Grid->file]);   
                             //printf("%7d %7d\n", MeteoYear[Day], Crop->GrowthDay);
                             Emergence = 0;
@@ -157,11 +151,10 @@ int main(int argc, char **argv)
                     }
                 }    
 
-                /* Store the daily calculations in the Grid structure */
+                // Store the daily calculations in the Grid structure 
                 Grid->crp  = Crop;
                 Grid->soil = WatBal;
                 Grid->mng  = Mng;
-                Grid->ste  = Site;
                 Grid = Grid->next;
             }
         }
@@ -171,11 +164,11 @@ int main(int argc, char **argv)
     free(head);
     }
     free(Meteo);
-    
-    /* Return to the beginning of the list */
+     
+    // Return to the beginning of the list 
     Grid = initial;
     
-    /* Close the output files and free the allocated memory */
+    // Close the output files and free the allocated memory 
     while(Grid)
     {
         fclose(output[Grid->file]);
@@ -183,7 +176,7 @@ int main(int argc, char **argv)
     }
     free(output);
 
-    /* Go back to the beginning of the list */
+    // Go back to the beginning of the list 
     Grid = initial;
     Clean(Grid);
 
