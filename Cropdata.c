@@ -121,6 +121,9 @@ void GetCropData(Plant *CROP, char *cropfile)
     CROP->prm.DeathRateStems       = Table[16];
     CROP->prm.DeathRateRoots       = Table[17]; 
     CROP->prm.N_MaxLeaves          = Table[18];
+    CROP->prm.ReductionGrainTemp   = Table[19];
+    CROP->prm.ReductionGrainHeat   = Table[20];
+            
     
     
     if (CROP->prm.IdentifySink > 0)

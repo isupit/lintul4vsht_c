@@ -61,11 +61,6 @@ Management *Mng;
 
 typedef struct PARAMETERS {
           /** Tables for the Crop simulations **/
-        AFGEN *Roots;
-        AFGEN *Stems;
-        AFGEN *Leaves;
-        AFGEN *Storage;
-
         AFGEN *PhotoDayLength;
         AFGEN *VernalizationRate;
         AFGEN *DeltaTempSum;
@@ -77,6 +72,10 @@ typedef struct PARAMETERS {
         AFGEN *ReductionRueLowTemp;
         AFGEN *CO2CorrectionRUE;
         AFGEN *CO2TRATB;
+        AFGEN *Roots;
+        AFGEN *Leaves;
+        AFGEN *Stems;
+        AFGEN *Storage;
         AFGEN *DeathRateLeaves;
         AFGEN *DeathRateStems;
         AFGEN *DeathRateRoots; 
@@ -86,7 +85,7 @@ typedef struct PARAMETERS {
         
         /** Table for the reduction of the grain formation as a function of **/
         /** the day time temperature **/
-         AFGEN *ReductionGrainTemp;
+        AFGEN *ReductionGrainTemp;
          
         
         /** Table for the heat stress reduction factor for grain around anthesis **/

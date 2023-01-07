@@ -63,7 +63,7 @@ int main(int argc, char **argv)
     {
         // Get the meteodata 
         GetMeteoData(Meteo->file);
-        printf("%s\n", Meteo->file);
+        
         for (Day = 1; Day < METEO_LENGTH; Day++) //assume that the series start January first
         {                   
             // Go back to the beginning of the list 
@@ -127,22 +127,21 @@ int main(int argc, char **argv)
                             RateCalculationCrop();
 
                             // Write to the output files 
-                            //Output(output[Grid->file]);              
+                            Output(output[Grid->file]);              
 
                             // State calculations 
                             IntegrationCrop();
                             IntegrationWatBal();
                             IntegrationNutrients();
-
-                            // Update the number of days that the crop has grown
-                            Crop->GrowthDay++;
                             
+                            // Update the number of days that the crop has grown
+                            Crop->GrowthDay++;                            
                         }
                         else
                         {
                             // Write to the output files 
                             Output(output[Grid->file]);   
-                            //printf("%7d %7d\n", MeteoYear[Day], Crop->GrowthDay);
+                            printf("%7d %7d\n", MeteoYear[Day], Crop->GrowthDay);
                             Emergence = 0;
                             Crop->TSumEmergence = 0;
                             Crop->Emergence = 0;
