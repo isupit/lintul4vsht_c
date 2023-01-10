@@ -84,7 +84,7 @@ int main(int argc, char **argv)
                 Mng       = Grid->mng;
 
                 //Start     = Grid->start;
-                Emergence = Grid->emergence; //* Start simulation at sowing or emergence 
+                Emergence = Grid->emergence; // Start simulation at sowing or emergence 
                 
                 Temp = 0.5 * (Tmax[Day] + Tmin[Day]);
                 DayTemp = 0.5 * (Tmax[Day] + Temp);
@@ -127,7 +127,7 @@ int main(int argc, char **argv)
                             RateCalculationCrop();
 
                             // Write to the output files 
-                            Output(output[Grid->file]);              
+                            //Output(output[Grid->file]);              
 
                             // State calculations 
                             IntegrationCrop();
@@ -135,13 +135,31 @@ int main(int argc, char **argv)
                             IntegrationNutrients();
                             
                             // Update the number of days that the crop has grown
-                            Crop->GrowthDay++;                            
+                            //Crop->GrowthDay++;       
+                            printf("%5.2f\n",Crop->st.LAI);
+                            printf("\t%4d\t%3d\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\n",
+                                MeteoYear[Day],
+                                MeteoDay[Day],
+                                Crop->st.Development,
+                                Crop->st.leaves,
+                                Crop->st.stems,
+                                Crop->st.storage,
+                                Crop->st.roots,
+                                Crop->st.LAI,
+                                WatBal->WaterStress,
+                                WatBal->st.Moisture,
+                                Rain[Day],
+                                WatBal->rt.Infiltration,
+                                WatBal->rt.RunOff,
+                                WatBal->rt.Loss,
+                                Crop->N_st.Indx,
+                                Crop->N_rt.Demand_lv + Crop->N_rt.Demand_st + Crop->N_rt.Demand_ro);
                         }
                         else
                         {
                             // Write to the output files 
-                            Output(output[Grid->file]);   
-                            printf("%7d %7d\n", MeteoYear[Day], Crop->GrowthDay);
+                            //Output(output[Grid->file]);   
+                            //printf("%7d %7d\n", MeteoYear[Day], Crop->GrowthDay);
                             Emergence = 0;
                             Crop->TSumEmergence = 0;
                             Crop->Emergence = 0;

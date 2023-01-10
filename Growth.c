@@ -75,15 +75,16 @@ void Growth(float NewPlantMaterial)
     float rt_GrainMass;
     float PotGrainMass;
     float MaxGrainMass;
-        
+      
     Partioning();
+    
     DyingOrgans();
-        
+    
     shoots  = NewPlantMaterial * (1.0 - Crop->fac_ro);
-	     
+    
     if (Crop->prm.IdentifyHeatStress) HeatStress();
-         
-     /* Available stem reserves for translocation (kg/ha/d) */
+      
+     // Available stem reserves for translocation (kg/ha/d) 
     if (Crop->st.Development >= 1.0) 
         Translocatable = (Crop->st.stems + Crop->dst.stems) * Crop->rt.Development * Crop->prm.FracStemsToStorage;
     else 
@@ -95,36 +96,35 @@ void Growth(float NewPlantMaterial)
     Crop->rt.LAI    = LeaveGrowth(&shoots);	
  
         
-    /* Correct for heat stress around anthesis, number of sinks not yet set */
+    // Correct for heat stress around anthesis, number of sinks not yet set
     if (!Crop->SeedFlag && Crop->HeatFlag) 
     {
-        /* Number of grains (per ha) as determined from total leaf and stem */
-        /* dry weight at anthesis corrected for heat stress around anthesis */
+        // Number of grains (per ha) as determined from total leaf and stem 
+        // dry weight at anthesis corrected for heat stress around anthesis 
         GrainNr = Afgen(Crop->prm.ReductionGrainHeat, &Crop->Heat) * 
                 Crop->prm.VarA + Crop->prm.VarB * (Crop->st.leaves + Crop->st.stems);
             
-        /* The number of sinks is established */
+        // he number of sinks is established 
         Crop->SeedFlag = TRUE;
             
-        /* Grain growth limited by both maximal grain mass (MaxGrainMass) */
-        /* and by potential growth of the grains (PotGrainMass)           */
+        // Grain growth limited by both maximal grain mass (MaxGrainMass) 
+        // and by potential growth of the grains (PotGrainMass)    
         PotGrainMass = Afgen(Crop->prm.ReductionGrainTemp, &DayTemp) * GrainNr * Crop->prm.PotGrainformation;
         MaxGrainMass = max (0.0, GrainNr * Crop->prm.MaxGrainMass - Crop->st.storage);
         rt_GrainMass = min (MaxGrainMass, PotGrainMass);
             
-        /* Source or sink limitation  */
+        // Source or sink limitation 
         Crop->rt.storage = min(Crop->rt.storage, rt_GrainMass);
             
-        /* Correction in case of sink limitation */
+        // Correction in case of sink limitation 
         if (rt_GrainMass < Crop->rt.storage) 
         {
             Crop->rt.stems -= (Crop->rt.storage - rt_GrainMass);   
         }       
     }
-      
      
-    /* No Root growth if no assimilates are partitioned to the roots or if */
-    /* the crop has no airducts and the roots are close to the groundwater */
+    // No Root growth if no assimilates are partitioned to the roots or if 
+    // the crop has no airducts and the roots are close to the groundwater 
     if (Crop->fac_ro <= 0.0 )
         Crop->rt.RootDepth = 0.;
     else

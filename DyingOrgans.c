@@ -56,9 +56,7 @@ void DyingOrgans()
     Crop->drt.leaves = min(Crop->st.leaves, DeathLeaves + DeathRateNStress);
     Crop->drt.LAI    = min(Crop->st.LAI, DeathLAI + DeathRateLAIStress);
     
-    Crop->st.Development = 1.0;
     // Death rate roots
-
     Crop->drt.roots = min(Crop->st.roots, Crop->st.roots * 
             Afgen(Crop->prm.DeathRateRoots, &(Crop->st.Development)));
 
