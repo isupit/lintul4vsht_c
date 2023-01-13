@@ -72,7 +72,7 @@ int main(int argc, char **argv)
             // Set the date struct 
             memset(&current_date, 0, sizeof(current_date)); 
             current_date.tm_year = MeteoYear[Day] -1900;
-            current_date.tm_mday =  0 + MeteoDay[Day];
+            current_date.tm_mday =  1 + MeteoDay[Day];
             mktime(&current_date);
             
             while (Grid)
@@ -95,7 +95,7 @@ int main(int argc, char **argv)
                     // Determine if the sowing already has occurred 
                     IfSowing(Grid->start);
                 
-                    // If sowing gas occurred than determine the emergence 
+                    // If sowing has occurred than determine the emergence 
                     if (Crop->Sowing >= 1 && Crop->Emergence == 0)
                     {
                         if (EmergenceCrop(Emergence))
@@ -136,7 +136,7 @@ int main(int argc, char **argv)
                             
                             // Update the number of days that the crop has grown
                             //Crop->GrowthDay++;       
-                            printf("%5.2f\n",Crop->st.LAI);
+                            //printf("%5.2f\n",Crop->st.LAI);
                             printf("\t%4d\t%3d\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\n",
                                 MeteoYear[Day],
                                 MeteoDay[Day],

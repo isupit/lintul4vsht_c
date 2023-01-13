@@ -160,6 +160,8 @@ void FillManageVariables(Management *MNG, float *Variable)
     MNG->N_Mins                          = Variable[1];
     MNG->NRecoveryFrac                   = Variable[2];
     
+    MNG->st.N_mins = MNG->N_Mins;
+    
     for (i=0;i<=NR_VARIABLES_MANAGEMENT;i++) {
         Variable[i]= 0.;
     }

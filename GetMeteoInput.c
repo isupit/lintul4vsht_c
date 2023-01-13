@@ -31,7 +31,7 @@ void GetMeteoInput(char *meteolist)
         exit(1);
     }
     
-    while (fscanf(ifp,"%s %d %d %f %f" , filename, &StartYear, &EndYear, &lat, &lon) != EOF) 
+    while (fscanf(ifp,"%s %d %d %f %f %f" , filename, &StartYear, &EndYear, &lat, &lon, &CO2) != EOF) 
     {
         if (initial == NULL) 
         {

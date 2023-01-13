@@ -62,16 +62,16 @@ void SoilNutrientRates()
     
     if (Crop->st.Development > 0. && Crop->st.Development <= Crop->prm.DevelopmentStageNLimit)
     {   // N rates that come available through mineralization, cannot exceed 
-        // the available NPK in the soil                                       
-        Mng->rt.N_mins = min(Mng->N_Mins * Mng->NRecoveryFrac, Mng->st.N_mins); 
+        // the available N in the soil                                       
+        Mng->rt.N_mins = Mng->N_Mins * Mng->NRecoveryFrac;
     }
     
     // N amount that comes available for the crop at day_fl through fertilizer applications 
     N_fert = List(Mng->N_Fert_table) * List(Mng->N_Uptake_frac);
     
-    // Change in total inorganic NPK in soil as function of fertilizer input, */
-    // soil N mineralization and crop uptake                                */
-    Mng->rt.N_tot = min(0.,N_fert - Crop->N_rt.Uptake  + Mng->rt.N_mins);
+    // Change in total inorganic N in soil as function of fertilizer input, 
+    // soil N mineralization and crop uptake 
+    Mng->rt.N_tot = max(0.,N_fert - Crop->N_rt.Uptake  + Mng->rt.N_mins);
 }
 
 
