@@ -23,6 +23,9 @@ int EmergenceCrop(int Emergence)
 	    if (Crop->TSumEmergence >= Crop->prm.TSumEmergence)
             {
                 Emergence = 1;
+                // Emergence true
+                Crop->Emergence = 1;
+                Crop->GrowthDay = 1;
 	    }
 	}
     return Emergence;
@@ -76,7 +79,7 @@ void InitializeCrop()
     Crop->drt.stems  = 0.;
     
     /* Emergence true */
-    Crop->Emergence = 1;
-    Crop->GrowthDay = 1;
+    //Crop->Emergence = 1;
+    //Crop->GrowthDay = 1;
             
 }  

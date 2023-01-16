@@ -72,7 +72,7 @@ int main(int argc, char **argv)
             // Set the date struct 
             memset(&current_date, 0, sizeof(current_date)); 
             current_date.tm_year = MeteoYear[Day] -1900;
-            current_date.tm_mday =  1 + MeteoDay[Day];
+            current_date.tm_mday =  MeteoDay[Day] - 1;
             mktime(&current_date);
             
             while (Grid)
@@ -93,21 +93,23 @@ int main(int argc, char **argv)
                 if ( MeteoYear[Day] >=  Meteo->StartYear && MeteoYear[Day] <= Meteo->EndYear + 1)
                 {   
                     // Determine if the sowing already has occurred 
+                    
                     IfSowing(Grid->start);
-                
+                    
+                    if (Crop->Sowing >= 1 && Crop->Emergence == 0 ) {
+                    // Initialize: set state variables 
+                            InitializeCrop();
+                            InitializeWatBal();
+                            InitializeNutrients();
+                    }
+                    
                     // If sowing has occurred than determine the emergence 
                     if (Crop->Sowing >= 1 && Crop->Emergence == 0)
                     {
-                        if (EmergenceCrop(Emergence))
-                        {                 
-                            // Initialize: set state variables 
-                            InitializeCrop();
-                            InitializeWatBal();
-                            InitializeNutrients(); 
-                        }  
+                       EmergenceCrop(Emergence); 
                     }
 
-                    if (Crop->Sowing >= 1 && Crop->Emergence == 1)
+                    if (Crop->Sowing >= 1 && Crop->Emergence == 1 )
                     {   
                         if (Crop->st.Development <= (Crop->prm.DevelopStageEnd) && Crop->GrowthDay < CycleLength) 
                         {
@@ -127,15 +129,7 @@ int main(int argc, char **argv)
                             RateCalculationCrop();
 
                             // Write to the output files 
-                            //Output(output[Grid->file]);              
-
-                            // State calculations 
-                            IntegrationCrop();
-                            IntegrationWatBal();
-                            IntegrationNutrients();
-                            
-                            // Update the number of days that the crop has grown
-                            //Crop->GrowthDay++;       
+                            //Output(output[Grid->file]);                
                             //printf("%5.2f\n",Crop->st.LAI);
                             printf("\t%4d\t%3d\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\n",
                                 MeteoYear[Day],
@@ -154,6 +148,13 @@ int main(int argc, char **argv)
                                 WatBal->rt.Loss,
                                 Crop->N_st.Indx,
                                 Crop->N_rt.Demand_lv + Crop->N_rt.Demand_st + Crop->N_rt.Demand_ro);
+                                                        // State calculations 
+                            IntegrationCrop();
+                            IntegrationWatBal();
+                            IntegrationNutrients();
+                            
+                            // Update the number of days that the crop has grown
+                            Crop->GrowthDay++;     
                         }
                         else
                         {
