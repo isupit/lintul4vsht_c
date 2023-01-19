@@ -32,28 +32,27 @@ void InitializeWatBal()
     WatBal->st.Moisture    = max(WatBal->ct.MoistureWP, min(WatBal->ct.MoistureInit,WatBal->ct.MoistureFC));
     WatBal->st.MoistureLow = max(WatBal->ct.MoistureWP, min(WatBal->ct.MoistureInitLow,WatBal->ct.MoistureFC));
    
-    /* Initial soil moisture for a rice crop */
-    if (Crop->prm.Airducts) 
-    {
+    // Initial soil moisture for a rice crop 
+    if (Crop->prm.Airducts) {
         WatBal->st.Moisture = WatBal->ct.MoistureSAT; 
         WatBal->st.MoistureLow = WatBal->ct.MoistureSAT;
     }
        
-    /* Initial available moisture amount in rootable zone [cm] */
+    // Initial available moisture amount in rootable zone [cm]
     WatBal->st.RootZoneMoisture = (WatBal->st.Moisture - WatBal->ct.MoistureWP) * Crop->st.RootDepth;
     
-   /* Initial available moisture amount between rooted zone and max.rooting depth [cm] */
+   // Initial available moisture amount between rooted zone and max.rooting depth [cm]
     WatBal->st.MoistureLow  = (WatBal->st.MoistureLow - WatBal->ct.MoistureWP) * 
             (Crop->prm.MaxRootingDepth - Crop->st.RootDepth);
     
-    /* Initial  total moisture amount in rootable zone [cm] */
+    // Initial  total moisture amount in rootable zone [cm] 
     WatBal->st.TotalWaterRootZone = WatBal->st.Moisture * Crop->st.RootDepth;
     
-   /* Initial total moisture amount between rooted zone and max.rooting depth [cm] */
+   // Initial total moisture amount between rooted zone and max.rooting depth [cm] 
     WatBal->st.TotalWaterLowerZone = WatBal->st.MoistureLow * 
             (Crop->prm.MaxRootingDepth - Crop->st.RootDepth);
     
-    /*  Soil evaporation, days since last rain */
+    //  Soil evaporation, days since last rain
     WatBal->DaysSinceLastRain = 3.;
     if (WatBal->st.Moisture <= (WatBal->ct.MoistureWP + 
             0.5 * (WatBal->ct.MoistureFC - WatBal->ct.MoistureWP))) 
@@ -82,12 +81,11 @@ void RateCalulationWatBal() {
     RUNOFP = NotInf * Rain[Day];
     
     // Water added to root zone by root growth (cm/d), resp. total and available water
-    AddedTotal =  Crop->st.RootDepth * WatBal->st.MoistureLow;
-    AddedAvailable = Crop->st.RootDepth * (WatBal->st.MoistureLow - WatBal->ct.MoistureWP);
+    AddedTotal =  Crop->rt.RootDepth * WatBal->st.MoistureLow;
+    AddedAvailable = Crop->rt.RootDepth * (WatBal->st.MoistureLow - WatBal->ct.MoistureWP);
     
     Perc = (1. - NotInf) * Rain[Day] + WatBal->rt.Irrigation;
     
-      
     if (Perc >= 0.5) 
     {
         WatBal->rt.EvapSoil = Evtra.MaxEvapSoil;
@@ -159,10 +157,13 @@ void IntegrationWatBal()
     WatBal->st.Rain += Rain[Day];
     WatBal->st.Irrigation   += WatBal->rt.Irrigation;
     
-       // Change in total water and available water (DWAT) in rooted and lower zones
+    // Change in total water and available water (DWAT) in rooted and lower zones
     WatBal->st.TotalWaterRootZone  += WatBal->rt.TotalWaterRootZone;
     WatBal->st.TotalWaterLowerZone += WatBal->rt.TotalWaterLowerZone;
     WatBal->st.RootZoneMoisture    += WatBal->rt.RootZoneMoisture;
     WatBal->rt.MoistureLow         += WatBal->rt.MoistureLow;   
+    
+    WatBal->st.Moisture = WatBal->st.TotalWaterRootZone / Crop->st.RootDepth;; 
+    WatBal->st.MoistureLow = WatBal->st.TotalWaterLowerZone / (Crop->prm.MaxRootingDepth - Crop->st.RootDepth);
      
 }

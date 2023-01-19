@@ -364,6 +364,9 @@ Soil *WatBal; /* Place holder for the current water balance simulations */
 /* Simulation time */
 struct tm simTime;
 struct tm current_date;
+struct tm sowing_date;
+time_t date;
+time_t sowing;
        
 float CO2;
 

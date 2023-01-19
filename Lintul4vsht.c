@@ -19,6 +19,8 @@ int main(int argc, char **argv)
     int NumberOfFiles = 0;
     int Emergence;
     
+    int month, start_day;
+    
     char list[MAX_STRING];
     char meteolist[MAX_STRING];
     char name[MAX_STRING];
@@ -73,7 +75,14 @@ int main(int argc, char **argv)
             memset(&current_date, 0, sizeof(current_date)); 
             current_date.tm_year = MeteoYear[Day] -1900;
             current_date.tm_mday =  MeteoDay[Day] - 1;
-            mktime(&current_date);
+            date = mktime(&current_date);
+            
+            //Set the sowing date struct
+            sscanf(Grid->start, "%d-%d", &month, &start_day);
+            sowing_date.tm_year = MeteoYear[Day];
+            sowing_date.tm_mon = month -1; 
+            sowing_date.tm_mday = start_day;
+            sowing = mktime(&sowing_date);
             
             while (Grid)
             {
@@ -93,18 +102,20 @@ int main(int argc, char **argv)
                 if ( MeteoYear[Day] >=  Meteo->StartYear && MeteoYear[Day] <= Meteo->EndYear + 1)
                 {   
                     // Determine if the sowing already has occurred 
-                    
-                    IfSowing(Grid->start);
-                    
-                    if (Crop->Sowing >= 1 && Crop->Emergence == 0 ) {
-                    // Initialize: set state variables 
-                            InitializeCrop();
-                            InitializeWatBal();
-                            InitializeNutrients();
+                    if (sowing_date.tm_yday == current_date.tm_yday) {
+                        // Initialize: set state variables 
+                        InitializeCrop();
+                        InitializeWatBal();
+                        InitializeNutrients();
                     }
-                    
+                    if (sowing_date.tm_yday + 1 == current_date.tm_yday) {
+                        Crop->Sowing = 1;
+                    }
+                        
+
                     // If sowing has occurred than determine the emergence 
-                    if (Crop->Sowing >= 1 && Crop->Emergence == 0)
+                    // Note that the TSUMEM will be calculated starting from next day
+                    if (Crop->Sowing == 1 &&  Crop->Emergence == 0)
                     {
                        EmergenceCrop(Emergence); 
                     }
@@ -115,12 +126,12 @@ int main(int argc, char **argv)
                         {
                             Astro();
                             CalcPenman();
-
-                           // Calculate the evapotranspiration 
-                            EvapTra();
-
+                            
                             // Set the rate variables to zero 
                             RatesToZero();
+                            
+                           // Calculate the evapotranspiration 
+                            EvapTra();
 
                              // Rate calculations
                             RateCalulationWatBal();

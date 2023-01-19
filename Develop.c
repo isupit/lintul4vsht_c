@@ -34,6 +34,6 @@ void DevelopmentRate(void)
         if (Crop->rt.Development + Crop->st.Development >= 1. ) Crop->st.Development = 1.;
     }
     else 
-         Crop->rt.Development = Afgen(Crop->prm.DeltaTempSum, &Temp)/Crop->prm.TempSum2;  
+         Crop->rt.Development = Afgen(Crop->prm.DeltaTempSum, &Temp)/Crop->prm.TempSum2;   
 
 }
