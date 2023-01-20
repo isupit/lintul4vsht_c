@@ -53,30 +53,28 @@ void GetSoilData(Soil *SOIL, char *soilfile)
     FillSoilVariables(SOIL, Variable);
    
     // Set state variables of the water balance are set to zero. 
-    SOIL->st.EvapWater         = 0.;
-    SOIL->st.EvapSoil          = 0.;
-    SOIL->st.Infiltration      = 0.;
-    SOIL->st.Irrigation        = 0.;
-    SOIL->st.Loss              = 0.;
-    SOIL->st.Moisture          = 0.;
-    SOIL->st.MoistureLow       = 0.;
-    SOIL->st.Percolation       = 0.;
-    SOIL->st.Rain              = 0.;
-    SOIL->st.RootZoneMoisture  = 0.;
-    SOIL->st.Transpiration     = 0.;
-    SOIL->st.WaterRootExt      = 0.;
-    SOIL->rt.EvapWater         = 0.;
-    SOIL->rt.EvapSoil          = 0.;   
-    SOIL->rt.Infiltration      = 0.;
-    SOIL->rt.Irrigation        = 0.;
-    SOIL->rt.Loss              = 0.;
-    SOIL->rt.Moisture          = 0.;
-    SOIL->rt.MoistureLow       = 0.;
-    SOIL->rt.Percolation       = 0.;
-    SOIL->rt.RootZoneMoisture  = 0.;
-    SOIL->rt.RunOff            = 0.;
-    SOIL->rt.WaterRootExt      = 0.;
-    SOIL->rt.RootZoneMoisture  = 0.;
+    SOIL->st.EvapWater          = 0.;
+    SOIL->st.EvapSoil           = 0.;
+    SOIL->st.Infiltration       = 0.;
+    SOIL->st.Irrigation         = 0.;
+    SOIL->st.Loss               = 0.;
+    SOIL->st.Moisture           = 0.;
+    SOIL->st.MoistureLow        = 0.;
+    SOIL->st.Percolation        = 0.;
+    SOIL->st.Rain               = 0.;
+    SOIL->st.AvailableRootZone  = 0.;
+    SOIL->st.AvailableLowerZone = 0.;
+    SOIL->st.Transpiration      = 0.;
+    SOIL->st.WaterRootExt       = 0.;
+    SOIL->rt.EvapWater          = 0.;
+    SOIL->rt.EvapSoil           = 0.;   
+    SOIL->rt.Infiltration       = 0.;
+    SOIL->rt.Irrigation         = 0.;
+    SOIL->rt.Loss               = 0.;
+    SOIL->rt.Percolation        = 0.;
+    SOIL->rt.RunOff             = 0.;
+    SOIL->rt.WaterRootExt       = 0.;
+ 
 
     i = 0;
     count = 0;

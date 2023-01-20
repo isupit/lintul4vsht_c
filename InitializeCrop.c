@@ -58,7 +58,7 @@ void InitializeCrop()
 
     /* Adapt the maximum rooting depth */
     Crop->prm.MaxRootingDepth = max(Crop->prm.InitRootingDepth, min(Crop->prm.MaxRootingDepth,
-         WatBal->SoilMaxRootingDepth));
+         WatBal->ct.SoilMaxRootDepth));
 
     Crop->st.LAI = Crop->st.leaves * Afgen(Crop->prm.SpecificLeaveArea, &(Crop->st.Development)); 
 

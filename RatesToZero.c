@@ -54,17 +54,16 @@ void RatesToZero()
     Crop->N_rt.Uptake_ro = 0.;
        
     /* Set the water balance rates */
-    WatBal->rt.EvapWater         = 0.;
-    WatBal->rt.EvapSoil          = 0.;   
-    WatBal->rt.Infiltration      = 0.;
-    WatBal->rt.Irrigation        = 0.;
-    WatBal->rt.Loss              = 0.;
-    WatBal->rt.Moisture          = 0.;
-    WatBal->rt.MoistureLow       = 0.;
-    WatBal->rt.Percolation       = 0.;
-    WatBal->rt.RootZoneMoisture  = 0.;
-    WatBal->rt.RunOff            = 0.;
-    WatBal->rt.WaterRootExt      = 0.;
-    WatBal->rt.RootZoneMoisture  = 0.;
+    WatBal->rt.EvapWater          = 0.;
+    WatBal->rt.EvapSoil           = 0.;   
+    WatBal->rt.Infiltration       = 0.;
+    WatBal->rt.Irrigation         = 0.;
+    WatBal->rt.Loss               = 0.;
+    WatBal->rt.Percolation        = 0.;
+    WatBal->rt.AvailableRootZone  = 0.;
+    WatBal->rt.RunOff             = 0.;
+    WatBal->rt.WaterRootExt       = 0.;
+    WatBal->rt.AvailableRootZone  = 0.;
+    WatBal->rt.AvailableLowerZone = 0.;
 }
 

@@ -39,10 +39,10 @@ void InitializeWatBal()
     }
        
     // Initial available moisture amount in rootable zone [cm]
-    WatBal->st.RootZoneMoisture = (WatBal->st.Moisture - WatBal->ct.MoistureWP) * Crop->st.RootDepth;
+    WatBal->st.AvailableRootZone = (WatBal->st.Moisture - WatBal->ct.MoistureWP) * Crop->st.RootDepth;
     
    // Initial available moisture amount between rooted zone and max.rooting depth [cm]
-    WatBal->st.MoistureLow  = (WatBal->st.MoistureLow - WatBal->ct.MoistureWP) * 
+    WatBal->st.AvailableLowerZone  = (WatBal->st.MoistureLow - WatBal->ct.MoistureWP) * 
             (Crop->prm.MaxRootingDepth - Crop->st.RootDepth);
     
     // Initial  total moisture amount in rootable zone [cm] 
@@ -102,9 +102,15 @@ void RateCalulationWatBal() {
     
     // Water holding capacity of rooted and lower zone, at field capacity and at soil saturation (cm)
     CAP   = (WatBal->ct.MoistureFC - WatBal->st.Moisture) * Crop->st.RootDepth;
-    CAPL  = (WatBal->ct.MoistureFC - WatBal->st.MoistureLow) * (Crop->prm.MaxRootingDepth - Crop->st.RootDepth);
     CAP0  = (WatBal->ct.MoistureSAT - WatBal->st.Moisture) * Crop->st.RootDepth;
-    CAPL0 = (WatBal->ct.MoistureSAT - WatBal->st.MoistureLow) * (Crop->prm.MaxRootingDepth - Crop->st.RootDepth);
+    if (Crop->prm.MaxRootingDepth - Crop->st.RootDepth > 0.) {
+        CAPL  = (WatBal->ct.MoistureFC - WatBal->st.MoistureLow) * (Crop->prm.MaxRootingDepth - Crop->st.RootDepth);
+        CAPL0 = (WatBal->ct.MoistureSAT - WatBal->st.MoistureLow) * (Crop->prm.MaxRootingDepth - Crop->st.RootDepth);
+    }
+    else {
+        CAPL  = 0.;
+        CAPL0 = 0.;       
+    }
     
     // Effective percolation incl. ET losses, potential and next dependent on soil water holding capacity (cm/d)
     PercP = Perc - WatBal->rt.EvapWater - WatBal->rt.Transpiration;
@@ -134,8 +140,8 @@ void RateCalulationWatBal() {
     // Change in total water and available water (DWAT) in rooted and lower zones
     WatBal->rt.TotalWaterRootZone  = WatBal->rt.Infiltration - Perc2 + AddedTotal;
     WatBal->rt.TotalWaterLowerZone = Perc2 - WatBal->rt.Drainage - AddedTotal;
-    WatBal->rt.RootZoneMoisture    = WatBal->rt.Infiltration - Perc2 + AddedAvailable;
-    WatBal->rt.MoistureLow         = Perc2 - WatBal->rt.Drainage - AddedAvailable;
+    WatBal->rt.AvailableRootZone   = WatBal->rt.Infiltration - Perc2 + AddedAvailable;
+    WatBal->rt.AvailableLowerZone  = Perc2 - WatBal->rt.Drainage - AddedAvailable;
     
 }
     
@@ -158,12 +164,16 @@ void IntegrationWatBal()
     WatBal->st.Irrigation   += WatBal->rt.Irrigation;
     
     // Change in total water and available water (DWAT) in rooted and lower zones
-    WatBal->st.TotalWaterRootZone  += WatBal->rt.TotalWaterRootZone;
-    WatBal->st.TotalWaterLowerZone += WatBal->rt.TotalWaterLowerZone;
-    WatBal->st.RootZoneMoisture    += WatBal->rt.RootZoneMoisture;
-    WatBal->rt.MoistureLow         += WatBal->rt.MoistureLow;   
+    WatBal->st.TotalWaterRootZone   += WatBal->rt.TotalWaterRootZone;
+    WatBal->st.TotalWaterLowerZone  += WatBal->rt.TotalWaterLowerZone;
+    WatBal->st.AvailableRootZone    += WatBal->rt.AvailableRootZone;
+    WatBal->st.AvailableLowerZone   += WatBal->rt.AvailableLowerZone;   
     
-    WatBal->st.Moisture = WatBal->st.TotalWaterRootZone / Crop->st.RootDepth;; 
-    WatBal->st.MoistureLow = WatBal->st.TotalWaterLowerZone / (Crop->prm.MaxRootingDepth - Crop->st.RootDepth);
-     
+    WatBal->st.Moisture    = WatBal->st.TotalWaterRootZone / Crop->st.RootDepth; 
+    if (Crop->prm.MaxRootingDepth - Crop->st.RootDepth > 0.) {
+        WatBal->st.MoistureLow = WatBal->st.TotalWaterLowerZone / (Crop->prm.MaxRootingDepth - Crop->st.RootDepth);
+    }
+    else {
+         WatBal->st.MoistureLow = 0.;
+    }
 }

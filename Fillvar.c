@@ -105,13 +105,13 @@ void FillCropVariables(Plant *CROP, float *Variable)
     
     if (CROP->prm.IdentifyHeatStress)
     {
-        CROP->prm.DVSBeginHeatStr     = -99.9;
-        CROP->prm.DVSFinalHeatStr     = -99.9;
+        CROP->prm.DVSBeginHeatStr     = Variable[49];;
+        CROP->prm.DVSFinalHeatStr     = Variable[50];
     }
     else
     {
-        CROP->prm.DVSBeginHeatStr     = Variable[49];
-        CROP->prm.DVSFinalHeatStr     = Variable[50];
+        CROP->prm.DVSBeginHeatStr     = -99.9;
+        CROP->prm.DVSFinalHeatStr     = -99.9;
     }
 
     for (i=0;i<=NR_VARIABLES_CRP;i++) 

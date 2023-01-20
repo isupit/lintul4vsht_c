@@ -318,9 +318,10 @@ typedef struct STATES {
         float Percolation;
         float Loss;
         float Rain;
-        float RootZoneMoisture;
         float Transpiration;
         float WaterRootExt;
+        float AvailableRootZone;
+        float AvailableLowerZone;
         float TotalWaterRootZone;
         float TotalWaterLowerZone;
         float Drainage;
@@ -334,13 +335,12 @@ typedef struct RATES {
         float Infiltration;
         float SurfaceStorage;
         float Irrigation;
-        float Moisture;
-        float MoistureLow;
         float Percolation;
         float Loss;
-        float RootZoneMoisture;
         float Transpiration;
         float WaterRootExt;
+        float AvailableRootZone;
+        float AvailableLowerZone;
         float TotalWaterRootZone;
         float TotalWaterLowerZone;
         float Drainage;
