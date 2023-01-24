@@ -81,7 +81,7 @@ void Growth(float NewPlantMaterial)
     DyingOrgans();
     
     shoots  = NewPlantMaterial * (1.0 - Crop->fac_ro);
-    
+               
     if (Crop->prm.IdentifyHeatStress) HeatStress();
       
      // Available stem reserves for translocation (kg/ha/d) 
@@ -91,9 +91,10 @@ void Growth(float NewPlantMaterial)
         Translocatable = 0.;
            
     Crop->rt.storage = shoots * Crop->fac_so + Translocatable;
-    Crop->rt.stems  = shoots * Crop->fac_st - Crop->drt.stems - Translocatable;
-    Crop->rt.leaves = shoots * Crop->fac_lv;
-    Crop->rt.LAI    = LeaveGrowth(&shoots);	
+    Crop->rt.stems   = shoots * Crop->fac_st - Crop->drt.stems - Translocatable;
+    Crop->rt.leaves  = shoots * Crop->fac_lv;
+    Crop->rt.roots   = NewPlantMaterial * Crop->fac_ro;
+    Crop->rt.LAI     = LeaveGrowth(&shoots);	
  
         
     // Correct for heat stress around anthesis, number of sinks not yet set

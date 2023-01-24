@@ -142,7 +142,7 @@ int main(int argc, char **argv)
                             // Write to the output files 
                             //Output(output[Grid->file]);                
                             //printf("%5.2f\n",Crop->st.LAI);
-                            printf("\t%4d\t%3d\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\n",
+                           printf("\t%4d\t%3d\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\n",
                                 MeteoYear[Day],
                                 MeteoDay[Day],
                                 Crop->st.Development,
@@ -158,7 +158,9 @@ int main(int argc, char **argv)
                                 WatBal->rt.RunOff,
                                 WatBal->rt.Loss,
                                 Crop->N_st.Indx,
-                                Crop->N_rt.Demand_lv + Crop->N_rt.Demand_st + Crop->N_rt.Demand_ro);
+                                Crop->N_rt.Demand_lv + Crop->N_rt.Demand_st + Crop->N_rt.Demand_ro,
+                                Mng->rt.N_mins,
+                                Mng->st.N_tot);
                                                         // State calculations 
                             IntegrationCrop();
                             IntegrationWatBal();
