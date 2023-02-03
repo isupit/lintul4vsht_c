@@ -14,9 +14,8 @@ int EmergenceCrop(int Emergence)
 {
     float DeltaTempSum;
      
-    /*  Emergence has not taken place yet*/
-    if (!Emergence)
-	{
+    //  Emergence has not taken place yet
+    if (!Emergence) {
             DeltaTempSum = limit(0, Crop->prm.TempEffMax - Crop->prm.TempBaseEmergence, 
                 Temp-Crop->prm.TempBaseEmergence);
 	    Crop->TSumEmergence += DeltaTempSum;
@@ -28,6 +27,10 @@ int EmergenceCrop(int Emergence)
                 Crop->GrowthDay = 1;
 	    }
 	}
+    else {
+        Crop->Emergence = 1;
+        Crop->GrowthDay = 1;
+    }
     return Emergence;
 }
     

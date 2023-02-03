@@ -14,18 +14,18 @@ void IfSowing(char* dateString)
     int month, start_day;
         
     sscanf(dateString, "%d-%d", &month, &start_day);
-    sowing_date.tm_year = MeteoYear[Day];
-    sowing_date.tm_mon = month -1; 
-    sowing_date.tm_mday = start_day;
-    sowing = mktime(&sowing_date);
+    start_date.tm_year = MeteoYear[Day];
+    start_date.tm_mon = month -1; 
+    start_date.tm_mday = start_day;
+    start = mktime(&start_date);
    // printf("%5d\n",sowing_date.tm_yday);
-    sowing_date.tm_yday = sowing_date.tm_yday + 1;
+    start_date.tm_yday = start_date.tm_yday + 1;
     //printf("%5d\n",sowing_date.tm_yday);
     
     //diff = difftime(date, sowing);
     //printf("%7.2f\n",diff);
     
-    if (sowing_date.tm_yday == current_date.tm_yday && 
+    if (start_date.tm_yday == current_date.tm_yday && 
         MeteoYear[Day] <= Meteo->EndYear)
     {
         Crop->Sowing = 1;

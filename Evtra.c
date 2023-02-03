@@ -90,7 +90,8 @@ void EvapTra() {
         OxygenStress = 1.;
     }
     
-    WatBal->WaterStress = MoistureStress * OxygenStress;
+    //WatBal->WaterStress = MoistureStress * OxygenStress;
+    WatBal->WaterStress = 1.;
      
     WatBal->rt.Transpiration = min(WatBal->st.AvailableRootZone, 
             WatBal->WaterStress * Evtra.MaxTranspiration);

@@ -24,7 +24,7 @@ float DailyTotalAssimilation()
     
     KDiffuse = Afgen(Crop->prm.KDiffuseTb,&(Crop->st.Development));
     
-    InterceptedPAR = PAR * (1. - exp(-KDiffuse * Crop->st.LAI));
+    InterceptedPAR = PAR * (1. - exp(-0.75 * KDiffuse * Crop->st.LAI));
     
     // Radiation use efficiency as dependent on development stage (g DM MJ-1)
     RadiationUseEFF= Afgen(Crop->prm.RadiationUseEff, &Crop->st.Development);

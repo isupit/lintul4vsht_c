@@ -74,15 +74,15 @@ int main(int argc, char **argv)
             // Set the date struct 
             memset(&current_date, 0, sizeof(current_date)); 
             current_date.tm_year = MeteoYear[Day] -1900;
-            current_date.tm_mday =  MeteoDay[Day] - 1;
+            current_date.tm_mday =  MeteoDay[Day];
             date = mktime(&current_date);
             
-            //Set the sowing date struct
+            //Set the sowing/emergence date struct
             sscanf(Grid->start, "%d-%d", &month, &start_day);
-            sowing_date.tm_year = MeteoYear[Day];
-            sowing_date.tm_mon = month -1; 
-            sowing_date.tm_mday = start_day;
-            sowing = mktime(&sowing_date);
+            start_date.tm_year = MeteoYear[Day];
+            start_date.tm_mon = month -1; 
+            start_date.tm_mday = start_day;
+            start = mktime(&start_date);
             
             while (Grid)
             {
@@ -91,9 +91,7 @@ int main(int argc, char **argv)
                 Crop      = Grid->crp;
                 WatBal    = Grid->soil;
                 Mng       = Grid->mng;
-
-                //Start     = Grid->start;
-                Emergence = Grid->emergence; // Start simulation at sowing or emergence 
+                Emergence = Grid->emergence;
                 
                 Temp = 0.5 * (Tmax[Day] + Tmin[Day]);
                 DayTemp = 0.5 * (Tmax[Day] + Temp);
@@ -101,23 +99,28 @@ int main(int argc, char **argv)
                 // Only simulate between start and end year 
                 if ( MeteoYear[Day] >=  Meteo->StartYear && MeteoYear[Day] <= Meteo->EndYear + 1)
                 {   
-                    // Determine if the sowing already has occurred 
-                    if (sowing_date.tm_yday == current_date.tm_yday) {
+                    // Determine if the starting date for the simulations already has occurred 
+                    if (start_date.tm_yday == current_date.tm_yday) {
                         // Initialize: set state variables 
                         InitializeCrop();
                         InitializeWatBal();
                         InitializeNutrients();
-                    }
-                    if (sowing_date.tm_yday + 1 == current_date.tm_yday) {
-                        Crop->Sowing = 1;
-                    }
                         
+                        if (Emergence) {
+                            Crop->Emergence = 1;
+                            Crop->Sowing = 1;
+                        }
+                        else {
+                            Crop->Emergence = 0;
+                            Crop->Sowing = 1;
+                        }
+                    }
 
                     // If sowing has occurred than determine the emergence 
                     // Note that the TSUMEM will be calculated starting from next day
                     if (Crop->Sowing == 1 &&  Crop->Emergence == 0)
                     {
-                       EmergenceCrop(Emergence); 
+                       EmergenceCrop(Crop->Emergence); 
                     }
 
                     if (Crop->Sowing >= 1 && Crop->Emergence == 1 )
@@ -142,7 +145,7 @@ int main(int argc, char **argv)
                             // Write to the output files 
                             //Output(output[Grid->file]);                
                             //printf("%5.2f\n",Crop->st.LAI);
-                           printf("\t%4d\t%3d\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\n",
+                           printf("\t%4d\t%3d\t%4.2f\t%6.1f\t%6.1f\t%6.1f\t%6.1f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\n",
                                 MeteoYear[Day],
                                 MeteoDay[Day],
                                 Crop->st.Development,
