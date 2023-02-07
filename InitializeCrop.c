@@ -73,6 +73,7 @@ void InitializeCrop()
     /* Initialize the heat stress */
     Crop->Heat = 0.;
     Crop->HeatDays = 0;
+    Crop->HeatReduction = 1.;
     Crop->HeatFlag = FALSE;
     Crop->SeedFlag = FALSE;
     

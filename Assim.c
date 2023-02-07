@@ -24,7 +24,7 @@ float DailyTotalAssimilation()
     
     KDiffuse = Afgen(Crop->prm.KDiffuseTb,&(Crop->st.Development));
     
-    InterceptedPAR = PAR * (1. - exp(-0.75 * KDiffuse * Crop->st.LAI));
+    InterceptedPAR = PAR * (1. - exp( -1*KDiffuse * Crop->st.LAI));
     
     // Radiation use efficiency as dependent on development stage (g DM MJ-1)
     RadiationUseEFF= Afgen(Crop->prm.RadiationUseEff, &Crop->st.Development);
@@ -37,6 +37,7 @@ float DailyTotalAssimilation()
 
     // Correction of RUE for both non-optimal temperatures and atmospheric CO2 
     RTMCO= RTMP * RCO;
+   
     
    return 10. * RTMCO * RadiationUseEFF * InterceptedPAR;
 

@@ -145,12 +145,14 @@ int main(int argc, char **argv)
                             // Write to the output files 
                             //Output(output[Grid->file]);                
                             //printf("%5.2f\n",Crop->st.LAI);
-                           printf("\t%4d\t%3d\t%4.2f\t%6.1f\t%6.1f\t%6.1f\t%6.1f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\n",
+                           printf("\t%4d\t%3d\t%4.2f\t%6.1f\t%6.1f\t%6.1f\t%6.1f\t%6.1f\t%6.1f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\n",
                                 MeteoYear[Day],
                                 MeteoDay[Day],
                                 Crop->st.Development,
                                 Crop->st.leaves,
+                                Crop->dst.leaves,
                                 Crop->st.stems,
+                                Crop->rt.stems, 
                                 Crop->st.storage,
                                 Crop->st.roots,
                                 Crop->st.LAI,

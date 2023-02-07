@@ -279,6 +279,8 @@ typedef struct PLANT {
         float fac_so;
         float Heat;
         float HeatDays;
+        float GrainNr;
+        float HeatReduction;
         
         Parameters prm;
         
