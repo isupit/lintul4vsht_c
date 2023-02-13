@@ -70,6 +70,7 @@ void Growth(float NewPlantMaterial)
 {
     float shoots;
     float Translocatable;
+    float temp_so;
     
     
     float rt_GrainMass;
@@ -127,12 +128,16 @@ void Growth(float NewPlantMaterial)
         rt_GrainMass = min (MaxGrainMass, PotGrainMass);
 
         // Source or sink limitation 
-        Crop->rt.storage = min(Crop->rt.storage, rt_GrainMass);
+        temp_so = min(Crop->rt.storage, rt_GrainMass);
 
         // Correction in case of sink limitation 
         if (rt_GrainMass < Crop->rt.storage) {
-            Crop->rt.stems -= (Crop->rt.storage - rt_GrainMass);   
-        }       
+            Translocatable = -(Crop->rt.storage - rt_GrainMass) + Translocatable;   
+        }
+        
+        Crop->rt.stems   = shoots * Crop->fac_st - Crop->drt.stems - Translocatable;
+        Crop->rt.storage = temp_so;
+        
     } 
     // No Root growth if no assimilates are partitioned to the roots or if 
     // the crop has no airducts and the roots are close to the groundwater 

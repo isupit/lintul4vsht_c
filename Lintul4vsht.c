@@ -138,7 +138,6 @@ int main(int argc, char **argv)
 
                              // Rate calculations
                             RateCalulationWatBal();
-                            Partioning();
                             RateCalcultionNutrients();
                             RateCalculationCrop();
 
