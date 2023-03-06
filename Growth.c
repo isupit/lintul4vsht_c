@@ -47,13 +47,13 @@ void Partioning()
 /* -----------------------------------------------------------------------------*/
 void HeatStress()
 {   
-    if (Crop->st.Development >= Crop->prm.DVSBeginHeatStr && 
+    if (Crop->st.Development > Crop->prm.DVSBeginHeatStr && 
             Crop->st.Development <= Crop->prm.DVSFinalHeatStr) {
         Crop->Heat += DayTemp;
         Crop->HeatDays++;
     }
     
-    if (Crop->st.Development >= Crop->prm.DVSFinalHeatStr && !Crop->HeatFlag) {
+    if (Crop->st.Development > Crop->prm.DVSFinalHeatStr && !Crop->HeatFlag) {
            Crop->Heat= Crop->Heat/(float)Crop->HeatDays;
            Crop->HeatReduction =Afgen(Crop->prm.ReductionGrainHeat, &Crop->Heat);
            Crop->HeatFlag = TRUE;
@@ -104,11 +104,11 @@ void Growth(float NewPlantMaterial)
     if (Crop->prm.IdentifySink) {
         
         // Correct for heat stress around anthesis, number of sinks not yet set
-        if (!Crop->SeedFlag && Crop->prm.IdentifyHeatStress && Crop->st.Development >= Crop->prm.DVSFinalHeatStr) {
+        if (!Crop->SeedFlag && Crop->prm.IdentifyHeatStress && Crop->st.Development > Crop->prm.DVSFinalHeatStr) {
             // Number of grains (per ha) as determined from total leaf and stem 
             // dry weight at anthesis corrected for heat stress around anthesis 
             Crop->GrainNr = Crop->HeatReduction * 
-                    (Crop->prm.VarA + Crop->prm.VarB * (Crop->st.leaves + Crop->st.stems));
+                    (Crop->prm.VarA + Crop->prm.VarB * (Crop->st.leaves + Crop->dst.leaves + Crop->st.stems));
 
             // the number of sinks is established 
             Crop->SeedFlag = TRUE;

@@ -28,12 +28,12 @@ void RateCalculationCrop()
     // Correction for low minimum temperatures and stress factors
     TotalAssimilation = Stress * GrossAssimilation;       
     
-    // Development rate calculation
-    DevelopmentRate();
-    
     // Growth of roots, stems, leaves and storage organs
     Growth(TotalAssimilation);
-    
+
+    // Development rate calculation
+    DevelopmentRate();
+     
     NutrientLoss();
     
     CropNutrientRates();

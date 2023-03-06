@@ -10,9 +10,7 @@ void header(FILE *fp)
    
 void Output(FILE *fp)
 {    
-    fprintf(fp,"%7.2f\t%7.2f\t\t%4d\t%3d\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\n",
-        Latitude,
-        Longitude,
+    fprintf(fp,"%4d\t%3d\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\n",
         MeteoYear[Day],
         MeteoDay[Day],
         Crop->st.Development,
