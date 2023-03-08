@@ -29,9 +29,6 @@ void DevelopmentRate(void)
             
 	    Crop->rt.Development = Crop->rt.Development * insw(Crop->st.Development - 0.3, VernalizationFactor, 1.);
         }
-        
-        /* Adjustment of the development stage */
-        if (Crop->rt.Development + Crop->st.Development >= 1. ) Crop->st.Development = 1.;
     }
     else 
          Crop->rt.Development = Afgen(Crop->prm.DeltaTempSum, &Temp)/Crop->prm.TempSum2;   

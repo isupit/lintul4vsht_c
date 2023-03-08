@@ -28,7 +28,7 @@ void DyingOrgans()
         exp(-Crop->prm.NitrogenStessSLA * (1.-Crop->N_st.Indx));
     
     // Death rate due to temperature after a certain development stage 
-    if (Crop->st.Development > Crop->prm.DVSLeavesDie) {
+    if (Crop->st.Development >= Crop->prm.DVSLeavesDie) {
         DeathRateTemp = Afgen(Crop->prm.DeathRateLeaves, &Temp);
     }
 

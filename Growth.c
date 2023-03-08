@@ -98,7 +98,7 @@ void Growth(float NewPlantMaterial)
     Crop->rt.LAI     = LeaveGrowth(&shoots);	
 
     Crop->rt.storage = shoots * Crop->fac_so + Translocatable;
-    Crop->rt.stems   = shoots * Crop->fac_st - Crop->drt.stems - Translocatable;
+    Crop->rt.stems   = shoots * Crop->fac_st - Crop->st.stems * Crop->rt.Development * Crop->prm.FracStemsToStorage;
     //printf("%7.2f %7.2f %7.2f\n",Crop->rt.stems, Crop->drt.stems, Translocatable);
     
     if (Crop->prm.IdentifySink) {
@@ -135,7 +135,7 @@ void Growth(float NewPlantMaterial)
             Translocatable = -(Crop->rt.storage - rt_GrainMass) + Translocatable;   
         }
         
-        Crop->rt.stems   = shoots * Crop->fac_st - Crop->drt.stems - Translocatable;
+        Crop->rt.stems   = shoots * Crop->fac_st - Translocatable;
         Crop->rt.storage = temp_so;
         
     } 
