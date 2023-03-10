@@ -97,8 +97,7 @@ int main(int argc, char **argv)
                 DayTemp = 0.5 * (Tmax[Day] + Temp);
                 
                 // Only simulate between start and end year 
-                if ( MeteoYear[Day] >=  Meteo->StartYear && MeteoYear[Day] <= Meteo->EndYear + 1)
-                {   
+                if ( MeteoYear[Day] >=  Meteo->StartYear && MeteoYear[Day] <= Meteo->EndYear + 1) {   
                     // Determine if the starting date for the simulations already has occurred 
                     if (start_date.tm_yday == current_date.tm_yday) {
                         // Initialize: set state variables 
@@ -118,26 +117,20 @@ int main(int argc, char **argv)
 
                     // If sowing has occurred than determine the emergence 
                     // Note that the TSUMEM will be calculated starting from next day
-                    if (Crop->Sowing == 1 &&  Crop->Emergence == 0)
-                    {
-                       EmergenceCrop(Crop->Emergence); 
-                    }
-
-                    if (Crop->Sowing >= 1 && Crop->Emergence == 1 )
-                    {   
-                        if (Crop->st.Development <= (Crop->prm.DevelopStageEnd) && Crop->GrowthDay < CycleLength) 
+                    if (Crop->Sowing ) {
+                        Astro();
+                        CalcPenman();
+                        RatesToZero();
+                        EvapTra();
+                        RateCalulationWatBal();    
+                    
+                        if (!Crop->Emergence) {
+                            EmergenceCrop(Crop->Emergence); 
+                        }
+                        else if (Crop->Sowing >= 1 && Crop->Emergence == 1 ) {   
+                        if (Crop->st.Development <= (Crop->prm.DevelopStageEnd) 
+                                && Crop->GrowthDay < CycleLength) 
                         {
-                            Astro();
-                            CalcPenman();
-                            
-                            // Set the rate variables to zero 
-                            RatesToZero();
-                            
-                           // Calculate the evapotranspiration 
-                            EvapTra();
-
-                             // Rate calculations
-                            RateCalulationWatBal();
                             RateCalcultionNutrients();
                             RateCalculationCrop();
 
@@ -167,7 +160,6 @@ int main(int argc, char **argv)
                                 Mng->st.N_tot);
                                                         // State calculations 
                             IntegrationCrop();
-                            IntegrationWatBal();
                             IntegrationNutrients();
                             
                             // Update the number of days that the crop has grown
@@ -184,8 +176,10 @@ int main(int argc, char **argv)
                             Crop->Sowing    = 0;
                         }
                     }
-                }    
-
+                    
+                        IntegrationWatBal();
+                    }    
+                }
                 // Store the daily calculations in the Grid structure 
                 Grid->crp  = Crop;
                 Grid->soil = WatBal;

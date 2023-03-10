@@ -46,13 +46,16 @@ void CalcPenman()
     float VapourP; 
     float SaturatedVap;
     
-    float Psycon = 0.67;    // psychrometric instrument constant (mbar/Celsius-1)
+    float Psycon = 0.000662;    // psychrometric instrument constant (bar/Celsius-1)
     float Refcfw = 0.05;    // albedo for a water surface                        
     float Refcfs = 0.15;    // albedo for a soil surface                         
     float Refcfc = 0.25;    // albedo for a  canopy                              
     float Lhvap  = 2.45e6;  // latent heat of evaporation of water (J/kg=J/mm)  
     float Stbc   = 4.9e-3;  // Stefan Boltzmann constant (J/m2/d/K4) */
             
+    AngstA = 0.20;
+    AngstB = 0.56;
+    
     /* Preparatory calculations: mean daily temperature, temperature difference */
     /* (Celsius) and the Bu coefficient Bu of the wind function (depends  on    */ 
     /* temperature difference)                                                  */
@@ -64,7 +67,7 @@ void CalcPenman()
     /* Barometric pressure (mbar)             */
     /* Psychrometric constant (mbar/Celsius)  */
     Pbar  = 1013.*exp (-0.034*Altitude/(Temp + 273.));
-    Gamma = Psycon * Pbar/1013.;
+    Gamma = Psycon * Pbar;
 
 
     /* Saturated vapour pressure according to equation of Goudriaan     */
@@ -73,8 +76,8 @@ void CalcPenman()
             
     /* Measured vapour pressure not to exceed saturated vapour pressure */
 
-    SaturatedVap  = 6.10588 * exp(17.32491 * Temp/(Temp+238.102));
-    delta         = 238.102 * 17.32491 * SaturatedVap/pow((Temp +238.102),2);
+    SaturatedVap  = 6.11 * exp(17.4 * Temp/(Temp+239.0));
+    delta         = 239.0 * 17.4 * SaturatedVap/pow((Temp +239.0),2);
     VapourP       = min(Vapour[Day],SaturatedVap);
 
     /* The expression n/N (RelLSSD) from the Penman formula is estimated   */
@@ -104,6 +107,6 @@ void CalcPenman()
     Penman.E0  = max(0., 0.1 * (delta*Rnw + Gamma*Ea)/(delta + Gamma));
     Penman.ES0 = max(0., 0.1 * (delta*Rns + Gamma*Ea)/(delta + Gamma));
     Penman.ET0 = max(0., 0.1 * (delta*Rnc + Gamma*Eac)/(delta + Gamma));
-    
+        
 }
 

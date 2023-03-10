@@ -31,6 +31,10 @@ float sweaf(){
         sweaf = sweaf + (Penman.ET0 - 0.6)/(Crop->prm.CropGroupNumber *
                 (Crop->prm.CropGroupNumber + 3.));
     }
+    
+    if (Crop->GrowthDay == 0)
+        sweaf = 1.0;
+    
     return limit(0.10, 0.95, sweaf);
 
 }
@@ -52,13 +56,18 @@ void EvapTra() {
     Penman.ET0 = Penman.ET0 * Crop->prm.CorrectionTransp;
     
     KDiffuse = Afgen(Crop->prm.KDiffuseTb, &(Crop->st.Development));      
-    Evtra.MaxEvapWater = Penman.E0 * exp(-0.75 * KDiffuse * Crop->st.LAI);
-    Evtra.MaxEvapSoil  = max(0., Penman.ES0 * exp(-0.75 * KDiffuse * Crop->st.LAI));
-    Evtra.MaxTranspiration = max(0.0001,  
-                             Penman.ET0 * Afgen(Crop->prm.CO2TRATB, &CO2) *
-                             WatBal->ct.CorrFactor *
-                             (1.-exp(-0.75 * KDiffuse * Crop->st.LAI)));
-       
+    if (Crop->GrowthDay > 0) {
+        Evtra.MaxEvapSoil  = max(0., Penman.ES0 * exp(-0.75 * KDiffuse * Crop->st.LAI));
+        Evtra.MaxTranspiration = max(0.0001,  
+                                 Penman.ET0 * Afgen(Crop->prm.CO2TRATB, &CO2) *
+                                 WatBal->ct.CorrFactor *
+                                 (1.-exp(-0.75 * KDiffuse * Crop->st.LAI)));
+    }
+    else {
+        Evtra.MaxEvapSoil  = Penman.ES0;
+        Evtra.MaxTranspiration = Penman.ET0;
+    }
+    
     SoilWatDepletion = sweaf();
     CriticalSoilMoisture = (1. - SoilWatDepletion)*
             (WatBal->ct.MoistureFC - WatBal->ct.MoistureWP) + WatBal->ct.MoistureWP;
@@ -67,7 +76,7 @@ void EvapTra() {
     MoistureStress = limit(0.,1.,(WatBal->st.Moisture - WatBal->ct.MoistureWP)/
             (CriticalSoilMoisture - WatBal->ct.MoistureWP));
     
-    if (Crop->prm.Airducts) {
+    if (!Crop->prm.Airducts) {
         // Critical soil moisture content for aeration
         SoilMoistureAeration = WatBal->ct.MoistureSAT - WatBal->ct.CriticalSoilAirC;
         
@@ -90,13 +99,13 @@ void EvapTra() {
         OxygenStress = 1.;
     }
     
-    //WatBal->WaterStress = MoistureStress * OxygenStress;
-    WatBal->WaterStress = 1.;
+    WatBal->WaterStress = MoistureStress * OxygenStress;
+    //WatBal->WaterStress = 1.;
      
     WatBal->rt.Transpiration = min(WatBal->st.AvailableRootZone, 
             WatBal->WaterStress * Evtra.MaxTranspiration);
     
-    //WatBal->WaterStress = WatBal->rt.Transpiration / Evtra.MaxTranspiration;
+    WatBal->WaterStress = WatBal->rt.Transpiration / Evtra.MaxTranspiration;
     
     }
 
