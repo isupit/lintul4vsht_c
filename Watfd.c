@@ -81,8 +81,15 @@ void RateCalulationWatBal() {
     RUNOFP = NotInf * Rain[Day];
     
     // Water added to root zone by root growth (cm/d), resp. total and available water
-    AddedTotal =  Crop->rt.RootDepth * WatBal->st.MoistureLow;
-    AddedAvailable = Crop->rt.RootDepth * (WatBal->st.MoistureLow - WatBal->ct.MoistureWP);
+    if (Crop->Emergence) {
+        AddedTotal =  Crop->rt.RootDepth * WatBal->st.MoistureLow;
+        AddedAvailable = Crop->rt.RootDepth * (WatBal->st.MoistureLow - WatBal->ct.MoistureWP);
+    }
+    else {
+        AddedTotal = 0.;
+        AddedAvailable = 0.;
+    }
+        
     
     Perc = (1. - NotInf) * Rain[Day] + WatBal->rt.Irrigation;
     
@@ -113,7 +120,7 @@ void RateCalulationWatBal() {
     }
     
     // Effective percolation incl. ET losses, potential and next dependent on soil water holding capacity (cm/d)
-    PercP = Perc - WatBal->rt.EvapWater - WatBal->rt.Transpiration;
+    PercP = Perc - WatBal->rt.EvapSoil - WatBal->rt.Transpiration;
     WatBal->rt.Infiltration=  min(WatBal->ct.KSUB + CAP0, PercP);    
     
     // Water loss by surface runoff, final
