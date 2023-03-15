@@ -123,11 +123,18 @@ int main(int argc, char **argv)
                         RatesToZero();
                         EvapTra();
                         RateCalulationWatBal();    
-                    
+
                         if (!Crop->Emergence) {
                             EmergenceCrop(Crop->Emergence); 
+                            printf("%4d\t%3d\t%9.5f%9.5f%9.5f\n",
+                                MeteoYear[Day],
+                                MeteoDay[Day],
+                                WatBal->st.Moisture,
+                                WatBal->rt.Drainage,
+                                WatBal->st.Drainage    
+                                );
                         }
-                        else if (Crop->Sowing >= 1 && Crop->Emergence == 1 ) {   
+                        else  {   
                         if (Crop->st.Development <= (Crop->prm.DevelopStageEnd) 
                                 && Crop->GrowthDay < CycleLength) 
                         {
@@ -137,7 +144,7 @@ int main(int argc, char **argv)
                             // Write to the output files 
                             //Output(output[Grid->file]);                
                             //printf("%5.2f\n",Crop->st.LAI);
-                           printf("\t%4d\t%3d\t%9.5f\t%6.1f\t%6.1f\t%6.1f\t%6.1f\t%6.1f\t%6.1f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\n",
+                           printf("\t%4d\t%3d\t%9.5f\t%6.1f\t%6.1f\t%6.1f\t%6.1f\t%6.1f\t%6.1f\t%4.2f\t%4.2f\t%7.4f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\n",
                                 MeteoYear[Day],
                                 MeteoDay[Day],
                                 Crop->st.Development,
