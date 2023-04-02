@@ -265,6 +265,7 @@ typedef struct DYING_STATES {
 
 typedef struct PLANT {
         int Emergence;
+        int EmergenceFlag;
         int Sowing;
         int GrowthDay;  
         int HeatFlag;
@@ -281,6 +282,7 @@ typedef struct PLANT {
         float HeatDays;
         float GrainNr;
         float HeatReduction;
+        float DeltaTempSum;
         
         Parameters prm;
         
@@ -378,6 +380,7 @@ typedef struct SIMUNIT {
         Management *mng;
         Soil  *soil;
         int emergence;
+        int option;
         int file;
         char start[MAX_STRING];
         char output[MAX_STRING];

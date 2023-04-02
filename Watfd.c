@@ -17,6 +17,11 @@ void InitializeWatBal()
     WatBal->st.Drainage = 0.;
     WatBal->rt.RunOff  = 0.;
     WatBal->st.RunOff  = 0.;
+    WatBal->rt.Transpiration = 0.;
+    WatBal->rt.TotalWaterRootZone = 0.;
+    WatBal->rt.TotalWaterLowerZone = 0.;
+    WatBal->rt.AvailableRootZone = 0.;
+    WatBal->rt.AvailableLowerZone = 0.;   
     
     /* Set max and initial rooting depth */
     Crop->prm.MaxRootingDepth = min(WatBal->ct.SoilMaxRootDepth, Crop->prm.MaxRootingDepth);
@@ -81,7 +86,7 @@ void RateCalulationWatBal() {
     RUNOFP = NotInf * Rain[Day];
     
     // Water added to root zone by root growth (cm/d), resp. total and available water
-    if (Crop->Emergence) {
+    if (Crop->GrowthDay > 0) {
         AddedTotal =  Crop->rt.RootDepth * WatBal->st.MoistureLow;
         AddedAvailable = Crop->rt.RootDepth * (WatBal->st.MoistureLow - WatBal->ct.MoistureWP);
     }

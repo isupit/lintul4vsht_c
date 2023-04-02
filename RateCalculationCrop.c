@@ -27,7 +27,7 @@ void RateCalculationCrop()
  
     // Correction for low minimum temperatures and stress factors
     TotalAssimilation = Stress * GrossAssimilation;       
-    
+   
     // Development rate calculation
     DevelopmentRate();
 

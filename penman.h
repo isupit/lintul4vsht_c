@@ -6,6 +6,7 @@ typedef struct ETP {
     float E0;
     float ES0;
     float ET0;
+    float ETC;
 } Etp;
 
 Etp Penman;

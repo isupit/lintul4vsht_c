@@ -18,6 +18,7 @@ int main(int argc, char **argv)
     int CycleLength   = 300;
     int NumberOfFiles = 0;
     int Emergence;
+    int Option = 0;
     
     int month, start_day;
     
@@ -92,7 +93,8 @@ int main(int argc, char **argv)
                 WatBal    = Grid->soil;
                 Mng       = Grid->mng;
                 Emergence = Grid->emergence;
-                
+                Option    = Grid->option;
+                 
                 Temp = 0.5 * (Tmax[Day] + Tmin[Day]);
                 DayTemp = 0.5 * (Tmax[Day] + Temp);
                 
@@ -114,7 +116,7 @@ int main(int argc, char **argv)
                             Crop->Sowing = 1;
                         }
                     }
-
+                    
                     // If sowing has occurred than determine the emergence 
                     // Note that the TSUMEM will be calculated starting from next day
                     if (Crop->Sowing ) {
@@ -123,28 +125,42 @@ int main(int argc, char **argv)
                         RatesToZero();
                         EvapTra();
                         RateCalulationWatBal();    
-
+                        //IntegrationWatBal();
                         if (!Crop->Emergence) {
                             EmergenceCrop(Crop->Emergence); 
-                            printf("%4d\t%3d\t%9.5f%9.5f%9.5f\n",
+                            /*printf("%4d\t%3d\t%9.5f%9.5f%9.5f\n",
                                 MeteoYear[Day],
                                 MeteoDay[Day],
                                 WatBal->st.Moisture,
                                 WatBal->rt.Drainage,
                                 WatBal->st.Drainage    
-                                );
+                                );*/
                         }
                         else  {   
-                        if (Crop->st.Development <= (Crop->prm.DevelopStageEnd) 
-                                && Crop->GrowthDay < CycleLength) 
-                        {
-                            RateCalcultionNutrients();
-                            RateCalculationCrop();
-
-                            // Write to the output files 
-                            //Output(output[Grid->file]);                
-                            //printf("%5.2f\n",Crop->st.LAI);
-                           printf("\t%4d\t%3d\t%9.5f\t%6.1f\t%6.1f\t%6.1f\t%6.1f\t%6.1f\t%6.1f\t%4.2f\t%4.2f\t%7.4f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\n",
+                            if (Crop->st.Development <= (Crop->prm.DevelopStageEnd) 
+                                && Crop->GrowthDay < CycleLength) {                           
+                                
+                           
+                                RateCalcultionNutrients();
+                                RateCalculationCrop();
+                                // State calculations 
+                                IntegrationCrop();
+                                IntegrationNutrients();
+                            
+                                // Update the number of days that the crop has grown
+                                Crop->GrowthDay++;     
+                            }
+                            else {
+                                // Write to the output files 
+                                //Output(output[Grid->file]);   
+                                //printf("%7d %7d\n", MeteoYear[Day], Crop->GrowthDay);
+                                Emergence = 0;
+                                Crop->TSumEmergence = 0;
+                                Crop->Emergence = 0;
+                                Crop->Sowing    = 0;
+                            }
+                        }
+                                printf("\t%4d\t%3d\t%9.5f\t%6.1f\t%6.1f\t%6.1f\t%6.1f\t%6.1f\t%6.1f\t%4.2f\t%4.2f\t%7.4f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\n",
                                 MeteoYear[Day],
                                 MeteoDay[Day],
                                 Crop->st.Development,
@@ -165,24 +181,6 @@ int main(int argc, char **argv)
                                 Crop->N_rt.Demand_lv + Crop->N_rt.Demand_st + Crop->N_rt.Demand_ro,
                                 Mng->rt.N_mins,
                                 Mng->st.N_tot);
-                                                        // State calculations 
-                            IntegrationCrop();
-                            IntegrationNutrients();
-                            
-                            // Update the number of days that the crop has grown
-                            Crop->GrowthDay++;     
-                        }
-                        else
-                        {
-                            // Write to the output files 
-                            //Output(output[Grid->file]);   
-                            //printf("%7d %7d\n", MeteoYear[Day], Crop->GrowthDay);
-                            Emergence = 0;
-                            Crop->TSumEmergence = 0;
-                            Crop->Emergence = 0;
-                            Crop->Sowing    = 0;
-                        }
-                    }
                     
                         IntegrationWatBal();
                     }    

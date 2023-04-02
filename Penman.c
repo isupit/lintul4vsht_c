@@ -107,6 +107,9 @@ void CalcPenman()
     Penman.E0  = max(0., 0.1 * (delta*Rnw + Gamma*Ea)/(delta + Gamma));
     Penman.ES0 = max(0., 0.1 * (delta*Rns + Gamma*Ea)/(delta + Gamma));
     Penman.ET0 = max(0., 0.1 * (delta*Rnc + Gamma*Eac)/(delta + Gamma));
+    
+    // Correction of the potential evapotranspiration for atmospheric CO2 concentration
+    Penman.ETC = Penman.ET0 * Afgen(Crop->prm.CO2TRATB, &CO2);
         
 }
 

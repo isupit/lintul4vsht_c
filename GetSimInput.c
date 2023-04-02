@@ -18,6 +18,7 @@ int GetSimInput(char *list)
     SimUnit *initial = NULL;
        
     int Emergence;
+    int Option;
     int count;
   
     char line[MAX_STRING];
@@ -43,8 +44,8 @@ int GetSimInput(char *list)
             continue;
         }
         
-        sscanf(line,"%s %s %s %s  %s %d %s" ,
-            path, cf, sf, mf, start, &Emergence, output);
+        sscanf(line,"%s %s %s %s  %s %d %d %s" ,
+            path, cf, sf, mf, start, &Emergence, &Option, output);
         
         memset(cropfile,'\0',MAX_STRING);
         memset(soilfile,'\0',MAX_STRING);
@@ -86,7 +87,8 @@ int GetSimInput(char *list)
         strncpy(Grid->start,start,strlen(start)); // Starting string month day of the simulations 
         
         Grid->file  = count++;            // number of elements in Grid carousel
-        Grid->emergence = Emergence;      // Start the simulations at emergence (1) or at sowing (0)                
+        Grid->emergence = Emergence;      // Start the simulations at emergence (1) or at sowing (0)      
+        Grid->option = Option;            // 0 = potential, 1 = waterlimited, 2 = waterlimited and nutrient limited
         Grid->crp->Sowing = 0;
         Grid->crp->Emergence = 0;         // Crop emergence has not yet occurred
         Grid->next = NULL;

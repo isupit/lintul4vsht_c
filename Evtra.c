@@ -45,23 +45,25 @@ float sweaf(){
 /* -----------------------------------------------------------------*/
 void EvapTra() {   
     float CriticalSoilMoisture;
-    float KDiffuse;
     float MaxReductionOxygenStress;
     float MoistureStress;
     float OxygenStress;
     float SoilMoistureAeration;
     float SoilWatDepletion;
+    float KDiffuse;
+    float Finnt;
     
     // Crop specific correction on potential evapotranspiration rate 
     Penman.ET0 = Penman.ET0 * Crop->prm.CorrectionTransp;
     
-    KDiffuse = Afgen(Crop->prm.KDiffuseTb, &(Crop->st.Development));      
-    if (Crop->GrowthDay > 0) {
-        Evtra.MaxEvapSoil  = max(0., Penman.ES0 * exp(-0.75 * KDiffuse * Crop->st.LAI));
-        Evtra.MaxTranspiration = max(0.0001,  
-                                 Penman.ET0 * Afgen(Crop->prm.CO2TRATB, &CO2) *
-                                 WatBal->ct.CorrFactor *
-                                 (1.-exp(-0.75 * KDiffuse * Crop->st.LAI)));
+    KDiffuse = Afgen(Crop->prm.KDiffuseTb, &(Crop->st.Development));
+    Finnt    = (1. - exp(-0.75 * KDiffuse * Crop->st.LAI ));
+            
+
+    if (Crop->Emergence ) {
+        Evtra.MaxEvapSoil  = max(0., Penman.ES0 * (1. - Finnt));
+        Evtra.MaxTranspiration = max(0.0001, Penman.ETC *
+                                 Crop->prm.CorrectionTransp * Finnt);
     }
     else {
         Evtra.MaxEvapSoil  = Penman.ES0;
@@ -102,14 +104,20 @@ void EvapTra() {
     WatBal->WaterStress = MoistureStress * OxygenStress;
     //WatBal->WaterStress = 1.;
     
-    if(Crop->Emergence) 
+    if(Crop->Emergence) {
         WatBal->rt.Transpiration = min(WatBal->st.AvailableRootZone, 
             WatBal->WaterStress * Evtra.MaxTranspiration);
-    else 
-        WatBal->rt.Transpiration = 0.;
-    
-    WatBal->WaterStress = WatBal->rt.Transpiration / Evtra.MaxTranspiration;
-    
+        
+        WatBal->WaterStress = WatBal->rt.Transpiration / Evtra.MaxTranspiration;
     }
+    else {
+        WatBal->rt.Transpiration = 0.;
+        WatBal->WaterStress = 1.;
+    }
+    
+    if (Grid->option == 0)
+         WatBal->WaterStress = 1.0;
+    
+}
 
 

@@ -20,8 +20,7 @@ void NutritionINDX()
     VegetativeMass = Crop->st.leaves + Crop->st.stems;
     
     
-    if (VegetativeMass > 0.)
-    {
+    if (VegetativeMass > 0.) {
         /* N,P,K concentration in total vegetative living per */
         /* kg above-ground biomass  (kg N,P,K kg-1 DM)        */
         N_Veg  = (Crop->N_st.leaves + Crop->N_st.stems)/VegetativeMass;
@@ -37,7 +36,10 @@ void NutritionINDX()
     Crop->N_st.Indx = limit(tiny,1.0, ((N_Veg -N_res)/notnul(N_opt_veg - N_res)));
     
     /* Nutrient reduction factor */
-    Crop->NutrientStress = limit(0., 1.0, 1.-Crop->prm.NLUE*pow((1.0001-Crop->N_st.Indx),2));
-    Crop->NutrientStress = 1.0;
-    Crop->N_st.Indx = 1.0;
+    Crop->NutrientStress = limit(tiny, 1.0, 1.-Crop->prm.NLUE*pow((1.0001-Crop->N_st.Indx),2));
+    
+    if (Grid->option < 2) {
+        Crop->NutrientStress = 1.0;
+        Crop->N_st.Indx = 1.0;
+    }
 }
