@@ -21,14 +21,10 @@ int EmergenceCrop(int Emergence)
 	    Crop->TSumEmergence += Crop->DeltaTempSum;
 	    if (Crop->TSumEmergence >= Crop->prm.TSumEmergence)
             {
-                if (!Crop->EmergenceFlag) {
-                    Crop->EmergenceFlag = 1;
-                }
-                else {
-                    Crop->GrowthDay = 1;
-                    Crop->Emergence = 1;
-                    Emergence = 1;
-                }
+                Crop->GrowthDay = 1;
+                Crop->Emergence = 1;
+                Emergence = 1;
+               
             }
     } 
     
@@ -59,6 +55,12 @@ void InitializeCrop()
     Crop->st.stems     = InitialShootWeight * Afgen(Crop->prm.Stems, &(Crop->st.Development));                   
     Crop->st.leaves    = InitialShootWeight * Afgen(Crop->prm.Leaves, &(Crop->st.Development));
     Crop->st.storage   = InitialShootWeight * Afgen(Crop->prm.Storage, &(Crop->st.Development));
+    
+    Crop->rt.roots     = 0.0;
+    Crop->rt.RootDepth = 0.0; 
+    Crop->rt.stems     = 0.0;  
+    Crop->rt.leaves    = 0.0;  
+    Crop->rt.storage   = 0.0;  
 
     /* Adapt the maximum rooting depth */
     Crop->prm.MaxRootingDepth = max(Crop->prm.InitRootingDepth, min(Crop->prm.MaxRootingDepth,
@@ -66,7 +68,8 @@ void InitializeCrop()
 
     Crop->st.LAI = Crop->st.leaves * Afgen(Crop->prm.SpecificLeaveArea, &(Crop->st.Development)); 
 
-
+    Crop->rt.LAI = 0.0;
+            
     Crop->st.LAI = Crop->st.LAI + Crop->st.stems * 
            Afgen(Crop->prm.SpecificStemArea, &(Crop->st.Development)) +
            Crop->st.storage*Crop->prm.SpecificPodArea;

@@ -100,20 +100,22 @@ int main(int argc, char **argv)
                 
                 // Only simulate between start and end year 
                 if ( MeteoYear[Day] >=  Meteo->StartYear && MeteoYear[Day] <= Meteo->EndYear + 1) {   
+                    
                     // Determine if the starting date for the simulations already has occurred 
                     if (start_date.tm_yday == current_date.tm_yday) {
+                        
                         // Initialize: set state variables 
                         InitializeCrop();
                         InitializeWatBal();
                         InitializeNutrients();
                         
+                        Crop->Sowing = 1;
+                        
                         if (Emergence) {
                             Crop->Emergence = 1;
-                            Crop->Sowing = 1;
                         }
                         else {
                             Crop->Emergence = 0;
-                            Crop->Sowing = 1;
                         }
                     }
                     
@@ -122,31 +124,24 @@ int main(int argc, char **argv)
                     if (Crop->Sowing ) {
                         Astro();
                         CalcPenman();
-                        RatesToZero();
                         EvapTra();
                         RateCalulationWatBal();    
-                        //IntegrationWatBal();
+                        // IntegrationWatBal();
                         if (!Crop->Emergence) {
                             EmergenceCrop(Crop->Emergence); 
-                            /*printf("%4d\t%3d\t%9.5f%9.5f%9.5f\n",
-                                MeteoYear[Day],
-                                MeteoDay[Day],
-                                WatBal->st.Moisture,
-                                WatBal->rt.Drainage,
-                                WatBal->st.Drainage    
-                                );*/
                         }
                         else  {   
                             if (Crop->st.Development <= (Crop->prm.DevelopStageEnd) 
                                 && Crop->GrowthDay < CycleLength) {                           
                                 
-                           
-                                RateCalcultionNutrients();
-                                RateCalculationCrop();
                                 // State calculations 
                                 IntegrationCrop();
                                 IntegrationNutrients();
-                            
+                                
+                                // Rate calculations
+                                RatesToZero();
+                                RateCalcultionNutrients();
+                                RateCalculationCrop();
                                 // Update the number of days that the crop has grown
                                 Crop->GrowthDay++;     
                             }
@@ -160,27 +155,7 @@ int main(int argc, char **argv)
                                 Crop->Sowing    = 0;
                             }
                         }
-                                printf("\t%4d\t%3d\t%9.5f\t%6.1f\t%6.1f\t%6.1f\t%6.1f\t%6.1f\t%6.1f\t%4.2f\t%4.2f\t%7.4f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\n",
-                                MeteoYear[Day],
-                                MeteoDay[Day],
-                                Crop->st.Development,
-                                Crop->st.leaves,
-                                Crop->dst.leaves,
-                                Crop->st.stems,
-                                Crop->rt.stems, 
-                                Crop->st.storage,
-                                Crop->st.roots,
-                                Crop->st.LAI,
-                                WatBal->WaterStress,
-                                WatBal->st.Moisture,
-                                Rain[Day],
-                                WatBal->rt.Infiltration,
-                                WatBal->rt.RunOff,
-                                WatBal->rt.Loss,
-                                Crop->N_st.Indx,
-                                Crop->N_rt.Demand_lv + Crop->N_rt.Demand_st + Crop->N_rt.Demand_ro,
-                                Mng->rt.N_mins,
-                                Mng->st.N_tot);
+                        Output();
                     
                         IntegrationWatBal();
                     }    

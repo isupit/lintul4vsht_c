@@ -20,7 +20,7 @@ float DailyTotalAssimilation()
     float KDiffuse;
     
     // Daily photosynthetically active radiation (PAR, MJ/m2)
-    PAR = Radiation[Day -1 ]/1.0E6 * 0.50;
+    PAR = 0.50 * (Radiation[Day]/1.0E6);
     
     KDiffuse = Afgen(Crop->prm.KDiffuseTb,&(Crop->st.Development));
     
@@ -38,7 +38,6 @@ float DailyTotalAssimilation()
     // Correction of RUE for both non-optimal temperatures and atmospheric CO2 
     RTMCO= RTMP * RCO;
    
-    
    return 10. * RTMCO * RadiationUseEFF * InterceptedPAR;
 
 }
