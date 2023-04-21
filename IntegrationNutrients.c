@@ -21,7 +21,10 @@ void IntegrationNutrients()
     Crop->N_st.death_st += Crop->N_rt.death_st;
     Crop->N_st.death_ro += Crop->N_rt.death_ro;
     
-    Mng->st.N_mins = max(0, Mng->st.N_mins - Mng->rt.N_mins);
+    // Total N uptake (kg N ha-1 d-1) from soil and by biological fixation
+    Crop->N_st.Uptake += Crop->N_rt.Uptake;
+    
+    Mng->st.N_mins  = max(0, Mng->st.N_mins - Mng->rt.N_mins);
     Mng->st.N_tot  += Mng->rt.N_tot;
 //    printf("%7.2f %7.2f %7.4f\n", Mng->st.N_mins, Mng->st.N_tot, Crop->st.Development);
 }

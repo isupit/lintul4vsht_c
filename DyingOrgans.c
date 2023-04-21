@@ -45,7 +45,7 @@ void DyingOrgans()
     DeathRateLAIStress = 0.;
     if (Crop->N_st.Indx < 1.)
     {
-        DeathRateNStress   = Crop->prm.DeathRateLeavesNStr * Crop->st.leaves * (1 -Crop->N_st.Indx);
+        DeathRateNStress   = Crop->prm.DyingLeaves_N_Stress * Crop->st.leaves * (1 -Crop->N_st.Indx);
         DeathRateLAIStress = DeathRateNStress * SpecLeafArea;
     }
 

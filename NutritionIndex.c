@@ -38,7 +38,7 @@ void NutritionINDX()
     /* Nutrient reduction factor */
     Crop->NutrientStress = limit(tiny, 1.0, 1.-Crop->prm.NLUE*pow((1.0001-Crop->N_st.Indx),2));
     
-    if (Grid->option < 2) {
+    if (Grid->option < 2 || Crop->GrowthDay <2) {
         Crop->NutrientStress = 1.0;
         Crop->N_st.Indx = 1.0;
     }

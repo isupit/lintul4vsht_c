@@ -78,8 +78,13 @@ void InitializeNutrients()
     Crop->N_st.Optimum_lv = 0;
     Crop->N_st.Optimum_st = 0;
     
+    // Total N uptake (kg N ha-1 d-1) from soil and by biological fixation
+    Crop->N_st.Uptake = 0.;
+    
     // No left over nutrients from previous cycle
     Mng->st.N_tot = 0.;
     Mng->rt.N_tot = 0.;
+    
+    Mng->rt.N_mins = 0.;
     
 }     

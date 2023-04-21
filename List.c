@@ -11,8 +11,7 @@ float List(TABLE_D *Table)
      while (Table) 
     { 
         if (current_date.tm_mon == Table->month -1 &&
-            current_date.tm_mday == Table->day && 
-            MeteoYear[Day] <= Meteo->EndYear)
+            current_date.tm_mday == Table->day)
         {
             return Table->amount;
         }

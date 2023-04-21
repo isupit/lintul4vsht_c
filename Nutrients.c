@@ -12,21 +12,21 @@
 /* ---------------------------------------------------------------------------*/     
 void NutrientLoss() 
 {         
-    Crop->N_rt.death_lv = Crop->prm.N_ResidualFrac_ro * Crop->drt.leaves;
+    Crop->N_rt.death_lv = Crop->prm.N_ResidualFrac_lv * Crop->drt.leaves;
     Crop->N_rt.death_st = Crop->prm.N_ResidualFrac_st * Crop->drt.stems;
-    Crop->N_rt.death_ro = Crop->prm.N_ResidualFrac_lv * Crop->drt.roots;
+    Crop->N_rt.death_ro = Crop->prm.N_ResidualFrac_ro * Crop->drt.roots;
 } 
 
 /* ---------------------------------------------------------------------------*/
 /*  function NutrientMax()                                                    */
 /*  Purpose: To calculate the max nutrient concentration in the stems, leaves */
-/*           and roots organs (kg N,P,K ha-1)                                 */
+/*           and roots organs (kg N ha-1)                                     */
 /* ---------------------------------------------------------------------------*/
 void NutrientMax()
 {           
-    /* Maximum N,P,K concentration in the leaves, from which the */
-    /* N,P,K concentration in the stems and roots is derived     */
-    /* as a function of development stage (kg N kg-1 DM)         */
+    /* Maximum N concentration in the leaves, from which the */
+    /* N concentration in the stems and roots is derived     */
+    /* as a function of development stage (kg N kg-1 DM)     */
     Crop->N_st.Max_lv = Afgen(Crop->prm.N_MaxLeaves, &(Crop->st.Development));
       
     /* Maximum N concentrations in stems and roots (kg N kg-1) */
@@ -35,14 +35,14 @@ void NutrientMax()
 }
 
 
-/* ---------------------------------------------------------------------------*/
-/*  function NutrientOptimum()                                                */
-/*  Purpose: To compute the optimal nutrient concentration in the crop        */
- /*  organs (kg N,P,K ha-1 )                                                  */
-/* ---------------------------------------------------------------------------*/
+/* -----------------------------------------------------------------------*/
+/*  function NutrientOptimum()                                            */
+/*  Purpose: To compute the optimal nutrient concentration in the crop    */
+/*  organs (kg N ha-1 )                                                   */
+/* -----------------------------------------------------------------------*/
 void NutrientOptimum()
 {  
-    /* Optimum N,P,K amount in vegetative above-ground living biomass */
+    /* Optimum N amount in vegetative above-ground living biomass */
     /* and its N concentration                                        */
     Crop->N_st.Optimum_lv = Crop->prm.Opt_N_Frac * Crop->N_st.Max_lv * Crop->st.leaves;
     Crop->N_st.Optimum_st = Crop->prm.Opt_N_Frac * Crop->N_st.Max_st * Crop->st.stems;
@@ -50,7 +50,7 @@ void NutrientOptimum()
  
 /* ----------------------------------------------------------------------------*/
 /*  function NutrientDemand()                                                  */
-/*  Purpose: To compute the nutrient demand of crop organs (kg N,P,K ha-1 d-1) */
+/*  Purpose: To compute the nutrient demand of crop organs (kg N ha-1 d-1)     */
 /* ----------------------------------------------------------------------------*/
 void NutrientDemand()
 {
@@ -64,7 +64,7 @@ void NutrientDemand()
 /* ---------------------------------------------------------------------------*/
 /*  function NutrientRates()                                                  */
 /*  Purpose: To calculate nutrient changes (i.e. rates) in the plant          */
-/*           organs (kg N,P,K ha-1 d-1)                                       */
+/*           organs (kg N ha-1 d-1)                                       */
 /* ---------------------------------------------------------------------------*/
 
 void CropNutrientRates()
@@ -76,9 +76,8 @@ void CropNutrientRates()
     Crop->N_rt.roots   = Crop->N_rt.Uptake_ro - Crop->N_rt.Transloc_ro - Crop->N_rt.death_ro;
    
    
-    // Rate of N,P,K uptake in storage organs (kg N,P,K ha-1 d-1) 
-    if (Crop->st.Development <  Crop->prm.DevelopmentStageNT)
-    {
+    // Rate of N uptake in storage organs (kg N,P,K ha-1 d-1) 
+    if (Crop->st.Development <  Crop->prm.DevelopmentStageNT) {
         Crop->N_rt.storage = min(Crop->N_rt.Demand_so, Crop->N_rt.Transloc/Crop->prm.TCNT);
     }
 }
@@ -91,7 +90,7 @@ void CropNutrientRates()
 
 void SoilNutrientRates(float *NutrientLimit)
 {
-    float N_fert;
+    float N_fert =0.;
     
     Mng->rt.N_mins = 0.;
    
@@ -106,8 +105,11 @@ void SoilNutrientRates(float *NutrientLimit)
     
     // Change in total inorganic N in soil as function of fertilizer input, 
     // soil N mineralization and crop uptake 
-    Mng->rt.N_tot = max(0.,N_fert - Crop->N_rt.Uptake  + Mng->rt.N_mins);
- 
+    Mng->rt.N_tot = (N_fert - Crop->N_rt.Uptake + Mng->rt.N_mins);
+    if (Mng->st.N_tot + Mng->rt.N_tot < 0. ) 
+        Mng->rt.N_tot = max(0, Mng->st.N_tot + Mng->rt.N_tot);
+       
+   
 }
 
 
@@ -128,10 +130,10 @@ void RateCalcultionNutrients()
     
     NutrientPartioning(&NutrientLimit);
     
-    CropNutrientRates();
-    
     NutrientTranslocation();
     
+    CropNutrientRates();
+        
     SoilNutrientRates(&NutrientLimit);
     
     /* Establish the optimum nutrient concentrations in the crop organs */
