@@ -31,7 +31,7 @@ void header(FILE *fp)
 
 void Output()
 {
-   printf("\t%4d\t%3d\t%5.2f\t%6.2f\t%6.2f\t%6.2f\t%6.2f\t%6.1f\t%6.2f\t%4.2f\t%5.2f\t%5.4f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\n",
+   printf("\t%4d\t%3d\t%5.2f\t%6.2f\t%6.2f\t%6.2f\t%6.2f\t%6.2f\t%7.2f\t%4.2f\t%5.2f\t%5.4f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\n",
    MeteoYear[Day],
    MeteoDay[Day],
    Crop->st.Development,

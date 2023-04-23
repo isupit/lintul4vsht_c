@@ -29,6 +29,7 @@ void RateCalculationCrop()
     TotalAssimilation = Stress * GrossAssimilation;       
    
     // Development rate calculation
+ 
     DevelopmentRate();
 
     // Growth of roots, stems, leaves and storage organs

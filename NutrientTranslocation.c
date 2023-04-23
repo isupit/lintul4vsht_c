@@ -12,7 +12,8 @@ void NutrientTranslocation()
 {
      float Avail_N_lv;
      float Avail_N_st;   
-     float Avail_N_rt; 
+     float Avail_N_rt;
+     float Supply_so;
                                                                                                                  
     /* N amount available for translocation */                                                                                                              
     Avail_N_lv = max(0.,Crop->N_st.leaves - Crop->st.leaves * Crop->prm.N_ResidualFrac_lv);
@@ -22,6 +23,9 @@ void NutrientTranslocation()
    
     /* Total available nutrient amount for translocation */
     Crop->N_rt.Transloc = Avail_N_lv + Avail_N_st + Avail_N_rt;
+    
+    Supply_so = insw(Crop->st.Development - Crop->prm.DevelopmentStageNT,0., Crop->N_rt.Transloc/Crop->prm.TCNT);
+    Crop->N_rt.storage  =min(Supply_so,Crop->N_rt.Demand_so);
     
     /* Actual N translocation rate */ 
     if (Crop->N_rt.Transloc > 0.001)

@@ -57,7 +57,7 @@ void NutrientDemand()
     Crop->N_rt.Demand_lv =  max (Crop->N_st.Max_lv *Crop->st.leaves - Crop->N_st.leaves, 0.);
     Crop->N_rt.Demand_st =  max (Crop->N_st.Max_st *Crop->st.stems  - Crop->N_st.stems, 0.);
     Crop->N_rt.Demand_ro =  max (Crop->N_st.Max_ro *Crop->st.roots  - Crop->N_st.roots, 0.);
-    Crop->N_rt.Demand_so =  max (Crop->N_st.Max_so *Crop->st.storage- Crop->N_st.storage, 0.)/Crop->prm.TCNT;
+    Crop->N_rt.Demand_so =  max (Crop->prm.Max_N_storage *Crop->st.storage- Crop->N_st.storage, 0.)/Crop->prm.TCNT;
 }
 
 
@@ -69,17 +69,10 @@ void NutrientDemand()
 
 void CropNutrientRates()
 {   
-    Crop->N_rt.storage = 0;
- 
     Crop->N_rt.leaves  = Crop->N_rt.Uptake_lv - Crop->N_rt.Transloc_lv - Crop->N_rt.death_lv;
     Crop->N_rt.stems   = Crop->N_rt.Uptake_st - Crop->N_rt.Transloc_st - Crop->N_rt.death_st;
     Crop->N_rt.roots   = Crop->N_rt.Uptake_ro - Crop->N_rt.Transloc_ro - Crop->N_rt.death_ro;
-   
-   
-    // Rate of N uptake in storage organs (kg N,P,K ha-1 d-1) 
-    if (Crop->st.Development <  Crop->prm.DevelopmentStageNT) {
-        Crop->N_rt.storage = min(Crop->N_rt.Demand_so, Crop->N_rt.Transloc/Crop->prm.TCNT);
-    }
+     
 }
 
 
