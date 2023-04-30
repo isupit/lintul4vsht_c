@@ -44,7 +44,7 @@ void Output()
    Crop->st.LAI,
    WatBal->WaterStress,
    WatBal->st.Moisture,
-   Rain[Day],
+   WatBal->rt.Irrigation,
    WatBal->rt.Infiltration,
    WatBal->rt.RunOff,
    WatBal->rt.Loss,

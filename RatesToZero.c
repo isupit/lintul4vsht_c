@@ -54,7 +54,6 @@ void RatesToZero()
     WatBal->rt.EvapWater          = 0.;
     WatBal->rt.EvapSoil           = 0.;   
     WatBal->rt.Infiltration       = 0.;
-    WatBal->rt.Irrigation         = 0.;
     WatBal->rt.Loss               = 0.;
     WatBal->rt.Percolation        = 0.;
     WatBal->rt.AvailableRootZone  = 0.;

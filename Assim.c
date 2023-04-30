@@ -38,6 +38,6 @@ float DailyTotalAssimilation()
     // Correction of RUE for both non-optimal temperatures and atmospheric CO2 
     RTMCO= RTMP * RCO;
    
-   return 10. * RTMCO * RadiationUseEFF * InterceptedPAR;
+   return (10. * RTMCO * RadiationUseEFF * InterceptedPAR);
 
 }
