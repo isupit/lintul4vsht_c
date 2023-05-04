@@ -1,0 +1,1 @@
+./data/ CROPP1.dat SOILP1.DAT  MANAGE.DAT  09-31 0 2 ../Output/lintul.dat

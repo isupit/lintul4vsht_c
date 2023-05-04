@@ -49,6 +49,7 @@ void InitializeNutrients()
                         
     // Set the crop nutrient rates to zero
     Crop->N_rt.Uptake = 0.;
+    Crop->N_rt.Fixation  = 0.;
     Crop->N_rt.Uptake_lv = 0.;
     Crop->N_rt.Uptake_st = 0.;
     Crop->N_rt.Uptake_ro = 0.;
@@ -80,6 +81,7 @@ void InitializeNutrients()
     
     // Total N uptake (kg N ha-1 d-1) from soil and by biological fixation
     Crop->N_st.Uptake = 0.;
+    Crop->N_st.Fixation = 0.;
     
     // No left over nutrients from previous cycle
     Mng->st.N_tot = 0.;

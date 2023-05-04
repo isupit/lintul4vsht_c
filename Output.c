@@ -31,7 +31,7 @@ void header(FILE *fp)
 
 void Output()
 {
-   printf("\t%4d\t%3d\t%5.2f\t%6.2f\t%6.2f\t%6.2f\t%6.2f\t%6.2f\t%7.2f\t%4.2f\t%5.2f\t%5.4f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\n",
+   printf("\t%4d\t%3d\t%5.2f\t%6.2f\t%6.2f\t%6.2f\t%6.2f\t%6.2f\t%7.2f\t%4.2f\t%5.2f\t%5.4f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\n",
    MeteoYear[Day],
    MeteoDay[Day],
    Crop->st.Development,
@@ -54,5 +54,7 @@ void Output()
    Mng->st.N_mins,
    Mng->rt.N_tot,
    Mng->st.N_tot,
-   Crop->N_st.Uptake);
+   Crop->N_st.Uptake,
+   (Crop->N_st.leaves + Crop->N_st.stems + Crop->N_st.roots + Crop->N_st.storage),
+   (Crop->N_st.death_lv + Crop->N_st.death_st + Crop->N_st.death_ro));
 }

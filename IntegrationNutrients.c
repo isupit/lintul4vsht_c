@@ -22,7 +22,8 @@ void IntegrationNutrients()
     Crop->N_st.death_ro += Crop->N_rt.death_ro;
     
     // Total N uptake (kg N ha-1 d-1) from soil and by biological fixation
-    Crop->N_st.Uptake += Crop->N_rt.Uptake;
+    Crop->N_st.Uptake   += Crop->N_rt.Uptake;
+    Crop->N_st.Fixation += Crop->N_rt.Fixation;
     
     Mng->st.N_mins  = max(0, Mng->st.N_mins - Mng->rt.N_mins);
     Mng->st.N_tot  += Mng->rt.N_tot;

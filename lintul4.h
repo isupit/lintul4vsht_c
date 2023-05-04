@@ -194,6 +194,7 @@ typedef struct NUTRIENT_RATES {
         float Uptake_lv;
         float Uptake_st;
         float Uptake_ro;
+        float Fixation;
         float death_lv;
         float death_st;
         float death_ro;
@@ -216,6 +217,7 @@ typedef struct NUTRIENT_STATES {
         float Uptake_lv;
         float Uptake_st;
         float Uptake_ro;
+        float Fixation;
         float death_lv;
         float death_st;
         float death_ro;
