@@ -10,7 +10,7 @@
 #define NR_TABLES_CRP   	21
 #define NR_VARIABLES_SOIL       10
 #define NR_TABLES_SOIL          1
-#define NR_VARIABLES_MANAGEMENT 3
+#define NR_VARIABLES_MANAGEMENT 4
 #define NR_TABLES_MANAGEMENT    2
 #define NUMBER_OF_TABLES        32
 #define NR_SIMUNITS             4
@@ -51,6 +51,7 @@ typedef struct MANAGEMENT {
         float N_Uptake_frac;
         float N_Mins;
         float NRecoveryFrac;
+        float N_Background;
         
         site_rates rt;
         site_states st;

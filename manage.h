@@ -4,6 +4,7 @@
 char *ManageParam[]={ "NRFTAB",
                       "NMINS",
                       "RTNMINS",
+                      "NBCKG",
                       "NULL"
 		   };
 

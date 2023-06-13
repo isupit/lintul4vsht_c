@@ -90,7 +90,8 @@ void SoilNutrientRates(float *NutrientLimit)
     if (Crop->Emergence > 0. && Crop->st.Development <= Crop->prm.DevelopmentStageNLimit)
     {   // N rates that come available through mineralization, cannot exceed 
         // the available N in the soil                                       
-        Mng->rt.N_mins = min(Mng->st.N_mins, Mng->N_Mins * Mng->NRecoveryFrac) * (*NutrientLimit);
+        Mng->rt.N_mins = min(Mng->st.N_mins, Mng->N_Mins * Mng->NRecoveryFrac + 
+                Mng->N_Background) * (*NutrientLimit);
     }
     
     // N amount that comes available for the crop at day_fl through fertilizer applications 

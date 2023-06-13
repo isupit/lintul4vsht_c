@@ -12,8 +12,9 @@ NRFTAB  =     0.70
 
 
 * Soil N mineralization
-NMINS   =    30.  !  total mineral soil N available at start of growth period [kg N/ha]
+NMINS    =   30.    ! total mineral soil N available at start of growth period [kg N/ha]
 RTNMINS  =   0.025  ! fraction of soil mineral coming available per day [day-1]
+NBCKG    =   0.0    ! background N deposition [kg/ha/day]
 
 * irrigation water applied 
 IRRTAB   =   06-14 0.0

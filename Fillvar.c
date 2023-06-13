@@ -159,6 +159,7 @@ void FillManageVariables(Management *MNG, float *Variable)
     MNG->N_Uptake_frac                   = Variable[0];
     MNG->N_Mins                          = Variable[1];
     MNG->NRecoveryFrac                   = Variable[2];
+    MNG->N_Background                    = Variable[3];
     
     MNG->st.N_mins = MNG->N_Mins;
     
