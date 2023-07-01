@@ -1,5 +1,5 @@
-#include <stdio.h>
 #include "lintul4.h"
+
 
 /* ---------------------------------------------------------------------------*/
 /*  function FillCropVariables(float *Variable)                               */

@@ -1,9 +1,7 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <float.h>
-#include "lintul4.h"
 #include "extern.h"
-
+#include <math.h>
+#include <stdlib.h>
+#include "lintul4.h"
 
 /*---------------------------------------------------*/
 /* function EmergenceCrop                            */
@@ -13,18 +11,16 @@
 int EmergenceCrop(int Emergence)
 {
     Crop->DeltaTempSum = limit(0, Crop->prm.TempEffMax - Crop->prm.TempBaseEmergence, 
-        Temp-Crop->prm.TempBaseEmergence); 
+        Temp - Crop->prm.TempBaseEmergence); 
     
     //  Emergence has not taken place yet
     if (!Emergence) {
 
 	    Crop->TSumEmergence += Crop->DeltaTempSum;
-	    if (Crop->TSumEmergence >= Crop->prm.TSumEmergence)
-            {
+	    if (Crop->TSumEmergence >= Crop->prm.TSumEmergence) {
                 Crop->GrowthDay = 1;
                 Crop->Emergence = 1;
                 Emergence = 1;
-               
             }
     } 
     
@@ -43,7 +39,7 @@ void InitializeCrop()
     float FractionShoots; 
     float InitialShootWeight;
    
-    /* Initialize the crop states */
+    // Initialize the crop states 
     Crop->st.Development = Crop->prm.InitialDVS;
 
     FractionRoots      = Afgen(Crop->prm.Roots, &(Crop->st.Development));
@@ -62,8 +58,8 @@ void InitializeCrop()
     Crop->rt.leaves    = 0.0;  
     Crop->rt.storage   = 0.0;  
 
-    /* Adapt the maximum rooting depth */
-    Crop->prm.MaxRootingDepth = max(Crop->prm.InitRootingDepth, min(Crop->prm.MaxRootingDepth,
+    // Adapt the maximum rooting depth 
+    Crop->prm.MaxRootingDepth = fmaxf(Crop->prm.InitRootingDepth, fminf(Crop->prm.MaxRootingDepth,
          WatBal->ct.SoilMaxRootDepth));
 
     Crop->st.LAI = Crop->st.leaves * Afgen(Crop->prm.SpecificLeaveArea, &(Crop->st.Development)); 
@@ -74,7 +70,7 @@ void InitializeCrop()
            Afgen(Crop->prm.SpecificStemArea, &(Crop->st.Development)) +
            Crop->st.storage*Crop->prm.SpecificPodArea;
     
-    /* Initialize the heat stress */
+    // Initialize the heat stress 
     Crop->Heat = 0.;
     Crop->HeatDays = 0;
     Crop->HeatReduction = 1.;
@@ -82,14 +78,10 @@ void InitializeCrop()
     Crop->SeedFlag = FALSE;
     Crop->EmergenceFlag = FALSE;
     
-    /* Crop death rates set to zero */
+    // Crop death rates set to zero
     Crop->drt.leaves = 0.;
     Crop->drt.roots  = 0.;
     Crop->drt.stems  = 0.;
     Crop->DeltaTempSum = 0.;
-    
-    /* Emergence true */
-    //Crop->Emergence = 1;
-    //Crop->GrowthDay = 1;
-            
+           
 }  

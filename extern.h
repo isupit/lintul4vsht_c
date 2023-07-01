@@ -1,19 +1,13 @@
 /* General global parameters */
-#include "lintul4.h"
+
 
 #ifndef EXTERN_H
 #define EXTERN_H
 
-size_t Day;
-size_t Lon;
-size_t Lat;
-
-float Temp;
-float DayTemp;
+#include <stdio.h>
+#include "lintul4.h"
 
 /* General help functions */
-extern float max(float a, float b);
-extern float min(float a, float b);
 extern float Afgen();
 extern float List();
 extern float limit(float a, float b, float c);
@@ -84,6 +78,32 @@ extern void InitializeWatBal();
 extern void RateCalulationWatBal();
 extern void IntegrationWatBal();
 extern void EvapTra();
+
+extern int Station, Year;
+extern int MeteoYear[METEO_LENGTH];
+extern int MeteoDay[METEO_LENGTH];
+extern float CO2;
+extern float AngstA;
+extern float AngstB;
+extern float Longitude, Latitude, Altitude;
+extern float Tmin[METEO_LENGTH];
+extern float Tmax[METEO_LENGTH];
+extern float Radiation[METEO_LENGTH];
+extern float Rain[METEO_LENGTH];
+extern float Windspeed[METEO_LENGTH];
+extern float Vapour[METEO_LENGTH];
+
+extern int MeteoYear[METEO_LENGTH];
+extern int MeteoDay[METEO_LENGTH];
+
+extern float Temp;
+extern size_t Day;
+extern float DayTemp;
+extern float AtmosphTransm;
+extern float PARDaylength;
+
+extern Weather *Meteo;
+extern SimUnit *Grid;
 
 #endif	// EXTERN_H
 

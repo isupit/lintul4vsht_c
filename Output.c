@@ -1,11 +1,10 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "extern.h"
 #include "lintul4.h"
 
+
 void header(FILE *fp)
 {
-    fprintf(fp,"                Date   Date   DVS       WLV        WST          WSO         WRT         LAI     WSTRESS  SOILM    INF      Rain   NNI        PNI        KNI        NPKI  \n");
+    fprintf(fp,"               Date   Date   DVS       WLV        WST          WSO         WRT         LAI     WSTRESS  SOILM    INF      Rain   NNI        PNI        KNI        NPKI  \n");
 }
    
 /*void Output(FILE *fp)

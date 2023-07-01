@@ -1,5 +1,3 @@
-#include <stdio.h>
-#include "astro.h"
 #include "extern.h"
 #include "lintul4.h"
 

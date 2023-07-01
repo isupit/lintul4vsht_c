@@ -1,7 +1,6 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "lintul4.h"
 #include "extern.h"
+
 
 /* --------------------------------------------------------------------*/
 /*  function NutrientsInitialize()                                     */

@@ -1,6 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <float.h>
 #include "lintul4.h"
 #include "extern.h"
 

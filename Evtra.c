@@ -1,11 +1,10 @@
 /* original: Penman.for from I.G.A.M. Noy and C.A. van Diepen, */
 /* van Kraalingen, and Allard de Wit, Sep 2011                 */
 
-#include <stdio.h>
-#include <math.h>
-#include "penman.h"
-#include "lintul4.h"
 #include "extern.h"
+#include <math.h>
+#include "lintul4.h"
+
 
 /* ---------------------------------------------------------------*/
 /*  function sweaf()                                              */
@@ -24,6 +23,10 @@
 /*    Original fortran version: D.M. Jansen and C.A. van Diepen,  */
 /*    October 1986.                                               */
 /* ---------------------------------------------------------------*/ 
+
+
+extern SimUnit *Grid;
+
 float sweaf(){
     float sweaf; 
     sweaf = 1./(0.76 + 1.5 * Penman.ET0) - (5.-Crop->prm.CropGroupNumber ) * 0.10;
@@ -61,8 +64,8 @@ void EvapTra() {
             
 
     if (Crop->Emergence ) {
-        Evtra.MaxEvapSoil  = max(0., Penman.ES0 * (1. - Finnt));
-        Evtra.MaxTranspiration = max(0.0001, Penman.ETC *
+        Evtra.MaxEvapSoil  = fmaxf(0., Penman.ES0 * (1. - Finnt));
+        Evtra.MaxTranspiration = fmaxf(0.0001, Penman.ETC *
                                  Crop->prm.CorrectionTransp * Finnt);
     }
     else {
@@ -84,7 +87,7 @@ void EvapTra() {
         
         // Count days since start oxygen shortage (up to 4 days) 
         if (WatBal->st.AvailableRootZone >= SoilMoistureAeration) {
-            Crop->DaysOxygenStress = min(Crop->DaysOxygenStress++, 4.);
+            Crop->DaysOxygenStress = fminf(Crop->DaysOxygenStress++, 4.);
         }
         else {
             Crop->DaysOxygenStress = 0.;
@@ -105,7 +108,7 @@ void EvapTra() {
     //WatBal->WaterStress = 1.;
     
     if(Crop->Emergence) {
-        WatBal->rt.Transpiration = min(WatBal->st.AvailableRootZone, 
+        WatBal->rt.Transpiration = fminf(WatBal->st.AvailableRootZone, 
             WatBal->WaterStress * Evtra.MaxTranspiration);
         
         WatBal->WaterStress = WatBal->rt.Transpiration / Evtra.MaxTranspiration;

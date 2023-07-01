@@ -4,7 +4,6 @@
 #include "lintul4.h"
 #include "soil.h"
 
-
 void GetSoilData(Soil *SOIL, char *soilfile)
 {
     AFGEN *Table[NR_TABLES_SOIL], *start;

@@ -1,6 +1,6 @@
-#include <stdio.h>
 #include <stdlib.h>
 #include "lintul4.h"
+
 
 /* ---------------------------------------------------------------*/
 /*  function Clean()                                              */

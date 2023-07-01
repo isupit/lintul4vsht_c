@@ -9,11 +9,8 @@ typedef struct ETP {
     float ETC;
 } Etp;
 
-Etp Penman;
+extern Etp Penman;
 
-//extern float min(float a, float b);
-//extern float max(float a, float b);
-//extern float limit(float a, float b, float c);
 
 typedef struct EVP {
     float MaxEvapWater;
@@ -21,8 +18,7 @@ typedef struct EVP {
     float MaxTranspiration;
 } EVP;
 
-EVP Evtra;
-
+extern EVP Evtra;
 
 #endif	// PENMAN_H
 

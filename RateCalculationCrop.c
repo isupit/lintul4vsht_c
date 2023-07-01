@@ -1,10 +1,7 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <ctype.h>
-#include <float.h>
+#include "extern.h"
 #include <math.h>
 #include "lintul4.h"
-#include "extern.h"
+
 
 /* ---------------------------------------------------------------------------*/
 /*  function RateCalculationCrop()                                            */
@@ -12,6 +9,7 @@
 /*  crop growth and subsequently establish the crop growth rates for the      */
 /*  plant organs (kg ha-1 d-1).                                               */
 /* ---------------------------------------------------------------------------*/
+
 
 void RateCalculationCrop()
 {
@@ -23,7 +21,7 @@ void RateCalculationCrop()
     GrossAssimilation = DailyTotalAssimilation();
    
     // Stress: either nutrient shortage or water shortage 
-    Stress = min(Crop->NutrientStress, WatBal->WaterStress);
+    Stress = fminf(Crop->NutrientStress, WatBal->WaterStress);
  
     // Correction for low minimum temperatures and stress factors
     TotalAssimilation = Stress * GrossAssimilation;       

@@ -1,8 +1,8 @@
-#include <stdio.h>
+#include "extern.h"
 #include <string.h>
 #include <stdlib.h>
 #include "lintul4.h"
-#include "extern.h"
+
 
 /* ----------------------------------------------------------------------------*/
 /*  function GetMeteoInput()                                                   */
@@ -10,6 +10,8 @@
 /*           as well if the simulation starting day and whether the simulation */
 /*           starts at emergence (1) or sowing (0)                             */
 /*-----------------------------------------------------------------------------*/
+
+extern SimUnit *Grid;
 
 int GetSimInput(char *list)
 {

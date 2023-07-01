@@ -1,8 +1,8 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
-#include "lintul4.h"
 #include "extern.h"
+#include <math.h>
+
+#define FALSE 0
+#define TRUE 1 
 
 void Partioning()
 {
@@ -14,8 +14,8 @@ void Partioning()
     {
         if (WatBal->WaterStress < Crop->N_st.Indx)
         {
-            factor = max(1., 1./(WatBal->WaterStress + 0.5));
-            Crop->fac_ro = min(0.6, Afgen(Crop->prm.Roots, &(Crop->st.Development)) * factor);
+            factor = fmaxf(1., 1./(WatBal->WaterStress + 0.5));
+            Crop->fac_ro = fminf(0.6, Afgen(Crop->prm.Roots, &(Crop->st.Development)) * factor);
             Crop->fac_lv = Afgen(Crop->prm.Leaves, &(Crop->st.Development));
             Crop->fac_st = Afgen(Crop->prm.Stems, &(Crop->st.Development));
             Crop->fac_so = Afgen(Crop->prm.Storage, &(Crop->st.Development));
@@ -124,11 +124,11 @@ void Growth(float NewPlantMaterial)
         // Grain growth limited by both maximal grain mass (MaxGrainMass) 
         // and by potential growth of the grains (PotGrainMass)    
         PotGrainMass = Afgen(Crop->prm.ReductionGrainTemp, &DayTemp) * Crop->GrainNr * Crop->prm.PotGrainformation;
-        MaxGrainMass = max (0.0, Crop->GrainNr * Crop->prm.MaxGrainMass - Crop->st.storage);
-        rt_GrainMass = min (MaxGrainMass, PotGrainMass);
+        MaxGrainMass = fmaxf(0.0, Crop->GrainNr * Crop->prm.MaxGrainMass - Crop->st.storage);
+        rt_GrainMass = fminf(MaxGrainMass, PotGrainMass);
 
         // Source or sink limitation 
-        temp_so = min(Crop->rt.storage, rt_GrainMass);
+        temp_so = fminf(Crop->rt.storage, rt_GrainMass);
 
         // Correction in case of sink limitation 
         if (rt_GrainMass < Crop->rt.storage) {
@@ -144,7 +144,7 @@ void Growth(float NewPlantMaterial)
     if (Crop->fac_ro <= 0.0 )
         Crop->rt.RootDepth = 0.;
     else
-        Crop->rt.RootDepth = min(Crop->prm.MaxRootingDepth - Crop->st.RootDepth,
+        Crop->rt.RootDepth = fminf(Crop->prm.MaxRootingDepth - Crop->st.RootDepth,
                 Crop->prm.MaxIncreaseRoot);
     
 }	

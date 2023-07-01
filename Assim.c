@@ -1,8 +1,15 @@
-#include <stdio.h>
 #include <math.h>
-#include "astro.h"
 #include "extern.h"
 #include "lintul4.h"
+
+
+Plant *Crop;
+
+extern float CO2;
+extern float DayTemp;
+extern float Radiation[METEO_LENGTH];
+extern float Tmin[METEO_LENGTH];
+extern size_t Day;
 
 /* ----------------------------------------------------------------------------*/
 /*  function DailyTotalAssimilation()                                          */ 

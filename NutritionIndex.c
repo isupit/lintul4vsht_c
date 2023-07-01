@@ -1,5 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include <math.h>
 #include "lintul4.h"
 #include "extern.h"
@@ -8,6 +6,8 @@
 /*  function NutritionINDX()                                           */
 /*  Purpose: To compute N Nutrition Index (-)                      */
 /* --------------------------------------------------------------------*/
+
+
 void NutritionINDX()
 {    
     float VegetativeMass;

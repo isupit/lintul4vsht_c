@@ -1,9 +1,9 @@
+#include "extern.h"
 #include <string.h>
 #include <stdlib.h>
-#include <stdio.h>
 #include "lintul4.h"
-#include "extern.h"
 #include "crop.h"
+
 
 /* ------------------------------------------------------------------------*/
 /*  function GetCropData()                                                 */
@@ -148,17 +148,17 @@ void GetCropData(Plant *CROP, char *cropfile)
     CROP->Emergence = 0;
     CROP->TSumEmergence = 0.;
 
-    /* Crop development has not started yet*/
+    // Crop development has not started yet
     CROP->st.RootDepth = 0.;
     CROP->st.Development = 0.;
     CROP->DaysOxygenStress = 0; // No crop development therefore no oxygen stress
 
-    /* No initial nutrient stress */
+    // No initial nutrient stress
     CROP->NutrientStress = 1.;
     CROP->N_st.Indx = 1.;
 
-    /* STATES */  
-    /* Set the initial growth states to zero */
+    // STATES
+    // Set the initial growth states to zero 
     CROP->st.roots   = 0.;
     CROP->st.stems   = 0.;
     CROP->st.leaves  = 0.;
@@ -166,29 +166,32 @@ void GetCropData(Plant *CROP, char *cropfile)
     CROP->st.LAIExp  = 0.;
     CROP->st.vernalization = 0.;
 
-    /* Set the initial nutrient states to zero*/
+    // Set the initial nutrient states to zero
     CROP->N_st.leaves = 0.;
     CROP->N_st.stems  = 0.;
     CROP->N_st.roots  = 0.;
     CROP->N_st.storage= 0.;
 
-    /* Set the maximum nutrient concentration to zero at initialization */
+    // Set the maximum nutrient concentration to zero at initialization 
     CROP->N_st.Max_lv = 0.;
     CROP->N_st.Max_st = 0.;
     CROP->N_st.Max_ro = 0.;
 
-     /* Set the initial optimal leave concentrations to zero */
+     // Set the initial optimal leave concentrations to zero 
     CROP->N_st.Optimum_lv = 0;
     CROP->N_st.Optimum_st = 0;
     
-     /* Set the initial uptake states to zero*/
+     // Set the initial uptake states to zero
     CROP->N_st.Uptake    = 0.;
     CROP->N_st.Uptake_lv = 0.;
     CROP->N_st.Uptake_st = 0.;
     CROP->N_st.Uptake_ro = 0.;
 
-    /* No nutrient losses at initialization */
+    // No nutrient losses at initialization
     CROP->N_st.death_lv = 0.;
     CROP->N_st.death_st = 0.;
     CROP->N_st.death_ro = 0.;   
+    
+    // Set the crop season counter
+    CROP->Seasons = 1;
 }

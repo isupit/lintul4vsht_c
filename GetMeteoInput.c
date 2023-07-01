@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include "lintul4.h"
@@ -18,7 +17,7 @@ void GetMeteoInput(char *meteolist)
     Weather *initial = NULL;
     
     int StartYear;
-    int EndYear;
+    int NrSeasons;
     float lat;
     float lon;
     char filename[MAX_STRING];
@@ -31,7 +30,7 @@ void GetMeteoInput(char *meteolist)
         exit(1);
     }
     
-    while (fscanf(ifp,"%s %d %d %f %f %f" , filename, &StartYear, &EndYear, &lat, &lon, &CO2) != EOF) 
+    while (fscanf(ifp,"%s %d %d %f %f %f" , filename, &StartYear, &NrSeasons, &lat, &lon, &CO2) != EOF) 
     {
         if (initial == NULL) 
         {
@@ -49,7 +48,7 @@ void GetMeteoInput(char *meteolist)
         strncpy(Meteo->file, filename, strlen(filename));
         
         Meteo->StartYear = StartYear;
-        Meteo->EndYear = EndYear;
+        Meteo->Seasons = NrSeasons;
         Meteo->lat = lat;
         Meteo->lon = lon;
         Meteo->next = NULL;

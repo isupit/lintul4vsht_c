@@ -1,11 +1,36 @@
-#include <stdio.h>
+#include "extern.h"
 #include <string.h>
 #include <stdlib.h>
-#include <float.h>
 #include "lintul4.h"
-#include "extern.h"
-#include <time.h>
+#include "astro.h"
+#include "timest.h"
 
+
+int Station, Year;
+int MeteoYear[METEO_LENGTH];
+int MeteoDay[METEO_LENGTH];
+
+float CO2;
+float AngstA;
+float AngstB;
+float Longitude, Latitude, Altitude;
+float Tmin[METEO_LENGTH];
+float Tmax[METEO_LENGTH];
+float Radiation[METEO_LENGTH];
+float Rain[METEO_LENGTH];
+float Windspeed[METEO_LENGTH];
+float Vapour[METEO_LENGTH];
+
+size_t Day;
+float Temp;
+float DayTemp;
+
+Management *Mng;
+Soil *WatBal;
+Weather *Meteo; 
+Etp Penman;
+EVP Evtra;
+SimUnit *Grid;
 
 int main(int argc, char **argv)
 {
@@ -99,7 +124,7 @@ int main(int argc, char **argv)
                 DayTemp = 0.5 * (Tmax[Day] + Temp);
                 
                 // Only simulate between start and end year 
-                if ( MeteoYear[Day] >=  Meteo->StartYear && MeteoYear[Day] <= Meteo->EndYear + 1) {   
+                if ( MeteoYear[Day] >=  Meteo->StartYear && Meteo->Seasons  >= Crop->Seasons) {   
                     
                     // Determine if the starting date for the simulations already has occurred 
                     if (start_date.tm_yday == current_date.tm_yday) {
@@ -153,6 +178,7 @@ int main(int argc, char **argv)
                                 Crop->TSumEmergence = 0;
                                 Crop->Emergence = 0;
                                 Crop->Sowing    = 0;
+                                Crop->Seasons++;
                             }
                         }
                         Output();

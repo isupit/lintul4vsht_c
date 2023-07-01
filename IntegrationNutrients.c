@@ -1,7 +1,5 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include <math.h>
 #include "lintul4.h"
-#include "extern.h"
 
 /* ----------------------------------------------------------------------*/
 /*  function IntegrationNutrients()                                      */
@@ -25,7 +23,7 @@ void IntegrationNutrients()
     Crop->N_st.Uptake   += Crop->N_rt.Uptake;
     Crop->N_st.Fixation += Crop->N_rt.Fixation;
     
-    Mng->st.N_mins  = max(0, Mng->st.N_mins - Mng->rt.N_mins);
+    Mng->st.N_mins  = fmaxf(0, Mng->st.N_mins - Mng->rt.N_mins);
     Mng->st.N_tot  += Mng->rt.N_tot;
 //    printf("%7.2f %7.2f %7.4f\n", Mng->st.N_mins, Mng->st.N_tot, Crop->st.Development);
 }

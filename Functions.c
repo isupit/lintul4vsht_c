@@ -1,4 +1,3 @@
-#include <stdio.h>
 
 float limit(float a, float b, float c)
 {
@@ -28,7 +27,7 @@ int leap_year(int year)
         return 365;
 }
 
-
+/*
 float min(float a, float b)
 {
     return ((a < b) ? a : b);
@@ -38,4 +37,4 @@ float min(float a, float b)
 float max(float a, float b)
 {
     return ((a > b) ? a : b);
-}
+}*/

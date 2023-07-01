@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include "lintul4.h"
 #include "manage.h"
+
        
 void GetManagement(Management *MNG, char *management)
 {

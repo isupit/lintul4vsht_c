@@ -1,8 +1,5 @@
-#include <stdio.h>
-#include <math.h>
-#include <stdlib.h>
-#include "astro.h"
 #include "extern.h"
+#include <math.h>
 #include "lintul4.h"
 
 #define  ANGLE  -4.0
@@ -18,6 +15,22 @@
 /*         revised Allard de Wit, January 2011                          */
 /* ---------------------------------------------------------------------*/
 
+extern float AtmosphTransm;
+extern float AngotRadiation;
+extern float Daylength;
+extern float PARDaylength;
+extern float SinLD;
+extern float CosLD; 
+extern float DiffRadPP;
+extern float DSinBE;
+
+
+
+extern size_t Day;
+extern int MeteoDay[METEO_LENGTH];
+extern float Radiation[METEO_LENGTH];
+extern float Longitude, Latitude, Altitude;
+
 int Astro()
 {
     float Declination;
@@ -30,7 +43,7 @@ int Astro()
     
     if (fabsf(Latitude) > 90.) return 0;  
 
-    /* We start at Day= 1, we do not use Day = 0 */
+    // We start at Day= 1, we do not use Day = 0 
     Declination    = -asin(sin(23.45*RAD)*cos(2.*PI*(day_fl+10.)/365.));
     SolarConstant  = 1370.*(1.+0.033*cos(2.*PI*(day_fl)/365.));
   
@@ -38,13 +51,13 @@ int Astro()
     CosLD = cos(RAD*Latitude)*cos(Declination);
     AOB   = SinLD/CosLD;
     
-   /* Astronomical day length */
-    Daylength = max(0,min(24.,12.0*(1.+2.*asin(AOB)/PI)));
+   // Astronomical day length 
+    Daylength = fmaxf(0,fminf(24.,12.0*(1.+2.*asin(AOB)/PI)));
     
-    /* Photoactive day length */
-    PARDaylength = max(0,min(24.,12.0*(1.+2.*asin((-sin(ANGLE*RAD)+SinLD)/CosLD)/PI)));
+    // Photoactive day length 
+    PARDaylength = fmaxf(0,fminf(24.,12.0*(1.+2.*asin((-sin(ANGLE*RAD)+SinLD)/CosLD)/PI)));
     
-    /* Integrals of sine of solar height */
+    // Integrals of sine of solar height 
     if (AOB <= 1.0)
     {   
         DSinB  = 3600.*(Daylength*SinLD+(24./PI)*CosLD*sqrt(1.-AOB*AOB));
@@ -57,7 +70,7 @@ int Astro()
         DSinBE = 3600.*(Daylength*(SinLD+0.4*(SinLD*SinLD + CosLD*CosLD*0.5)));
     }
     
-    /*  Extraterrestrial radiation and atmospheric transmission */
+    //  Extraterrestrial radiation and atmospheric transmission 
 
     AngotRadiation  = SolarConstant*DSinB;
     AtmosphTransm   = Radiation[Day]/AngotRadiation;

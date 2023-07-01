@@ -1,15 +1,16 @@
-#include <stdio.h>
+#include "extern.h"
 #include <stdlib.h>
 #include <math.h>
 #include "lintul4.h"
-#include "extern.h"
-#include "penman.h"
+
 
 /* ---------------------------------------------------------------------------*/
 /*  function NutrientLoss                                                     */
 /*  Purpose: To calculate nutrient loss rate of dying of roots, stems leaves  */
 /*           and storage organs (kg N ha-1 d-1)                               */
-/* ---------------------------------------------------------------------------*/     
+/* ---------------------------------------------------------------------------*/   
+
+ 
 void NutrientLoss() 
 {         
     Crop->N_rt.death_lv = Crop->prm.N_ResidualFrac_lv * Crop->drt.leaves;
@@ -54,10 +55,10 @@ void NutrientOptimum()
 /* ----------------------------------------------------------------------------*/
 void NutrientDemand()
 {
-    Crop->N_rt.Demand_lv =  max (Crop->N_st.Max_lv *Crop->st.leaves - Crop->N_st.leaves, 0.);
-    Crop->N_rt.Demand_st =  max (Crop->N_st.Max_st *Crop->st.stems  - Crop->N_st.stems, 0.);
-    Crop->N_rt.Demand_ro =  max (Crop->N_st.Max_ro *Crop->st.roots  - Crop->N_st.roots, 0.);
-    Crop->N_rt.Demand_so =  max (Crop->prm.Max_N_storage *Crop->st.storage- Crop->N_st.storage, 0.)/Crop->prm.TCNT;
+    Crop->N_rt.Demand_lv =  fmaxf(Crop->N_st.Max_lv *Crop->st.leaves - Crop->N_st.leaves, 0.);
+    Crop->N_rt.Demand_st =  fmaxf(Crop->N_st.Max_st *Crop->st.stems  - Crop->N_st.stems, 0.);
+    Crop->N_rt.Demand_ro =  fmaxf(Crop->N_st.Max_ro *Crop->st.roots  - Crop->N_st.roots, 0.);
+    Crop->N_rt.Demand_so =  fmaxf(Crop->prm.Max_N_storage *Crop->st.storage- Crop->N_st.storage, 0.)/Crop->prm.TCNT;
 }
 
 
@@ -90,7 +91,7 @@ void SoilNutrientRates(float *NutrientLimit)
     if (Crop->Emergence > 0. && Crop->st.Development <= Crop->prm.DevelopmentStageNLimit)
     {   // N rates that come available through mineralization, cannot exceed 
         // the available N in the soil                                       
-        Mng->rt.N_mins = min(Mng->st.N_mins, Mng->N_Mins * Mng->NRecoveryFrac + 
+        Mng->rt.N_mins = fminf(Mng->st.N_mins, Mng->N_Mins * Mng->NRecoveryFrac + 
                 Mng->N_Background) * (*NutrientLimit);
     }
     
@@ -101,7 +102,7 @@ void SoilNutrientRates(float *NutrientLimit)
     // soil N mineralization and crop uptake 
     Mng->rt.N_tot = (N_fert - Crop->N_rt.Uptake + Mng->rt.N_mins);
     if (Mng->st.N_tot + Mng->rt.N_tot < 0. ) 
-        Mng->rt.N_tot = max(0, Mng->st.N_tot + Mng->rt.N_tot);
+        Mng->rt.N_tot = fmaxf(0, Mng->st.N_tot + Mng->rt.N_tot);
        
    
 }

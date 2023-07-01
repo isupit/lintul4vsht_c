@@ -1,9 +1,7 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
 #include "extern.h"
+#include <math.h>
 #include "lintul4.h"
-#include "penman.h"
+
 
 /* ------------------------------------------------------------------------*/
 /*  function DyingLeaves()                                                 */
@@ -33,12 +31,12 @@ void DyingOrgans()
     }
 
     // Death rate due to shading 
-    DeathRateShading = max(0., Crop->prm.DeathRateLeavesShading * (Crop->st.LAI - Crop->prm.LAICr)/Crop->prm.LAICr);
+    DeathRateShading = fmaxf(0., Crop->prm.DeathRateLeavesShading * (Crop->st.LAI - Crop->prm.LAICr)/Crop->prm.LAICr);
 
     // Death rate due to water stress 
     DeathRateWaterStress = (1. - WatBal->WaterStress) * Crop->prm.DeathRateLeavesWaterStr;
     
-    DeathRate = max(DeathRateTemp, max(DeathRateShading, DeathRateWaterStress));
+    DeathRate = fmaxf(DeathRateTemp, fmaxf(DeathRateShading, DeathRateWaterStress));
     
     // Death rate due to N stress 
     DeathRateNStress   = 0.;
@@ -52,15 +50,15 @@ void DyingOrgans()
     DeathLeaves = Crop->st.leaves * DeathRate;
     DeathLAI    = Crop->st.LAI * DeathRate;
     
-    Crop->drt.leaves = min(Crop->st.leaves, DeathLeaves + DeathRateNStress);
-    Crop->drt.LAI    = min(Crop->st.LAI, DeathLAI + DeathRateLAIStress);
+    Crop->drt.leaves = fminf(Crop->st.leaves, DeathLeaves + DeathRateNStress);
+    Crop->drt.LAI    = fminf(Crop->st.LAI, DeathLAI + DeathRateLAIStress);
     
     // Death rate roots
-    Crop->drt.roots = min(Crop->st.roots, Crop->st.roots * 
+    Crop->drt.roots = fminf(Crop->st.roots, Crop->st.roots * 
             Afgen(Crop->prm.DeathRateRoots, &(Crop->st.Development)));
 
     // Death rate stems
-    Crop->drt.stems = min(Crop->st.stems, Crop->st.stems * 
+    Crop->drt.stems = fminf(Crop->st.stems, Crop->st.stems * 
             Afgen(Crop->prm.DeathRateStems, &(Crop->st.Development)));
 
 }
