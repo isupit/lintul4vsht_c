@@ -1,8 +1,7 @@
 #include "extern.h"
 #include <math.h>
+#include <stdbool.h>
 
-#define FALSE 0
-#define TRUE 1 
 
 void Partioning()
 {

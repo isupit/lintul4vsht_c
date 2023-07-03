@@ -104,6 +104,7 @@ extern float PARDaylength;
 
 extern Weather *Meteo;
 extern SimUnit *Grid;
+extern struct tm current_date;
 
 #endif	// EXTERN_H
 

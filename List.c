@@ -2,7 +2,7 @@
 #include <time.h>
 #include "managest.h"
 
-extern struct tm current_date;
+
 
 /* ---------------------------------------------------------------------------*/
 /*  function List()                                                           */

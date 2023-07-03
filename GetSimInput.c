@@ -11,7 +11,6 @@
 /*           starts at emergence (1) or sowing (0)                             */
 /*-----------------------------------------------------------------------------*/
 
-extern SimUnit *Grid;
 
 int GetSimInput(char *list)
 {

@@ -9,50 +9,50 @@
 
 void RatesToZero()
 {
-    /* Set the dying rates */
+    // Set the dying rates 
     Crop->drt.roots = 0.;
     Crop->drt.leaves = 0.;
     Crop->drt.stems = 0.;
   
-    /* Set the development rate */
+    // Set the development rate
     Crop->rt.Development = 0.;
     Crop->rt.vernalization = 0.;
        
-    /* Set the crop growth rates */
+    // Set the crop growth rates 
     Crop->rt.roots   = 0.;
     Crop->rt.leaves  = 0.;
     Crop->rt.stems   = 0.;
     Crop->rt.storage = 0.;
     Crop->rt.LAIExp  = 0.;      
        
-    /* Set the nutrient loss rates due to dying */
+    // Set the nutrient loss rates due to dying
     Crop->N_rt.death_lv = 0.;
     Crop->N_rt.death_st = 0.;
     Crop->N_rt.death_ro = 0.;
        
-    /* Set nutrient rates to various crop organs */
+    // Set nutrient rates to various crop organs
     Crop->N_rt.leaves  = 0.;
     Crop->N_rt.stems   = 0.;
     Crop->N_rt.storage = 0.;
     Crop->N_rt.roots   = 0.;
     
-    /* Set the nutrient demand rates */
+    // Set the nutrient demand rates 
     Crop->N_rt.Demand_lv = 0.;
     Crop->N_rt.Demand_st = 0.;
     Crop->N_rt.Demand_ro = 0.;
     Crop->N_rt.Demand_so = 0.;
     
     
-    /* Set the nutrient translocation rates */
+    // Set the nutrient translocation rates
     Crop->N_rt.Transloc = 0.;
 
-    /* Set the nutrient uptake rates */
+    // Set the nutrient uptake rates
     Crop->N_rt.Uptake    = 0.;
     Crop->N_rt.Uptake_lv = 0.;
     Crop->N_rt.Uptake_st = 0.;
     Crop->N_rt.Uptake_ro = 0.;
        
-    /* Set the water balance rates */
+    // Set the water balance rates 
     WatBal->rt.EvapWater          = 0.;
     WatBal->rt.EvapSoil           = 0.;   
     WatBal->rt.Infiltration       = 0.;

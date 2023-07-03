@@ -25,8 +25,6 @@
 /* ---------------------------------------------------------------*/ 
 
 
-extern SimUnit *Grid;
-
 float sweaf(){
     float sweaf; 
     sweaf = 1./(0.76 + 1.5 * Penman.ET0) - (5.-Crop->prm.CropGroupNumber ) * 0.10;

@@ -10,18 +10,18 @@
 
 void NutrientTranslocation()                                                                                                       
 {
-     float Avail_N_lv;
-     float Avail_N_st;   
-     float Avail_N_rt;
-     float Supply_so;
+    float Avail_N_lv;
+    float Avail_N_st;   
+    float Avail_N_rt;
+    float Supply_so;
                                                                                                                  
-    /* N amount available for translocation */                                                                                                              
+    // N amount available for translocation                                                                                                              
     Avail_N_lv = fmaxf(0.,Crop->N_st.leaves - Crop->st.leaves * Crop->prm.N_ResidualFrac_lv);
     Avail_N_st = fmaxf(0.,Crop->N_st.stems  - Crop->st.stems  * Crop->prm.N_ResidualFrac_st);
     Avail_N_rt = fmaxf(0.,fminf((Avail_N_lv + Avail_N_st) * Crop->prm.FracTranslocRoots, 
             Crop->N_st.roots - Crop->st.roots * Crop->prm.N_ResidualFrac_ro));
    
-    /* Total available nutrient amount for translocation */
+    // Total available nutrient amount for translocation 
     Crop->N_rt.Transloc = Avail_N_lv + Avail_N_st + Avail_N_rt;
     
     Supply_so = insw(Crop->st.Development - Crop->prm.DevelopmentStageNT,0., Crop->N_rt.Transloc/Crop->prm.TCNT);
