@@ -1,10 +1,10 @@
 #include "extern.h"
 #include <string.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include "lintul4.h"
 #include "astro.h"
 #include "timest.h"
-
 
 int Station, Year;
 int MeteoYear[METEO_LENGTH];
@@ -34,11 +34,12 @@ SimUnit *Grid;
 
 int main(int argc, char **argv)
 {
-    FILE **output;
-    
     SimUnit *initial  = NULL;
     //Weather *Meteo = NULL;
     Weather *head;
+    
+    FILE **files;
+    FILE *fptr;
       
     int CycleLength   = 300;
     int NumberOfFiles = 0;
@@ -71,16 +72,18 @@ int main(int argc, char **argv)
     GetMeteoInput(meteolist);
     
     // Allocate memory for the file pointers 
-    output = malloc(sizeof(**output) * NumberOfFiles);
+    files = malloc(sizeof(**files) * NumberOfFiles);
    
     // Open the output files
     while (Grid)
     {   // Make valgrind happy 
         memset(name,'\0',MAX_STRING);
         strncpy(name, Grid->output,strlen(Grid->output));
+        
+        fptr = fopen(name, "w");
            
-        output[Grid->file] = fopen(name, "w");
-        header(output[Grid->file]);
+        files[Grid->file] = fptr;
+        header(files[Grid->file]);
         Grid = Grid->next;
     }
     
@@ -206,10 +209,10 @@ int main(int argc, char **argv)
     // Close the output files and free the allocated memory 
     while(Grid)
     {
-        fclose(output[Grid->file]);
+        fclose(files[Grid->file]);
         Grid = Grid->next;
     }
-    free(output);
+    free(files);
 
     // Go back to the beginning of the list 
     Grid = initial;
