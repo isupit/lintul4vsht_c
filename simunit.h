@@ -17,6 +17,8 @@ typedef struct SIMUNIT {
         int file;
         char start[MAX_STRING];
         char output[MAX_STRING];
+        char treatment[MAX_STRING];
+        char location[MAX_STRING];
         
         /* Statistics */
         float twso[31];

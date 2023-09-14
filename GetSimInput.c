@@ -29,6 +29,8 @@ int GetSimInput(char *list)
     char management[MAX_STRING];
     char output[MAX_STRING];
     char start[MAX_STRING];
+    char treatment[MAX_STRING];
+    char location[MAX_STRING];
     char cf[MAX_STRING], sf[MAX_STRING], mf[MAX_STRING];
   
     ifp = fopen(list, "r");
@@ -45,8 +47,8 @@ int GetSimInput(char *list)
             continue;
         }
         
-        sscanf(line,"%s %s %s %s  %s %d %d %s" ,
-            path, cf, sf, mf, start, &Emergence, &Option, output);
+        sscanf(line,"%s %s %s %s  %s %d %d %s %s %s" ,
+            path, cf, sf, mf, start, &Emergence, &Option, output, treatment, location);
         
         memset(cropfile,'\0',MAX_STRING);
         memset(soilfile,'\0',MAX_STRING);
@@ -82,10 +84,14 @@ int GetSimInput(char *list)
         if (strlen(start) >= MAX_STRING) exit(0);  
         
         memset(Grid->output,'\0',MAX_STRING);
+        memset(Grid->treatment,'\0',MAX_STRING);
         memset(Grid->start,'\0',MAX_STRING);
+        memset(Grid->location,'\0',MAX_STRING);
         
         strncpy(Grid->output,output,strlen(output)); // Name of output file
         strncpy(Grid->start,start,strlen(start)); // Starting string month day of the simulations 
+        strncpy(Grid->treatment,treatment,strlen(treatment)); // Treatment name 
+        strncpy(Grid->location,location,strlen(location)); // Location name
         
         Grid->file  = count++;            // number of elements in Grid carousel
         Grid->emergence = Emergence;      // Start the simulations at emergence (1) or at sowing (0)      

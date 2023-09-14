@@ -28,7 +28,7 @@ void NutrientTranslocation()
     Crop->N_rt.storage  =fminf(Supply_so,Crop->N_rt.Demand_so);
     
     /* Actual N translocation rate */ 
-    if (Crop->N_rt.Transloc > 0.001)
+    if (Crop->N_rt.storage > 0 && Crop->N_rt.Transloc > 0.001)
     {
         Crop->N_rt.Transloc_lv = Crop->N_rt.storage * Avail_N_lv / Crop->N_rt.Transloc;
         Crop->N_rt.Transloc_st = Crop->N_rt.storage * Avail_N_st / Crop->N_rt.Transloc;

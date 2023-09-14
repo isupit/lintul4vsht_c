@@ -34,6 +34,7 @@ typedef struct STATES {
         float TotalWaterRootZone;
         float TotalWaterLowerZone;
         float Drainage;
+        float TotalETc;
         } States;
         
 
@@ -53,6 +54,7 @@ typedef struct RATES {
         float TotalWaterRootZone;
         float TotalWaterLowerZone;
         float Drainage;
+        float TotalETc;
         } Rates;
 
 typedef struct SOIL {

@@ -41,7 +41,7 @@ int main(int argc, char **argv)
     FILE **files;
     FILE *fptr;
       
-    int CycleLength   = 300;
+    int CycleLength   = 360;
     int NumberOfFiles = 0;
     int Emergence;
     int Option = 0;
@@ -184,7 +184,7 @@ int main(int argc, char **argv)
                                 Crop->Seasons++;
                             }
                         }
-                        Output();
+                        Output(files[Grid->file]);
                     
                         IntegrationWatBal();
                     }    

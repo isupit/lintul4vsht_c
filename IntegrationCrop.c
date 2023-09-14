@@ -10,26 +10,28 @@
 void IntegrationCrop()	    
 {
 
-    /* Living material */
+    // Living material
     Crop->st.roots    += (Crop->rt.roots - Crop->drt.roots);
     Crop->st.stems    += (Crop->rt.stems - Crop->drt.stems);
     Crop->st.leaves   += (Crop->rt.leaves - Crop->drt.leaves);
     Crop->st.storage  += Crop->rt.storage;
     Crop->st.LAI      += (Crop->rt.LAI -Crop->drt.LAI);
     
-    /* Death material*/
+    // Death material
     Crop->dst.roots    += Crop->drt.roots;
     Crop->dst.stems    += Crop->drt.stems;
     Crop->dst.leaves   += Crop->drt.leaves;
    
-    /* Development */
+    // Development
     Crop->st.Development += Crop->rt.Development;
     
-    /* Calculate vernalization state in case the switch is set */
+    // Calculate vernalization state in case the switch is set */
     if (Crop->prm.IdentifyAnthesis == 2)
     {
         Crop->st.vernalization += Crop->rt.vernalization;       
     }
+    
+    Crop->st.ParIntercepted += Crop->rt.ParIntercepted;
 
     Crop->st.RootDepth_prev = Crop->st.RootDepth;
     Crop->st.RootDepth += Crop->rt.RootDepth;

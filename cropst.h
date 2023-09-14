@@ -184,6 +184,7 @@ typedef struct GROWTH_RATES {
         float RootDepth;
         float storage;
         float vernalization;
+        float ParIntercepted;
 } growth_rates;
 
 typedef struct GROWTH_STATES {
@@ -197,6 +198,7 @@ typedef struct GROWTH_STATES {
         float RootDepth_prev;
         float storage;
         float vernalization;
+        float ParIntercepted;
         } growth_states;
 
         

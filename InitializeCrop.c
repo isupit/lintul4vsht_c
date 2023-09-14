@@ -52,6 +52,8 @@ void InitializeCrop()
     Crop->st.leaves    = InitialShootWeight * Afgen(Crop->prm.Leaves, &(Crop->st.Development));
     Crop->st.storage   = InitialShootWeight * Afgen(Crop->prm.Storage, &(Crop->st.Development));
     
+    Crop->st.ParIntercepted = 0.;
+    
     Crop->rt.roots     = 0.0;
     Crop->rt.RootDepth = 0.0; 
     Crop->rt.stems     = 0.0;  

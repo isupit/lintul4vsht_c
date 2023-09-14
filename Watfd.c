@@ -19,7 +19,8 @@ void InitializeWatBal()
     WatBal->rt.TotalWaterRootZone = 0.;
     WatBal->rt.TotalWaterLowerZone = 0.;
     WatBal->rt.AvailableRootZone = 0.;
-    WatBal->rt.AvailableLowerZone = 0.;   
+    WatBal->rt.AvailableLowerZone = 0.; 
+    WatBal->rt.TotalETc = 0.;
     
     // Set max and initial rooting depth 
     Crop->prm.MaxRootingDepth = fminf(WatBal->ct.SoilMaxRootDepth, Crop->prm.MaxRootingDepth);
@@ -146,7 +147,7 @@ void RateCalulationWatBal() {
     else {
         WatBal->rt.Drainage= 0.;
     }
-    
+       
     // Change in total water and available water (DWAT) in rooted and lower zones
     WatBal->rt.TotalWaterRootZone  = WatBal->rt.Infiltration - Perc2 + AddedTotal;
     WatBal->rt.TotalWaterLowerZone = Perc2 - WatBal->rt.Drainage - AddedTotal;
@@ -169,6 +170,8 @@ void IntegrationWatBal()
     WatBal->st.EvapWater     += WatBal->rt.EvapWater;
     WatBal->st.EvapSoil      += WatBal->rt.EvapSoil;
     WatBal->st.Drainage      += WatBal->rt.Drainage;
+    
+    WatBal->st.TotalETc      += Penman.ETC;
     
     WatBal->st.Rain += Rain[Day];
     WatBal->st.Irrigation   += WatBal->rt.Irrigation;

@@ -23,7 +23,13 @@ void IntegrationNutrients()
     Crop->N_st.Uptake   += Crop->N_rt.Uptake;
     Crop->N_st.Fixation += Crop->N_rt.Fixation;
     
+    // Total N that is available for mineralisation
     Mng->st.N_mins  = fmaxf(0, Mng->st.N_mins - Mng->rt.N_mins);
+    
+    //Total of available N in the Soil
     Mng->st.N_tot  += Mng->rt.N_tot;
-//    printf("%7.2f %7.2f %7.4f\n", Mng->st.N_mins, Mng->st.N_tot, Crop->st.Development);
+    
+    // Total N that came available through mineralisation
+    Mng->st.N_mins_av += Mng->rt.N_mins;
+
 }

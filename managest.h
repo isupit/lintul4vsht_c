@@ -12,6 +12,7 @@ typedef struct TBLD {
 typedef struct SITE_STATES {
     float N_tot;
     float N_mins;
+    float N_mins_av;
 } site_states;
 
 typedef struct SITE_RATES {
