@@ -221,6 +221,7 @@ typedef struct PLANT {
         int Emergence;
         int EmergenceFlag;
         int Sowing;
+        int Anthesis;
         int GrowthDay;  
         int HeatFlag;
         int SeedFlag;
@@ -236,6 +237,11 @@ typedef struct PLANT {
         float Heat;
         float HeatDays;
         float GrainNr;
+        float CroN_an;
+        float CroN_ma;
+        float Biom_an;
+        float Biom_ma;
+        float MaxLAI;
         float HeatReduction;
         float DeltaTempSum;
         

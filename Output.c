@@ -11,6 +11,18 @@ void header(FILE *fp)
     fprintf(fp,"\t(YYYY)\t(YYYY-MM-DD)\t(-)\t(t/ha)\t(t/ha)\t(-)\t(mm)\t(mm)\t(mm)\t(mm)\t(mm)   (kgN/ha)(kgN/ha)\t(-)   (kgN/ha) (kgN/ha) (kgN/ha) (kgN/ha) (kgN/ha) (MJ/m²/d)\n");
 }
 
+void header_sum(FILE *fps)
+{
+    fprintf(fps,"AgMIP_Wheat_4_CI\nModel: lintul4-vsht\nModeler_name: Iwan Supit & Joost Wolf\nSimulation:\nSite: %s\n",Grid->location);
+    fprintf(fps,"Model Planting.date\tTreatment Yield\tEmergence\tAnt\t\tMat\t\tFLN\tGNumber\t\t");
+    fprintf(fps,"Biom-an\tBiom-ma\tMaxLAI\tWDrain\tCumET\tSoilAvW\tRunoff\tTransp\tCroN-an\t");
+    fprintf(fps,"CroN-ma\tNleac\tGrainN\tNmin\tNvol\tNimmo\tSoilN\tNden\tcumPARi\n");
+    fprintf(fps,"\t(YYYY-MM-DD)\t(-)\t(t/ha)\t(YYYY-MM-DD) (YYYY-MM-DD) (YYYY-MM-DD) ");
+    fprintf(fps,"(leaf/mainstem)\t(grain/m2)\t(t/ha)\t(t/ha)\t(-)\t(mm)\t(mm)\t(mm)\t(mm)\t(mm)\t");
+    fprintf(fps,"(kgN/ha)(kgN/ha)(kgN/ha)(kgN/ha)(kgN/ha)(kgN/ha)(kgN/ha)(kgN/ha)(kgN/ha)(MJ/m²)\n");
+            
+}
+
 /*void Output(FILE *fp)
 {    
     fprintf(fp,"%4d\t%3d\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\n",
@@ -73,13 +85,30 @@ void Output(FILE *fp)
            Crop->st.stems + Crop->dst.stems + Crop->st.storage);
    
    Cron = Crop->N_st.leaves + Crop->N_st.death_lv + 
-           Crop->N_st.stems + Crop->N_st.death_st + 
-           Crop->N_st.storage;
- 	
+          Crop->N_st.stems + Crop->N_st.death_st + 
+          Crop->N_st.storage;
+   
+    if (Crop->st.Development > 1. && Crop->Anthesis == 0) {    
+       anthesis_date.tm_year = MeteoYear[Day];
+       anthesis_date.tm_mon  = current_date.tm_mon; 
+       anthesis_date.tm_mday = current_date.tm_mday;
+       anthesis = mktime(&emergence_date);
+       
+       Crop->CroN_an = Crop->N_st.leaves + Crop->N_st.death_lv + 
+               Crop->N_st.stems + Crop->N_st.death_st + 
+               Crop->N_st.storage;
+
+       Crop->Biom_an = AbTotBiomasse;
+       Crop->Anthesis = 1;
+    } 
+   
+   if (Crop->st.LAI > Crop->MaxLAI)
+       Crop->MaxLAI = Crop->st.LAI; 
+   
    fprintf(fp,"LI\t%4d\t%4d-%02d-%02d\t%4s\t%5.2f\t%5.2f\t%4.2f\t%4.1f\t%4.1f\t%4.1f\t%4.1f\t%4.1f\t%4.1f\t na \t%4.1f\t %4.1f \t na \t  na \t %4.1f\t   na \t  %5.1f\n",
    MeteoYear[Day],
    MeteoYear[Day],
-           current_date.tm_mon,
+           current_date.tm_mon + 1,
            current_date.tm_mday,
    Grid->treatment,
    0.001 * Crop->st.storage,
@@ -97,3 +126,50 @@ void Output(FILE *fp)
    Crop->st.ParIntercepted);
 }
 
+void Summary(FILE *fps){
+       
+    Crop->CroN_ma = Crop->N_st.leaves + Crop->N_st.death_lv + 
+        Crop->N_st.stems + Crop->N_st.death_st + 
+        Crop->N_st.storage;
+    
+    Crop->Biom_ma = 0.001 * (Crop->st.leaves + Crop->dst.leaves + 
+           Crop->st.stems + Crop->dst.stems + Crop->st.storage);
+    
+    fprintf(fps,"LI\t%4d-%02d-%02d\t%4s\t%5.2f\t%4d-%02d-%02d\t%4d-%02d-%02d\t%4d-%02d-%02d\t",
+    MeteoYear[Day],
+    start_date.tm_mon + 1,
+    start_date.tm_mday,
+    Grid->treatment,
+    0.001 * Crop->st.storage,
+    MeteoYear[Day],
+    emergence_date.tm_mon + 1,
+    emergence_date.tm_mday,
+    MeteoYear[Day],
+    anthesis_date.tm_mon + 1,
+    anthesis_date.tm_mday,
+    MeteoYear[Day],
+    current_date.tm_mon + 1,
+    current_date.tm_mday
+    );
+     
+    fprintf(fps,"na\t%5.0f\t\t%4.1f\t%4.1f\t%4.1f\t%5.1f\t%5.1f\t%5.1f\t%5.1f\t%5.1f\t%5.1f\t%5.1f\tna\t",
+    0.0001 * Crop->GrainNr, 
+    Crop->Biom_an,
+    Crop->Biom_ma,
+    Crop->MaxLAI,
+    10*WatBal->st.Drainage,
+    10*WatBal->st.TotalETc,
+    10*WatBal->st.AvailableRootZone,
+    10*WatBal->st.RunOff,
+    10*WatBal->st.Transpiration,
+    Crop->CroN_an,
+    Crop->CroN_ma
+    );
+    
+    fprintf(fps,"%4.1f\t%4.1f\tna\tna\t%4.1f\tna\t%4.1f\n",
+    Crop->N_st.storage,
+    Mng->st.N_mins_av,
+    Mng->st.N_tot,  //Total of available N in the Soil
+    Crop->st.ParIntercepted        
+    );
+}

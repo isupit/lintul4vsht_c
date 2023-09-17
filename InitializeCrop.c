@@ -74,16 +74,24 @@ void InitializeCrop()
     
     // Initialize the heat stress 
     Crop->Heat = 0.;
+    Crop->Anthesis = 0;
     Crop->HeatDays = 0;
     Crop->HeatReduction = 1.;
     Crop->HeatFlag = FALSE;
     Crop->SeedFlag = FALSE;
-    Crop->EmergenceFlag = FALSE;
-    
+    Crop->GrainNr  = 0.;
+      
     // Crop death rates set to zero
     Crop->drt.leaves = 0.;
     Crop->drt.roots  = 0.;
     Crop->drt.stems  = 0.;
     Crop->DeltaTempSum = 0.;
+      
+    // Statistics
+    Crop->CroN_an = 0.;
+    Crop->CroN_ma = 0.;
+    Crop->Biom_an = 0.;
+    Crop->Biom_ma = 0.;
+    Crop->MaxLAI = 0.;
            
 }  

@@ -39,7 +39,8 @@ int main(int argc, char **argv)
     Weather *head;
     
     FILE **files;
-    FILE *fptr;
+    FILE **files_sum;
+    FILE *fptr, *fptr_sum;
       
     int CycleLength   = 360;
     int NumberOfFiles = 0;
@@ -51,6 +52,7 @@ int main(int argc, char **argv)
     char list[MAX_STRING];
     char meteolist[MAX_STRING];
     char name[MAX_STRING];
+    char name_sum[MAX_STRING];
     
     if (argc != 3) exit(0);
     if (strlen(argv[1]) >= MAX_STRING) exit(0);
@@ -73,19 +75,25 @@ int main(int argc, char **argv)
     
     // Allocate memory for the file pointers 
     files = malloc(sizeof(**files) * NumberOfFiles);
-   
+    files_sum = malloc(sizeof(**files) * NumberOfFiles);
+    
     // Open the output files
     while (Grid)
     {   // Make valgrind happy 
         memset(name,'\0',MAX_STRING);
         strncpy(name, Grid->output,strlen(Grid->output));
+        strncpy(name_sum, Grid->output_sum,strlen(Grid->output_sum));
         
         fptr = fopen(name, "w");
-           
+        fptr_sum = fopen(name_sum, "w");
+        
         files[Grid->file] = fptr;
+        files_sum[Grid->file_sum] = fptr_sum;
         header(files[Grid->file]);
+        header_sum(fptr_sum);
         Grid = Grid->next;
     }
+    
     
     // Go back to the beginning of the list
     Grid = initial;
@@ -138,6 +146,7 @@ int main(int argc, char **argv)
                         InitializeNutrients();
                         
                         Crop->Sowing = 1;
+                        Crop->Anthesis = 0;
                         
                         if (Emergence) {
                             Crop->Emergence = 1;
@@ -156,16 +165,21 @@ int main(int argc, char **argv)
                         RateCalulationWatBal();    
                         // IntegrationWatBal();
                         if (!Crop->Emergence) {
-                            EmergenceCrop(Crop->Emergence); 
+                            if (EmergenceCrop(Crop->Emergence)) {       
+                                emergence_date.tm_year = MeteoYear[Day];
+                                emergence_date.tm_mon = current_date.tm_mon; 
+                                emergence_date.tm_mday = current_date.tm_mday;
+                                emergence = mktime(&emergence_date);
+                            } 
                         }
                         else  {   
-                            if (Crop->st.Development <= (Crop->prm.DevelopStageEnd) 
+                            if (Crop->st.Development <= Crop->prm.DevelopStageEnd 
                                 && Crop->GrowthDay < CycleLength) {                           
                                 
                                 // State calculations 
                                 IntegrationCrop();
                                 IntegrationNutrients();
-                                
+                                                              
                                 // Rate calculations
                                 RatesToZero();
                                 RateCalcultionNutrients();
@@ -174,21 +188,26 @@ int main(int argc, char **argv)
                                 Crop->GrowthDay++;     
                             }
                             else {
-                                // Write to the output files 
-                                //Output(output[Grid->file]);   
-                                //printf("%7d %7d\n", MeteoYear[Day], Crop->GrowthDay);
+
                                 Emergence = 0;
                                 Crop->TSumEmergence = 0;
                                 Crop->Emergence = 0;
                                 Crop->Sowing    = 0;
                                 Crop->Seasons++;
+                                
+                                if (Crop->st.Development >= 2.) {
+                                   Summary(files_sum[Grid->file]);
+                                }
                             }
                         }
                         Output(files[Grid->file]);
-                    
+
                         IntegrationWatBal();
                     }    
                 }
+                
+
+                
                 // Store the daily calculations in the Grid structure 
                 Grid->crp  = Crop;
                 Grid->soil = WatBal;
@@ -196,7 +215,7 @@ int main(int argc, char **argv)
                 Grid = Grid->next;
             }
         }
-        
+    
     head = Meteo;
     Meteo = Meteo->next;
     free(head);

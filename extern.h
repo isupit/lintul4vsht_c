@@ -20,7 +20,9 @@ extern void IfSowing();
 extern void RatesToZero();
 extern void Clean();
 extern void header();
+extern void header_sum();
 extern void Output();
+extern void Summary();
 
 
 /* Crop growth */

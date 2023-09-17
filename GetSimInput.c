@@ -1,5 +1,6 @@
 #include "extern.h"
 #include <string.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include "lintul4.h"
 
@@ -32,6 +33,7 @@ int GetSimInput(char *list)
     char treatment[MAX_STRING];
     char location[MAX_STRING];
     char cf[MAX_STRING], sf[MAX_STRING], mf[MAX_STRING];
+    char src[] = ".txt";
   
     ifp = fopen(list, "r");
 
@@ -86,18 +88,22 @@ int GetSimInput(char *list)
         memset(Grid->output,'\0',MAX_STRING);
         memset(Grid->treatment,'\0',MAX_STRING);
         memset(Grid->start,'\0',MAX_STRING);
-        memset(Grid->location,'\0',MAX_STRING);
+        memset(Grid->location,'\0',MAX_STRING);        
         
-        strncpy(Grid->output,output,strlen(output)); // Name of output file
         strncpy(Grid->start,start,strlen(start)); // Starting string month day of the simulations 
         strncpy(Grid->treatment,treatment,strlen(treatment)); // Treatment name 
         strncpy(Grid->location,location,strlen(location)); // Location name
+        strncpy(Grid->output,output,strlen(output)); // Name of output file
+        memcpy(Grid->output_sum,Grid->output,strlen(Grid->output)-7); 
+        strcat(Grid->output_sum,src); // Create summary output name
         
-        Grid->file  = count++;            // number of elements in Grid carousel
+        Grid->file  = count;            // number of elements in Grid carousel
+        Grid->file_sum  = count;
         Grid->emergence = Emergence;      // Start the simulations at emergence (1) or at sowing (0)      
         Grid->option = Option;            // 0 = potential, 1 = waterlimited, 2 = waterlimited and nutrient limited
         Grid->crp->Sowing = 0;
         Grid->crp->Emergence = 0;         // Crop emergence has not yet occurred
+        count++;
         Grid->next = NULL;
     }
     

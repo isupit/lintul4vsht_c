@@ -1,1 +1,1 @@
-./data-2/ CROPP1.dat SOILP1.DAT  MANAGE.DAT  09-31 0 2 ../Output/lintul.dat
+/home/supit001/work/AgmipCO2/The_Netherlands/T0/ CROPP1.DAT SOILP1.DAT  MANAGE.DAT 10-21 0 1 /home/supit001/work/AgmipCO2/output/LINLT0C1N1-80.txt T0C1N1 The_Netherlands

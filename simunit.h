@@ -15,13 +15,12 @@ typedef struct SIMUNIT {
         int emergence;
         int option;
         int file;
+        int file_sum;
         char start[MAX_STRING];
         char output[MAX_STRING];
+        char output_sum[MAX_STRING];
         char treatment[MAX_STRING];
-        char location[MAX_STRING];
-        
-        /* Statistics */
-        float twso[31];
+        char location[MAX_STRING]; 
         
         struct SIMUNIT *next;
         } SimUnit; 
