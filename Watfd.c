@@ -10,17 +10,29 @@
 /*---------------------------------------------------------------------------*---------*/
 
 void InitializeWatBal()
-{     
+{   
+    WatBal->rt.EvapWater = 0.;
+    WatBal->rt.EvapSoil = 0.;
     WatBal->rt.Drainage = 0.;
-    WatBal->st.Drainage = 0.;
     WatBal->rt.RunOff  = 0.;
-    WatBal->st.RunOff  = 0.;
     WatBal->rt.Transpiration = 0.;
     WatBal->rt.TotalWaterRootZone = 0.;
-    WatBal->rt.TotalWaterLowerZone = 0.;
+    WatBal->rt.TotalWaterLowerZone = 0.;        
     WatBal->rt.AvailableRootZone = 0.;
-    WatBal->rt.AvailableLowerZone = 0.; 
+    WatBal->rt.AvailableLowerZone = 0.;
     WatBal->rt.TotalETc = 0.;
+    WatBal->st.TotalETc = 0.;
+ 
+    WatBal->st.EvapWater = 0.;
+    WatBal->st.EvapSoil = 0.;
+    WatBal->st.Drainage = 0.;
+    WatBal->st.RunOff  = 0.;
+    WatBal->st.Transpiration = 0.;
+    WatBal->st.TotalWaterRootZone = 0.;
+    WatBal->st.TotalWaterLowerZone = 0.;        
+    WatBal->st.AvailableRootZone = 0.;
+    WatBal->st.AvailableLowerZone = 0.;
+    WatBal->st.TotalETc = 0.;
     
     // Set max and initial rooting depth 
     Crop->prm.MaxRootingDepth = fminf(WatBal->ct.SoilMaxRootDepth, Crop->prm.MaxRootingDepth);

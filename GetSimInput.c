@@ -93,8 +93,8 @@ int GetSimInput(char *list)
         strncpy(Grid->start,start,strlen(start)); // Starting string month day of the simulations 
         strncpy(Grid->treatment,treatment,strlen(treatment)); // Treatment name 
         strncpy(Grid->location,location,strlen(location)); // Location name
-        strncpy(Grid->output,output,strlen(output)); // Name of output file
-        memcpy(Grid->output_sum,Grid->output,strlen(Grid->output)-7); 
+        strncpy(Grid->output,output,strlen(output));
+        strncpy(Grid->output_sum,output,strlen(output)); 
         strcat(Grid->output_sum,src); // Create summary output name
         
         Grid->file  = count;            // number of elements in Grid carousel

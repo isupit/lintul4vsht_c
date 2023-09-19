@@ -52,6 +52,12 @@ void InitializeCrop()
     Crop->st.leaves    = InitialShootWeight * Afgen(Crop->prm.Leaves, &(Crop->st.Development));
     Crop->st.storage   = InitialShootWeight * Afgen(Crop->prm.Storage, &(Crop->st.Development));
     
+    Crop->dst.leaves = 0.; 
+    Crop->dst.stems = 0.;
+    Crop->dst.roots = 0.;
+    
+    
+    Crop->rt.ParIntercepted = 0.;
     Crop->st.ParIntercepted = 0.;
     
     Crop->rt.roots     = 0.0;
@@ -72,6 +78,9 @@ void InitializeCrop()
            Afgen(Crop->prm.SpecificStemArea, &(Crop->st.Development)) +
            Crop->st.storage*Crop->prm.SpecificPodArea;
     
+    Crop->TSumEmergence = 0;
+    Crop->Emergence = 0;
+    
     // Initialize the heat stress 
     Crop->Heat = 0.;
     Crop->Anthesis = 0;
@@ -80,6 +89,7 @@ void InitializeCrop()
     Crop->HeatFlag = FALSE;
     Crop->SeedFlag = FALSE;
     Crop->GrainNr  = 0.;
+    Crop->GrowthDay = 0;
       
     // Crop death rates set to zero
     Crop->drt.leaves = 0.;

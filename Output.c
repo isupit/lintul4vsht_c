@@ -83,6 +83,9 @@ void Output(FILE *fp)
    
    AbTotBiomasse = 0.001 * (Crop->st.leaves + Crop->dst.leaves + 
            Crop->st.stems + Crop->dst.stems + Crop->st.storage);
+   if (AbTotBiomasse < 0.)
+       printf("sjid\n");
+   
    
    Cron = Crop->N_st.leaves + Crop->N_st.death_lv + 
           Crop->N_st.stems + Crop->N_st.death_st + 
@@ -105,7 +108,7 @@ void Output(FILE *fp)
    if (Crop->st.LAI > Crop->MaxLAI)
        Crop->MaxLAI = Crop->st.LAI; 
    
-   fprintf(fp,"LI\t%4d\t%4d-%02d-%02d\t%4s\t%5.2f\t%5.2f\t%4.2f\t%4.1f\t%4.1f\t%4.1f\t%4.1f\t%4.1f\t%4.1f\t na \t%4.1f\t %4.1f \t na \t  na \t %4.1f\t   na \t  %5.1f\n",
+   fprintf(fp,"LI\t%4d\t%4d-%02d-%02d\t%4s\t%5.2f\t%5.2f\t%4.2f\t%4.1f\t%4.1f\t%4.1f\t%4.1f\t%4.1f\t%4.1f\t na \t%4.1f\t %4.1f \t na \t  na \t %4.1f\t   na \t  %5.2f\n",
    MeteoYear[Day],
    MeteoYear[Day],
            current_date.tm_mon + 1,
@@ -123,9 +126,9 @@ void Output(FILE *fp)
    Crop->N_st.storage,
    Mng->st.N_mins_av,
    Mng->st.N_tot,  //Total of available N in the Soil
-   Crop->st.ParIntercepted);
+   Crop->st.Development);
 }
-
+ 
 void Summary(FILE *fps){
        
     Crop->CroN_ma = Crop->N_st.leaves + Crop->N_st.death_lv + 

@@ -35,8 +35,7 @@ SimUnit *Grid;
 int main(int argc, char **argv)
 {
     SimUnit *initial  = NULL;
-    //Weather *Meteo = NULL;
-    Weather *head;
+    Weather *head     = NULL;
     
     FILE **files;
     FILE **files_sum;
@@ -47,8 +46,9 @@ int main(int argc, char **argv)
     int Emergence;
     int Option = 0;
     
-    int month, start_day;
+    int month, start_day, yr;
     
+    char str[7];
     char list[MAX_STRING];
     char meteolist[MAX_STRING];
     char name[MAX_STRING];
@@ -74,22 +74,16 @@ int main(int argc, char **argv)
     GetMeteoInput(meteolist);
     
     // Allocate memory for the file pointers 
-    files = malloc(sizeof(**files) * NumberOfFiles);
+
     files_sum = malloc(sizeof(**files) * NumberOfFiles);
     
     // Open the output files
     while (Grid)
     {   // Make valgrind happy 
         memset(name,'\0',MAX_STRING);
-        strncpy(name, Grid->output,strlen(Grid->output));
-        strncpy(name_sum, Grid->output_sum,strlen(Grid->output_sum));
-        
-        fptr = fopen(name, "w");
+        strncpy(name_sum, Grid->output_sum,strlen(Grid->output_sum));     
         fptr_sum = fopen(name_sum, "w");
-        
-        files[Grid->file] = fptr;
         files_sum[Grid->file_sum] = fptr_sum;
-        header(files[Grid->file]);
         header_sum(fptr_sum);
         Grid = Grid->next;
     }
@@ -145,6 +139,15 @@ int main(int argc, char **argv)
                         InitializeWatBal();
                         InitializeNutrients();
                         
+                        memset(name,'\0',MAX_STRING);
+                        yr = (Meteo->StartYear/100);
+                        yr = Meteo->StartYear - 100 * yr;
+                        sprintf(str,"-%d.txt",yr);
+                        strcat(name,Grid->output);
+                        strcat(name,str);
+                        fptr = fopen(name, "w");
+                        header(fptr);
+                        
                         Crop->Sowing = 1;
                         Crop->Anthesis = 0;
                         
@@ -158,7 +161,7 @@ int main(int argc, char **argv)
                     
                     // If sowing has occurred than determine the emergence 
                     // Note that the TSUMEM will be calculated starting from next day
-                    if (Crop->Sowing ) {
+                    if (Crop->Sowing ) {                       
                         Astro();
                         CalcPenman();
                         EvapTra();
@@ -169,7 +172,7 @@ int main(int argc, char **argv)
                                 emergence_date.tm_year = MeteoYear[Day];
                                 emergence_date.tm_mon = current_date.tm_mon; 
                                 emergence_date.tm_mday = current_date.tm_mday;
-                                emergence = mktime(&emergence_date);
+                                emergence = mktime(&emergence_date);                                
                             } 
                         }
                         else  {   
@@ -184,29 +187,29 @@ int main(int argc, char **argv)
                                 RatesToZero();
                                 RateCalcultionNutrients();
                                 RateCalculationCrop();
+                                
                                 // Update the number of days that the crop has grown
                                 Crop->GrowthDay++;     
                             }
                             else {
 
+                                Summary(files_sum[Grid->file]);
                                 Emergence = 0;
-                                Crop->TSumEmergence = 0;
-                                Crop->Emergence = 0;
-                                Crop->Sowing    = 0;
+                                InitializeCrop();
+                                InitializeWatBal();
+                                InitializeNutrients();
+                                Crop->Sowing = 0;
                                 Crop->Seasons++;
+                                Meteo->StartYear++;
                                 
-                                if (Crop->st.Development >= 2.) {
-                                   Summary(files_sum[Grid->file]);
-                                }
                             }
                         }
-                        Output(files[Grid->file]);
+                        if (Crop->Sowing)
+                            Output(fptr);
 
                         IntegrationWatBal();
                     }    
                 }
-                
-
                 
                 // Store the daily calculations in the Grid structure 
                 Grid->crp  = Crop;
@@ -228,10 +231,11 @@ int main(int argc, char **argv)
     // Close the output files and free the allocated memory 
     while(Grid)
     {
-        fclose(files[Grid->file]);
+//        fclose(fptr);
+        fclose(files_sum[Grid->file]);
         Grid = Grid->next;
     }
-    free(files);
+//    free(files);
 
     // Go back to the beginning of the list 
     Grid = initial;

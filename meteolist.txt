@@ -1,1 +1,1 @@
-/home/supit001/work/AgmipCO2/The_Netherlands/T0/Nede.dat 1980 1 5.633  51.967 360
+/home/supit001/work/AgmipCO2/The_Netherlands/T0/Nede.dat 1980 30 5.633  51.967 360

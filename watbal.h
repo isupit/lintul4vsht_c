@@ -20,7 +20,6 @@ typedef struct STATES {
         float EvapSoil;
         float RunOff;
         float Infiltration;
-        float SurfaceStorage;
         float Irrigation;
         float Moisture;
         float MoistureLow;
@@ -43,7 +42,6 @@ typedef struct RATES {
         float EvapSoil;
         float RunOff;
         float Infiltration;
-        float SurfaceStorage;
         float Irrigation;
         float Percolation;
         float Loss;
