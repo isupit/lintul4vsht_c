@@ -86,6 +86,7 @@ void InitializeNutrients()
     Mng->st.N_tot = 0.;
     Mng->rt.N_tot = 0.;
     
+    Mng->st.N_mins = Mng->N_Mins;
     Mng->rt.N_mins = 0.;
     
     // Total N that come available through mineralisation 

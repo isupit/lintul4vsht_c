@@ -44,7 +44,7 @@ void header_sum(FILE *fps)
         Crop->N_rt.Demand_lv + Crop->N_rt.Demand_st + Crop->N_rt.Demand_ro);
 }*/
 
-/* void Output()
+/*void Output()
 {
      
    printf("%5d%5d%5.2f\t%6.2f\t%6.2f\t%8.2f\t%6.2f\t%6.2f\t%7.2f\t%4.2f\t%5.2f\t%5.4f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\n",
@@ -82,16 +82,13 @@ void Output(FILE *fp)
    
    
    AbTotBiomasse = 0.001 * (Crop->st.leaves + Crop->dst.leaves + 
-           Crop->st.stems + Crop->dst.stems + Crop->st.storage);
-   if (AbTotBiomasse < 0.)
-       printf("sjid\n");
-   
+           Crop->st.stems + Crop->dst.stems + Crop->st.storage);  
    
    Cron = Crop->N_st.leaves + Crop->N_st.death_lv + 
           Crop->N_st.stems + Crop->N_st.death_st + 
           Crop->N_st.storage;
    
-    if (Crop->st.Development > 1. && Crop->Anthesis == 0) {    
+    if (Crop->st.Development > 0.99 && Crop->Anthesis == 0) {    
        anthesis_date.tm_year = MeteoYear[Day];
        anthesis_date.tm_mon  = current_date.tm_mon; 
        anthesis_date.tm_mday = current_date.tm_mday;
@@ -108,7 +105,7 @@ void Output(FILE *fp)
    if (Crop->st.LAI > Crop->MaxLAI)
        Crop->MaxLAI = Crop->st.LAI; 
    
-   fprintf(fp,"LI\t%4d\t%4d-%02d-%02d\t%4s\t%5.2f\t%5.2f\t%4.2f\t%4.1f\t%4.1f\t%4.1f\t%4.1f\t%4.1f\t%4.1f\t na \t%4.1f\t %4.1f \t na \t  na \t %4.1f\t   na \t  %5.2f\n",
+   fprintf(fp,"LI\t%4d\t%4d-%02d-%02d\t%4s\t%5.2f\t%5.2f\t%4.2f\t%4.1f\t%4.1f\t%4.1f\t%4.1f\t%4.1f\t%4.1f\t na \t%4.1f\t %4.1f \t na \t  na \t %4.1f\t   na \t  %5.4f\n",
    MeteoYear[Day],
    MeteoYear[Day],
            current_date.tm_mon + 1,
@@ -139,7 +136,7 @@ void Summary(FILE *fps){
            Crop->st.stems + Crop->dst.stems + Crop->st.storage);
     
     fprintf(fps,"LI\t%4d-%02d-%02d\t%4s\t%5.2f\t%4d-%02d-%02d\t%4d-%02d-%02d\t%4d-%02d-%02d\t",
-    MeteoYear[Day],
+    start_date.tm_year,
     start_date.tm_mon + 1,
     start_date.tm_mday,
     Grid->treatment,
@@ -147,7 +144,7 @@ void Summary(FILE *fps){
     MeteoYear[Day],
     emergence_date.tm_mon + 1,
     emergence_date.tm_mday,
-    MeteoYear[Day],
+    anthesis_date.tm_year,
     anthesis_date.tm_mon + 1,
     anthesis_date.tm_mday,
     MeteoYear[Day],

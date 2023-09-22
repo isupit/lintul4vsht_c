@@ -48,7 +48,7 @@ int main(int argc, char **argv)
     
     int month, start_day, yr;
     
-    char str[7];
+    char str[MAX_STRING];
     char list[MAX_STRING];
     char meteolist[MAX_STRING];
     char name[MAX_STRING];
@@ -110,7 +110,7 @@ int main(int argc, char **argv)
             
             //Set the sowing/emergence date struct
             sscanf(Grid->start, "%d-%d", &month, &start_day);
-            start_date.tm_year = MeteoYear[Day];
+            start_date.tm_year = Meteo->StartYear;
             start_date.tm_mon = month -1; 
             start_date.tm_mday = start_day;
             start = mktime(&start_date);
@@ -142,7 +142,7 @@ int main(int argc, char **argv)
                         memset(name,'\0',MAX_STRING);
                         yr = (Meteo->StartYear/100);
                         yr = Meteo->StartYear - 100 * yr;
-                        sprintf(str,"-%d.txt",yr);
+                        sprintf(str,"-%02d.txt",yr);
                         strcat(name,Grid->output);
                         strcat(name,str);
                         fptr = fopen(name, "w");
@@ -206,6 +206,7 @@ int main(int argc, char **argv)
                         }
                         if (Crop->Sowing)
                             Output(fptr);
+                            //Output();
 
                         IntegrationWatBal();
                     }    
@@ -231,7 +232,7 @@ int main(int argc, char **argv)
     // Close the output files and free the allocated memory 
     while(Grid)
     {
-//        fclose(fptr);
+        fclose(fptr);
         fclose(files_sum[Grid->file]);
         Grid = Grid->next;
     }
