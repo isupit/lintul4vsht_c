@@ -42,4 +42,7 @@ void NutritionINDX()
         Crop->NutrientStress = 1.0;
         Crop->N_st.Indx = 1.0;
     }
+    
+//    Crop->NutrientStress = 1.0;
+//    Crop->N_st.Indx = 1.0;
 }

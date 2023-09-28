@@ -105,7 +105,7 @@ void Output(FILE *fp)
    if (Crop->st.LAI > Crop->MaxLAI)
        Crop->MaxLAI = Crop->st.LAI; 
    
-   fprintf(fp,"LI\t%4d\t%4d-%02d-%02d\t%4s\t%5.2f\t%5.2f\t%4.2f\t%4.1f\t%4.1f\t%4.1f\t%4.1f\t%4.1f\t%4.1f\t na \t%4.1f\t %4.1f \t na \t  na \t %4.1f\t   na \t  %5.4f\n",
+   fprintf(fp,"LI\t%4d\t%4d-%02d-%02d\t%4s\t%5.2f\t%5.2f\t%4.2f\t%4.1f\t%4.1f\t%4.1f\t%4.1f\t%4.1f\t%4.1f\t na \t%4.1f\t %4.1f \t na \t  na \t %4.1f\t   na \t  %5.1f\n",
    MeteoYear[Day],
    MeteoYear[Day],
            current_date.tm_mon + 1,
@@ -123,7 +123,7 @@ void Output(FILE *fp)
    Crop->N_st.storage,
    Mng->st.N_mins_av,
    Mng->st.N_tot,  //Total of available N in the Soil
-   Crop->st.Development);
+   Crop->st.ParIntercepted);
 }
  
 void Summary(FILE *fps){

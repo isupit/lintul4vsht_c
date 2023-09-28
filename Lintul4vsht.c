@@ -236,7 +236,6 @@ int main(int argc, char **argv)
         fclose(files_sum[Grid->file]);
         Grid = Grid->next;
     }
-//    free(files);
 
     // Go back to the beginning of the list 
     Grid = initial;

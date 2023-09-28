@@ -171,7 +171,8 @@ void RateCalulationWatBal() {
     WatBal->rt.TotalWaterLowerZone = Perc2 - WatBal->rt.Drainage - AddedTotal;
     WatBal->rt.AvailableRootZone   = WatBal->rt.Infiltration - Perc2 + AddedAvailable;
     WatBal->rt.AvailableLowerZone  = Perc2 - WatBal->rt.Drainage - AddedAvailable;
-    
+    /*if (WatBal->rt.AvailableRootZone < 0.)
+        printf("%7.4f %7.4f %7.4f\n",Perc,WatBal->rt.Infiltration,AddedAvailable);*/
 }
     
     

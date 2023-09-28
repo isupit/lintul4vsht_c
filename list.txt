@@ -1,1 +1,1 @@
-/home/supit001/work/AgmipCO2/The_Netherlands/T0/ CROPP1.DAT SOILP1.DAT  MANAGE.DAT 10-21 0 2 /home/supit001/work/AgmipCO2/output/LINLT0C1N1 T0C1N1 The_Netherlands
+/home/supit001/work/AgmipCO2/Argentina/T0/ CROPP1.DAT SOILP1.DAT  N1.DAT 08-10 0 2 /home/supit001/work/AgmipCO2/output/LIART0C1N1 T0C1N1 Argentina
