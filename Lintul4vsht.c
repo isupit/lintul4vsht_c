@@ -241,5 +241,5 @@ int main(int argc, char **argv)
     Grid = initial;
     Clean(Grid);
 
-    return 1;
+    return 0;
 }
