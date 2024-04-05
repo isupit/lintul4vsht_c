@@ -1,4 +1,5 @@
 #include "extern.h"
+#include "astro.h"
 #include <math.h>
 #include "lintul4.h"
 

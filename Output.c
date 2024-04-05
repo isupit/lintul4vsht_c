@@ -1,5 +1,4 @@
 #include "extern.h"
-#include "timest.h"
 #include "lintul4.h"
 
 
@@ -44,9 +43,8 @@ void header_sum(FILE *fps)
         Crop->N_rt.Demand_lv + Crop->N_rt.Demand_st + Crop->N_rt.Demand_ro);
 }*/
 
-/*void Output()
+void Output()
 {
-     
    printf("%5d%5d%5.2f\t%6.2f\t%6.2f\t%8.2f\t%6.2f\t%6.2f\t%7.2f\t%4.2f\t%5.2f\t%5.4f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\t%4.2f\n",
    MeteoYear[Day],
    MeteoDay[Day],
@@ -73,8 +71,9 @@ void header_sum(FILE *fps)
    Crop->N_st.Uptake,
    (Crop->N_st.leaves + Crop->N_st.stems + Crop->N_st.roots + Crop->N_st.storage),
    (Crop->N_st.death_lv + Crop->N_st.death_st + Crop->N_st.death_ro));
-}*/
+}
 
+/*
 void Output(FILE *fp)
 {   
    float AbTotBiomasse; //In-seaons total above ground biomass t/dm/ha
@@ -125,6 +124,7 @@ void Output(FILE *fp)
    Mng->st.N_tot,  //Total of available N in the Soil
    Crop->st.ParIntercepted);
 }
+*/
  
 void Summary(FILE *fps){
        

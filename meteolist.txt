@@ -1,1 +1,1 @@
-/home/supit001/work/AgmipCO2/Argentina/T0/Arge.dat 1992  1 -58.300 -37.750 360
+./data/sevilla.dat 1987 1 -5.88 37.42 370

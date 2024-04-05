@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "lintul4.h"
-#include "astro.h"
 #include "timest.h"
 
 int Station, Year;
@@ -44,7 +43,8 @@ int main(int argc, char **argv)
     int CycleLength   = 360;
     int NumberOfFiles = 0;
     int Emergence;
-    int Option = 0;
+    int Option;
+    (void)Option;
     
     int month, start_day, yr;
     
@@ -205,8 +205,8 @@ int main(int argc, char **argv)
                             }
                         }
                         if (Crop->Sowing)
-                            Output(fptr);
-                            //Output();
+                            //Output(fptr);
+                           Output();
 
                         IntegrationWatBal();
                     }    

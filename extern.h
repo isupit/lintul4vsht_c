@@ -9,20 +9,20 @@
 
 /* General help functions */
 extern float Afgen();
-extern float List();
+extern float List(TABLE_D *Table);
 extern float limit(float a, float b, float c);
 extern float notnul(float x);
 extern float insw(float x1, float x2, float x3);
 extern int leap_year(int year);
-extern int GetSimInput();
-extern void GetMeteoInput();
+extern int GetSimInput(char *list);
+extern void GetMeteoInput(char *meteolist);
 extern void IfSowing();
 extern void RatesToZero();
-extern void Clean();
-extern void header();
-extern void header_sum();
+extern void Clean(SimUnit *Grid);
+extern void header(FILE *fps);
+extern void header_sum(FILE *fp);
 extern void Output();
-extern void Summary();
+extern void Summary(FILE *fps);
 
 
 /* Crop growth */
@@ -42,7 +42,7 @@ extern void DevelopmentRate();
 extern float DailyTotalAssimilation();
 extern void DyingOrgans();
 extern float InstantAssimilation(float KDiffuse, float EFF, float AssimMax, float SinB, float PARDiffuse, float PARDirect);
-extern float LeaveGrowth(float *Newleaves);
+extern float LeaveGrowth(float *shoots);
 extern float LeaveAreaIndex();
 extern float RespirationRef(float TotalAssimilation);
 
@@ -53,7 +53,7 @@ extern void IntegrationNutrients();
 extern void NutritionINDX();
 extern void NutrientLoss();
 extern void NutrientMax();
-extern void NutrientPartioning();
+extern void NutrientPartioning(float *NutrientLimit);
 extern void NutrientRates();
 extern void NutrientOptimum();
 extern void NutrientDemand();
@@ -64,16 +64,16 @@ extern void RateCalcultionNutrients();
 
 /* Read data */
 extern int GetAfgenTables();
-extern int GetMeteoData();
+extern int GetMeteoData(char *inputfile);
 extern int FillAfgenTables();
 
-extern void GetCropData();
-extern void FillCropVariables();
+extern void GetCropData(Plant *CROP, char *cropfile);
+extern void FillCropVariables(Plant *CROP, float *Variable);
 extern void FillSiteVariables();
-extern void GetSoilData();
-extern void FillSoilVariables();
-extern void GetManagement();
-extern void FillManageVariables();
+extern void GetSoilData(Soil *SOIL, char *soilfile);
+extern void FillSoilVariables(Soil *SOIL, float *Variable);
+extern void GetManagement(Management *MNG, char *management);
+extern void FillManageVariables(Management *MNG, float *Variable);
 
 /* Water balance */
 extern void InitializeWatBal();
@@ -106,7 +106,19 @@ extern float PARDaylength;
 
 extern Weather *Meteo;
 extern SimUnit *Grid;
+
+extern struct tm simTime;
 extern struct tm current_date;
+extern struct tm start_date;
+extern struct tm emergence_date;
+extern struct tm anthesis_date;
+extern struct tm maturity_date;
+
+extern time_t date;
+extern time_t start;
+extern time_t emergence;
+extern time_t anthesis;
+extern time_t maturity;
 
 #endif	// EXTERN_H
 
